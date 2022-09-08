@@ -1,0 +1,12 @@
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\bin\Debug\net6.0\Queueomatic.Shared.deps.json
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\bin\Debug\net6.0\Queueomatic.Shared.dll
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\bin\Debug\net6.0\Queueomatic.Shared.pdb
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.csproj.AssemblyReference.cache
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.AssemblyInfoInputs.cache
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.AssemblyInfo.cs
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.csproj.CoreCompileInputs.cache
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.dll
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\refint\Queueomatic.Shared.dll
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\Queueomatic.Shared.pdb
+D:\Skrivbord\Mapp\GitHub\Queueomatic\Queueomatic\Queueomatic\Shared\obj\Debug\net6.0\ref\Queueomatic.Shared.dll
