@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.Server", "Server\Queueomatic.Server.csproj", "{DF63100B-7387-41BC-A4F7-46FA39EE1296}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.Client", "Client\Queueomatic.Client.csproj", "{5882AB36-BC53-40DE-A614-CE8376D38C0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.Shared", "Shared\Queueomatic.Shared.csproj", "{2C544633-0E71-49B3-A73C-C6C9267120C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queueomatic.Test", "Queueomatic.Test\Queueomatic.Test.csproj", "{B31EF8F2-EC2E-48E7-8811-22DB45193215}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF63100B-7387-41BC-A4F7-46FA39EE1296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF63100B-7387-41BC-A4F7-46FA39EE1296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF63100B-7387-41BC-A4F7-46FA39EE1296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF63100B-7387-41BC-A4F7-46FA39EE1296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5882AB36-BC53-40DE-A614-CE8376D38C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5882AB36-BC53-40DE-A614-CE8376D38C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5882AB36-BC53-40DE-A614-CE8376D38C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5882AB36-BC53-40DE-A614-CE8376D38C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C544633-0E71-49B3-A73C-C6C9267120C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C544633-0E71-49B3-A73C-C6C9267120C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C544633-0E71-49B3-A73C-C6C9267120C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C544633-0E71-49B3-A73C-C6C9267120C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31EF8F2-EC2E-48E7-8811-22DB45193215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31EF8F2-EC2E-48E7-8811-22DB45193215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31EF8F2-EC2E-48E7-8811-22DB45193215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31EF8F2-EC2E-48E7-8811-22DB45193215}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54A7A2CE-6312-45A7-B6D1-0CD3BB0D75D6}
+	EndGlobalSection
+EndGlobal
