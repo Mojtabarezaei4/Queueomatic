@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Queueomatic/Queueomatic.sln
     - name: Build
-      run: dotnet build --no-restore Queueomatic/Queueomatic.sln
+      run: dotnet build Queueomatic/Queueomatic.sln --no-restore 
     - name: Test
       run: dotnet test Queueomatic/Queueomatic.sln --no-build --verbosity normal
     - name: Publish
