@@ -27,4 +27,4 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish Queueomatic/Queueomatic.csproj -c Release -o queueomaticpublished
+      run: dotnet publish Queueomatic/Queueomatic.sln -c Release -o queueomaticpublished
