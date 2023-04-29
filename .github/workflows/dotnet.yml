@@ -21,10 +21,10 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore Queueomatic/Queueomatic.sln
+      run: dotnet restore Queueomatic
     - name: Build
-      run: dotnet build Queueomatic/Queueomatic.sln --no-restore 
+      run: dotnet build Queueomatic --no-restore 
     - name: Test
-      run: dotnet test Queueomatic/Queueomatic.sln --no-build --verbosity normal
+      run: dotnet test Queueomatic --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish Queueomatic/Queueomatic.sln -c Release -o queueomaticpublished
+      run: dotnet publish Queueomatic -c Release -o queueomaticpublished
