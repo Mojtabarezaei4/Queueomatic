@@ -5,12 +5,15 @@
 + Data models
   - User
     - Name: nvarchar(50)
-    - Rooms: Collection Of Room (Junction Table)
   - Room
+    - Id: int
     - CreatedAt: Date
     - ExpireAt: Date
     - CreatedBy: UserId
     - Name: nvarChar(50)
+   - UserRoom
+     - UserName: nvarchar(50)
+     - RoomId: int
     
 
 ### Design patterns and design principles
