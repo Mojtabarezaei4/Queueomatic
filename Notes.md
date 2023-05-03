@@ -66,7 +66,7 @@ To develop a queue system that can be used for educational purposes or for any o
 
 <hr>
 <h3 style="text-align: center;">
-🌠 Getting help <br/>
+🌠 Getting help<br/>
 🌍 Earth
  </h3>
 <hr>
