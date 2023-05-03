@@ -4,7 +4,7 @@
 
 To develop a queue system that can be used for educational purposes or for any other situations where prioritization of individuals is necessary.
 
-## OBS
+## NOTE
 
 - All Ids which goes out of the server/application has to be encoded in [**hashids**](LINKS).
 - All Ids which comes into the server/application has to be decoded in [**hashids**](LINKS).
