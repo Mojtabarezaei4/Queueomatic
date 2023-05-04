@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Queueomatic.Client.csproj" />
+    <ProjectReference Include="..\Queueomatic.DataAccess\Queueomatic.DataAccess.csproj" />
     <ProjectReference Include="..\Shared\Queueomatic.Shared.csproj" />
   </ItemGroup>
 

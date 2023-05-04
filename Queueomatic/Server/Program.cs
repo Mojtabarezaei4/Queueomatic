@@ -1,5 +1,5 @@
 using FastEndpoints;
-using Microsoft.AspNetCore.ResponseCompression;
+using Queueomatic.DataAccess.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
 builder.Services.AddRazorPages();
 
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();
