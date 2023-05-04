@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
+
+    <Folder Include="DataContexts\" />
+    <Folder Include="Models\" />
+    <Folder Include="UnitOfWork\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 
