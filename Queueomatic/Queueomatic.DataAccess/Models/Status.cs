@@ -4,5 +4,5 @@ public enum Status
 {
     Idling,
     Waiting,
-    Ongoing,
+    Ongoing
 }

@@ -2,7 +2,7 @@
 
 namespace Queueomatic.DataAccess.Models;
 
-public class Paricipant
+public class Participant
 {
     public Guid Id { get; set; }
 
