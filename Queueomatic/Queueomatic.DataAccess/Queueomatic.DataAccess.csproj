@@ -10,7 +10,6 @@
 
     <Folder Include="DataContexts\" />
     <Folder Include="Models\" />
-    <Folder Include="Repositories\Interfaces\" />
     <Folder Include="UnitOfWork\" />
   </ItemGroup>
 
