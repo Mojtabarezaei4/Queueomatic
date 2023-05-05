@@ -19,6 +19,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<User?> GetAsync(string email)
+    {
+        return await _context.Users.FindAsync(email);
+    }
+
     public async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _context.Users.Include(u => u.Rooms).ToListAsync();
