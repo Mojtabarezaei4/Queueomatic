@@ -1,4 +1,5 @@
-﻿using Queueomatic.DataAccess.DataContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 
@@ -15,26 +16,31 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Users.FindAsync(id);
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Users.Include(u => u.Rooms).ToListAsync();
     }
 
     public async Task AddAsync(User entity)
     {
-        throw new NotImplementedException();
+        await _context.Users.AddAsync(entity);
     }
 
-    public async Task UpdateAsync(User entity)
+    public Task UpdateAsync(User entity)
     {
-        throw new NotImplementedException();
+         _context.Update(entity);
+         return Task.CompletedTask;
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await GetAsync(id);
+        if (user != null)
+        {
+            _context.Users.Remove(user);
+        }
     }
 }
