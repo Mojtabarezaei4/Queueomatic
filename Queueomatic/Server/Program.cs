@@ -1,4 +1,5 @@
 using FastEndpoints;
+using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
