@@ -2,7 +2,6 @@
 
 namespace Queueomatic.DataAccess.Repositories.Interfaces;
 
-public interface IRoomRepository : IRepository<Room>
+public interface IRoomRepository : IRepository<Room, int> 
 {
-    
 }

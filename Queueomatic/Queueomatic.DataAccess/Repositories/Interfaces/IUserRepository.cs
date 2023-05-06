@@ -3,8 +3,6 @@ using Queueomatic.DataAccess.Models;
 
 namespace Queueomatic.DataAccess.Repositories.Interfaces;
 
-public interface IUserRepository : IRepository<User>
+public interface IUserRepository : IRepository<User, string>
 {
-    public Task<User?> GetAsync(string email);
-
 }

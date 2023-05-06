@@ -4,7 +4,7 @@ namespace Queueomatic.DataAccess.Models;
 
 public class Room
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [MaxLength(20)]
     public string Name { get; set; }

@@ -14,7 +14,7 @@ public class RoomRepository : IRoomRepository
         _context = context;
     }
 
-    public async Task<Room?> GetAsync(Guid id)
+    public async Task<Room?> GetAsync(int id)
     {
         return await _context.Rooms.FindAsync(id);
     }
@@ -35,7 +35,7 @@ public class RoomRepository : IRoomRepository
         return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
         var room = await GetAsync(id);
         if (room != null)

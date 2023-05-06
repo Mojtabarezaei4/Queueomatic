@@ -14,11 +14,6 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User?> GetAsync(Guid id)
-    {
-        return await _context.Users.FindAsync(id);
-    }
-
     public async Task<User?> GetAsync(string email)
     {
         return await _context.Users.FindAsync(email);
@@ -40,7 +35,7 @@ public class UserRepository : IUserRepository
          return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(string id)
     {
         var user = await GetAsync(id);
         if (user != null)
