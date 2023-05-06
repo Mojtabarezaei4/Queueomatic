@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
+
+using HashidsNet;
+
 using Queueomatic.DataAccess.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
