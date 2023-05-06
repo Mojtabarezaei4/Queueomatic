@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Queueomatic.DataAccess.DataContexts;
+using Queueomatic.DataAccess.Repositories.Interfaces;
 
 namespace Queueomatic.DataAccess.UnitOfWork;
 
@@ -7,12 +8,16 @@ public class UnitOfWork : IDisposable, IUnitOfWork
 {
     private bool _disposed;
     private readonly ApplicationContext _context;
-    //Add repositories below
 
-    public UnitOfWork(ApplicationContext context)
+    public UnitOfWork(ApplicationContext context, IUserRepository userRepository, IRoomRepository roomRepository)
     {
         _context = context;
+        UserRepository = userRepository;
+        RoomRepository = roomRepository;
     }
+
+    public IUserRepository UserRepository { get; }
+    public IRoomRepository RoomRepository { get; }
 
     public async Task<int> SaveAsync()
     {

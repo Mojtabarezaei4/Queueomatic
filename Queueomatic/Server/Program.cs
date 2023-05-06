@@ -1,13 +1,26 @@
 using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
+using Queueomatic.DataAccess.DataContexts;
+using Queueomatic.DataAccess.Repositories;
+using Queueomatic.DataAccess.Repositories.Interfaces;
+
 using HashidsNet;
+
 using Queueomatic.DataAccess.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       throw new InvalidOperationException("Connection string not found");
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddFastEndpoints();
 builder.Services.AddRazorPages();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
