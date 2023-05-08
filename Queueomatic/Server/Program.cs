@@ -23,6 +23,11 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SignedInUser", x => x.RequireRole("User").RequireClaim("UserId"));
+    options.AddPolicy("ValidParticipant", x => x.RequireRole("Participant").RequireClaim("ParticipantId"));
+});
 
 var app = builder.Build();
 
