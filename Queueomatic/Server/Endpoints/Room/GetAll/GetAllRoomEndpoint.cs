@@ -5,7 +5,6 @@ namespace Queueomatic.Server.Endpoints.Room.GetAll;
 
 public class GetAllRoomEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomResponse>
 {
-    public ILogger<GetAllRoomEndpoint> Logger { get; init; }
     public override void Configure()
     {
         Verbs(Http.GET);
@@ -20,7 +19,7 @@ public class GetAllRoomEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomResponse
             await SendAsync(new GetAllRoomResponse(new List<RoomDto>()), cancellation: ct);
         }
         catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
+            when (exception.CancellationToken == ct)
         {
             Logger.LogInformation($"Task {nameof(GetAllRoomEndpoint)} has cancelled");
         }

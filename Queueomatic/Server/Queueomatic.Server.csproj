@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.10.0" />
     <PackageReference Include="Hashids.net" Version="1.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,7 +33,6 @@
     <Folder Include="Endpoints\Participant\Delete\" />
     <Folder Include="Endpoints\Participant\Edit\" />
     <Folder Include="Endpoints\Participant\GetAll\" />
-    <Folder Include="Endpoints\Room\GetById\" />
     <Folder Include="Endpoints\SignUp\" />
     <Folder Include="Endpoints\User\Delete\" />
     <Folder Include="Endpoints\User\Edit\" />
