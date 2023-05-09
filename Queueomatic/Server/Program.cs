@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
-
 using HashidsNet;
-
 using Queueomatic.DataAccess.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,7 +49,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthorization();
-app.UseFastEndpoints();
+app.UseFastEndpoints(config =>
+{
+    config.Endpoints.RoutePrefix = "api";
+});
 
 app.MapRazorPages();
 app.MapFallbackToFile("index.html");
