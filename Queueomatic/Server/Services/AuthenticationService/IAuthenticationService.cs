@@ -4,7 +4,7 @@ namespace Queueomatic.Server.Services.AuthenticationService;
 
 public interface IAuthenticationService
 {
-    public Task Register(User user);
+    public Task<bool> Register(User user, string password);
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
-    public Task<bool> AreUserCredentialsValid(string username, string password);
+    public Task<bool> CredentialsAreValid(string username, string password);
 }
