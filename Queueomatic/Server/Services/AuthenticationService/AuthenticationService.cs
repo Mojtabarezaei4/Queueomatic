@@ -52,16 +52,13 @@ public class AuthenticationService : IAuthenticationService
 	public async Task<bool> CredentialsAreValid(string email, string password)
 	{
 		var user = await UnitOfWork.UserRepository.GetAsync(email);
-		if (user == null)
-		{
-			return false;
-		}
-
-		return await VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
+		return user != null && VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
 	}
 
-	public async Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+	public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
 	{
-		throw new NotImplementedException();
+		using var hmac = new HMACSHA512(passwordSalt);
+		var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+		return computedHash.SequenceEqual(passwordHash);
 	}
 }
