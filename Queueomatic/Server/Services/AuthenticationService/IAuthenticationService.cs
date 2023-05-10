@@ -6,6 +6,6 @@ public interface IAuthenticationService
 {
     public Task<bool> Register(User user, string password);
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
-    public Task<bool> CredentialsAreValid(string username, string password);
+    public Task<bool> CredentialsAreValid(string email, string password);
 	public Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
 }

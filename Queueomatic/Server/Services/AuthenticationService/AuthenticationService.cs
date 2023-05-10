@@ -43,9 +43,21 @@ public class AuthenticationService : IAuthenticationService
 		passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 	}
 
-	public async Task<bool> CredentialsAreValid(string username, string password)
+	/// <summary>
+	/// Checks if the given credentials are valid.
+	/// </summary>
+	/// <param name="email"></param>
+	/// <param name="password"></param>
+	/// <returns></returns>
+	public async Task<bool> CredentialsAreValid(string email, string password)
 	{
-		throw new NotImplementedException();
+		var user = await UnitOfWork.UserRepository.GetAsync(email);
+		if (user == null)
+		{
+			return false;
+		}
+
+		return await VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
 	}
 
 	public async Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
