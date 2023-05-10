@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Queueomatic.DataAccess\Queueomatic.DataAccess.csproj" />
+    <ProjectReference Include="..\Server\Queueomatic.Server.csproj" />
   </ItemGroup>
 
 </Project>
