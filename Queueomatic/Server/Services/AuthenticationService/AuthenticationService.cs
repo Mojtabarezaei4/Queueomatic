@@ -12,9 +12,26 @@ public class AuthenticationService : IAuthenticationService
 		UnitOfWork = unitOfWork;
 	}
 
+	/// <summary>
+	/// Registers a new user with the given password.
+	/// </summary>
+	/// <param name="user"></param>
+	/// <param name="password"></param>
+	/// <returns>Whether or not the user was successfully registered</returns>
 	public async Task<bool> Register(User user, string password)
 	{
-		throw new NotImplementedException();
+		if (await UnitOfWork.UserRepository.GetAsync(user.Email) != null)
+		{
+			return false;
+		}
+		
+		CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+		user.PasswordHash = passwordHash;
+		user.PasswordSalt = passwordSalt;
+		
+		await UnitOfWork.UserRepository.AddAsync(user);
+		await UnitOfWork.SaveAsync();
+		return true;
 	}
 
 	public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -23,6 +40,11 @@ public class AuthenticationService : IAuthenticationService
 	}
 
 	public async Task<bool> CredentialsAreValid(string username, string password)
+	{
+		throw new NotImplementedException();
+	}
+
+	public async Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
 	{
 		throw new NotImplementedException();
 	}
