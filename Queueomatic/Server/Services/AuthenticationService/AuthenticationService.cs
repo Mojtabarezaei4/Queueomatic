@@ -1,4 +1,6 @@
-﻿using Queueomatic.DataAccess.Models;
+﻿using System.Security.Cryptography;
+using System.Text;
+using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Server.Services.AuthenticationService;
@@ -36,7 +38,9 @@ public class AuthenticationService : IAuthenticationService
 
 	public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
 	{
-		throw new NotImplementedException();
+		using var hmac = new HMACSHA512();
+		passwordSalt = hmac.Key;
+		passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 	}
 
 	public async Task<bool> CredentialsAreValid(string username, string password)
