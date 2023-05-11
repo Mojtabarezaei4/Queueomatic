@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\Login\" />
-    <Folder Include="Endpoints\SignUp\" />
   </ItemGroup>
 
 </Project>
