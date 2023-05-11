@@ -29,12 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\Login\" />
-    <Folder Include="Endpoints\Participant\Delete\" />
-    <Folder Include="Endpoints\Participant\Edit\" />
-    <Folder Include="Endpoints\Participant\GetAll\" />
     <Folder Include="Endpoints\SignUp\" />
-    <Folder Include="Endpoints\User\Delete\" />
-    <Folder Include="Endpoints\User\Edit\" />
   </ItemGroup>
 
 </Project>
