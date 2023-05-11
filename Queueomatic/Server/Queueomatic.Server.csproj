@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\Login\" />
-    <Folder Include="Endpoints\Participant\Add\" />
     <Folder Include="Endpoints\Participant\Delete\" />
     <Folder Include="Endpoints\Participant\Edit\" />
     <Folder Include="Endpoints\Participant\GetAll\" />
