@@ -27,8 +27,4 @@
     <Watch Include="..\Client\**\*.razor" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\Login\" />
-  </ItemGroup>
-
 </Project>
