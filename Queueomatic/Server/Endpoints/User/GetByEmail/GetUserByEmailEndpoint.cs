@@ -17,7 +17,11 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
         try
         {
             var response = new GetUserByEmailResponse(new UserDto());
-            await SendAsync(response, 201, cancellation: ct);
+            if (response is null) await SendAsync(new GetUserByEmailResponse(null), 404, cancellation: ct);
+            else
+            {
+                await SendAsync(response, cancellation: ct);
+            }
         }
         catch (TaskCanceledException exception)
             when(exception.CancellationToken == ct)

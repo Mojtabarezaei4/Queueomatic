@@ -16,7 +16,8 @@ public class GetAllRoomEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomResponse
     {
         try
         {
-            await SendAsync(new GetAllRoomResponse(new List<RoomDto>()), cancellation: ct);
+            var response = new GetAllRoomResponse(new List<RoomDto>());
+            await SendAsync(response, cancellation: ct);
         }
         catch (TaskCanceledException exception)
             when (exception.CancellationToken == ct)
