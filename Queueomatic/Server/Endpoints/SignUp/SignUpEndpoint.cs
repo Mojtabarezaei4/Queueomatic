@@ -15,18 +15,20 @@ public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
     {
         try
         {
+            
             var response = new SignUpResponse();
-            await SendAsync(response, 201, cancellation: ct);
+            await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
         }
         catch (NullReferenceException nullException)
         {
             Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendAsync(response:null, 400, ct);
+            await SendErrorsAsync(400, ct);
         }
         catch (TaskCanceledException exception)
             when(exception.CancellationToken == ct)
         {
             Logger.LogInformation($"Task {nameof(SignUpEndpoint)} was cancelled.");
+            await SendErrorsAsync(400, ct);
         }
     }
 }
