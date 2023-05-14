@@ -34,7 +34,7 @@ public class AuthenticationService : IAuthenticationService
             Email = userSignup.Email,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            NickName = userSignup.NickName
+            NickName = userSignup.NickName!
         };
 
         await UnitOfWork.UserRepository.AddAsync(user);
@@ -65,6 +65,6 @@ public class AuthenticationService : IAuthenticationService
 	{
 		using var hmac = new HMACSHA512(passwordSalt);
 		var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-		return computedHash.SequenceEqual(passwordHash);
+        return computedHash.SequenceEqual(passwordHash);
 	}
 }

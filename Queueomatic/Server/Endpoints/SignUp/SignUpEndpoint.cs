@@ -1,4 +1,5 @@
-﻿using FastEndpoints;
+﻿using System.Text;
+using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
 
@@ -12,20 +13,20 @@ public class SignUpEndpoint : Endpoint<SignUpRequest, SignUpResponse>
         Routes("/signup");
         AllowAnonymous();
     }
-
-    public IUnitOfWork UnitOfWork { get; set; }
     public IAuthenticationService AuthenticationService { get; set; }
 
     public override async Task HandleAsync(SignUpRequest req, CancellationToken ct)
     {
         req.Signup.NickName ??= string.Empty;
 
-        if (await AuthenticationService.Register(req.Signup))
-            await SendErrorsAsync(cancellation: ct);
-
-
         var response = new SignUpResponse();
-        await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
 
+        if (!await AuthenticationService.Register(req.Signup))
+        {
+            await SendAsync(response, 400, cancellation: ct);
+            return; 
+        }
+
+        await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
     }
 }
