@@ -4,7 +4,7 @@ using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.SignUp;
 
-public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
+public class SignUpEndpoint : Endpoint<SignUpRequest, SignUpResponse>
 {
     public override void Configure()
     {
@@ -20,6 +20,12 @@ public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
     {
         try
         {
+            req.Signup.NickName ??= string.Empty;
+
+            if (await AuthenticationService.Register(req.Signup))
+                await SendErrorsAsync(cancellation: ct);
+
+
             var response = new SignUpResponse();
             await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
         }
@@ -29,7 +35,7 @@ public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
             await SendErrorsAsync(400, ct);
         }
         catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
+            when (exception.CancellationToken == ct)
         {
             Logger.LogInformation($"Task {nameof(SignUpEndpoint)} was cancelled.");
             await SendErrorsAsync(400, ct);
