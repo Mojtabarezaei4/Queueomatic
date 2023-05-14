@@ -20,7 +20,6 @@ public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
     {
         try
         {
-
             var response = new SignUpResponse();
             await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
         }

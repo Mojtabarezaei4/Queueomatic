@@ -2,6 +2,7 @@
 using System.Text;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Services.AuthenticationService;
 
@@ -20,14 +21,14 @@ public class AuthenticationService : IAuthenticationService
 	/// <param name="user"></param>
 	/// <param name="password"></param>
 	/// <returns>Whether or not the user was successfully registered</returns>
-	public async Task<bool> Register(User user, string password)
+	public async Task<bool> Register(SignupDto user)
 	{
 		if (await UnitOfWork.UserRepository.GetAsync(user.Email) != null)
 		{
 			return false;
 		}
 		
-		CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+		CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
 		user.PasswordHash = passwordHash;
 		user.PasswordSalt = passwordSalt;
 		
