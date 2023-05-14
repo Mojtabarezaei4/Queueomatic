@@ -18,27 +18,14 @@ public class SignUpEndpoint : Endpoint<SignUpRequest, SignUpResponse>
 
     public override async Task HandleAsync(SignUpRequest req, CancellationToken ct)
     {
-        try
-        {
-            req.Signup.NickName ??= string.Empty;
+        req.Signup.NickName ??= string.Empty;
 
-            if (await AuthenticationService.Register(req.Signup))
-                await SendErrorsAsync(cancellation: ct);
+        if (await AuthenticationService.Register(req.Signup))
+            await SendErrorsAsync(cancellation: ct);
 
 
-            var response = new SignUpResponse();
-            await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
-        }
-        catch (NullReferenceException nullException)
-        {
-            Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendErrorsAsync(400, ct);
-        }
-        catch (TaskCanceledException exception)
-            when (exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(SignUpEndpoint)} was cancelled.");
-            await SendErrorsAsync(400, ct);
-        }
+        var response = new SignUpResponse();
+        await SendCreatedAtAsync<SignUpEndpoint>("", response, cancellation: ct);
+
     }
 }
