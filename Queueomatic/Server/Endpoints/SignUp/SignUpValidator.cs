@@ -15,6 +15,8 @@ public class SignUpValidator : Validator<SignUpRequest>
             .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.")
             .Matches(@"[\!\?\*\.]+").WithMessage("Your password must contain at least one (!? *.).");
 
-
+        RuleFor(x => x.Signup.ConfirmPassword)
+            .NotEmpty().WithMessage("A password confirmation is required!")
+            .Equal(s => s.Signup.Password).WithMessage("Password confirmation does not match the provided password.");
     }
 }
