@@ -1,4 +1,6 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.SignUp;
 
@@ -10,6 +12,9 @@ public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
         Routes("/signup");
         AllowAnonymous();
     }
+
+    public IUnitOfWork UnitOfWork { get; set; }
+    public IAuthenticationService AuthenticationService { get; set; }
 
     public override async Task HandleAsync(SignUpRequest req, CancellationToken ct)
     {
