@@ -41,7 +41,7 @@ public class LoginEndpoint : Endpoint<LoginRequest>
             expireAt: DateTime.UtcNow.AddDays(1),
             priviledges: u =>
             {
-                u.Roles.Add(nameof(user.Role));
+                u.Roles.Add(user.Role.ToString());
                 u.Claims.Add(new ("UserId", user.Email));
             });
 
