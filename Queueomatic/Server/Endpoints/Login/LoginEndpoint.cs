@@ -1,4 +1,5 @@
-﻿using FastEndpoints;
+﻿using System.Security.Claims;
+using FastEndpoints;
 using FastEndpoints.Security;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
@@ -27,17 +28,21 @@ public class LoginEndpoint : Endpoint<LoginRequest>
 
     public override async Task HandleAsync(LoginRequest req, CancellationToken ct)
     {
-        if (!(await _authenticationService.CredentialsAreValid(req.Login.Email, req.Login.Password)))
+        if (!await _authenticationService.CredentialsAreValid(req.Login.Email, req.Login.Password))
+        {
             await SendAsync("The email or password were incorrect", 401);
+            return;
+        }
 
-
+        var user = await _unitOfWork.UserRepository.GetAsync(req.Login.Email);
 
         var jwtToken = JWTBearer.CreateToken(
             signingKey: _configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value!,
             expireAt: DateTime.UtcNow.AddDays(1),
             priviledges: u =>
             {
-                u.Roles
+                u.Roles.Add(nameof(user.Role));
+                u.Claims.Add(new ("UserId", user.Email));
             });
     }
 }
