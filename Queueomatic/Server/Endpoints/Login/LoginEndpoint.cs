@@ -21,6 +21,7 @@ public class LoginEndpoint: Endpoint<LoginRequest>
 
     public override async Task HandleAsync(LoginRequest req, CancellationToken ct)
     {
-       
+        if (!(await _authenticationService.CredentialsAreValid(req.Login.Email, req.Login.Password)))
+            await SendAsync("The email or password were incorrect", 401);
     }
 }
