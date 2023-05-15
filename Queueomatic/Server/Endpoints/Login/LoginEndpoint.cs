@@ -44,5 +44,11 @@ public class LoginEndpoint : Endpoint<LoginRequest>
                 u.Roles.Add(nameof(user.Role));
                 u.Claims.Add(new ("UserId", user.Email));
             });
+
+        await SendAsync(new
+        {
+            Token = jwtToken,
+            UserName = req.Login.Email
+        });
     }
 }
