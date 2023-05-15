@@ -6,6 +6,7 @@ using Queueomatic.DataAccess.Repositories.Interfaces;
 using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
+using Queueomatic.Server.Services.CreateRoomService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<ICreateRoomService, CreateRoomService>();
 
 builder.Services.AddAuthorization(options =>
 {
