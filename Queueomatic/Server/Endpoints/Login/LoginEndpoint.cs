@@ -30,7 +30,7 @@ public class LoginEndpoint : Endpoint<LoginRequest>
     {
         if (!await _authenticationService.CredentialsAreValid(req.Login.Email, req.Login.Password))
         {
-            await SendAsync("The email or password were incorrect", 401);
+            await SendUnauthorizedAsync();
             return;
         }
 
@@ -41,8 +41,8 @@ public class LoginEndpoint : Endpoint<LoginRequest>
             expireAt: DateTime.UtcNow.AddDays(1),
             priviledges: u =>
             {
-                u.Roles.Add(user.Role.ToString());
-                u.Claims.Add(new ("UserId", user.Email));
+                u.Roles.Add(user!.Role.ToString());
+                u.Claims.Add(new Claim("UserId", user.Email));
             });
 
         await SendAsync(new
