@@ -3,14 +3,17 @@ using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.Login;
 
-public class LoginEndpoint: Endpoint<LoginRequest>
+public class LoginEndpoint : Endpoint<LoginRequest>
 {
     private readonly IAuthenticationService _authenticationService;
+    private readonly IConfiguration _configuration;
 
-    public LoginEndpoint(IAuthenticationService authenticationService)
+    public LoginEndpoint(IAuthenticationService authenticationService, IConfiguration configuration)
     {
         _authenticationService = authenticationService;
+        _configuration = configuration;
     }
+
 
     public override void Configure()
     {
