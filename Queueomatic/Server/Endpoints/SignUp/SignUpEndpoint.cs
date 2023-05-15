@@ -1,32 +1,34 @@
 ﻿using FastEndpoints;
+using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.SignUp;
 
-public class SignUpEndpoint: Endpoint<SignUpRequest, SignUpResponse>
+public class SignUpEndpoint : Endpoint<SignUpRequest>
 {
+    private readonly IAuthenticationService _authenticationService;
+
+    public SignUpEndpoint(IAuthenticationService authenticationService)
+    {
+        _authenticationService = authenticationService;
+    }
+
     public override void Configure()
     {
         Verbs(Http.POST);
         Routes("/signup");
         AllowAnonymous();
     }
-
+    
     public override async Task HandleAsync(SignUpRequest req, CancellationToken ct)
     {
-        try
+        req.Signup.NickName ??= string.Empty;
+
+        if (!await _authenticationService.Register(req.Signup))
         {
-            var response = new SignUpResponse();
-            await SendAsync(response, 201, cancellation: ct);
+            await SendAsync("User already exists.", 400);
+            return; 
         }
-        catch (NullReferenceException nullException)
-        {
-            Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendAsync(response:null, 400, ct);
-        }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(SignUpEndpoint)} was cancelled.");
-        }
+
+        await SendCreatedAtAsync<SignUpEndpoint>("api/login", "Successfully registered!");
     }
 }
