@@ -1,9 +1,9 @@
 using FastEndpoints;
+using FastEndpoints.Security;
 using Microsoft.EntityFrameworkCore;
 using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
-using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
 
@@ -16,6 +16,10 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddFastEndpoints();
+
+var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value;
+builder.Services.AddJWTBearerAuth(jwtSecret);
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -50,6 +54,7 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseFastEndpoints(config =>
 {
