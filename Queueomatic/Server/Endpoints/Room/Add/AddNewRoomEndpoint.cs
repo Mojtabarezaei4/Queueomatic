@@ -16,7 +16,8 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
     {
         Verbs(Http.POST);
         Routes("/addNewRoom");
-        Policies("SignedInUser");
+        // Policies("SignedInUser");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(AddNewRoomRequest req, CancellationToken ct)
