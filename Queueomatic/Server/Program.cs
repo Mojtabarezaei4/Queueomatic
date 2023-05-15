@@ -16,7 +16,10 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddFastEndpoints();
-builder.Services.AddJWTBearerAuth("test");
+
+var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value;
+builder.Services.AddJWTBearerAuth(jwtSecret);
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
