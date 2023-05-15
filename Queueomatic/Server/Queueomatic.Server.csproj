@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FastEndpoints" Version="5.10.0" />
+		<PackageReference Include="FastEndpoints.Security" Version="5.10.0" />
 		<PackageReference Include="Hashids.net" Version="1.7.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
