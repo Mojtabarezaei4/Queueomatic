@@ -22,7 +22,7 @@ public class SignUpValidator : Validator<SignUpRequest>
             .Equal(s => s.Signup.Password).WithMessage("Password confirmation does not match the provided password.");
 
         RuleFor(x => x.Signup.Email)
-            .NotNull().WithMessage("Password Confirmation can not be empty!")
+            .NotNull().WithMessage("Email can not be empty!")
             .Matches(
                 "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
             .WithMessage("Not a valid email address.");
