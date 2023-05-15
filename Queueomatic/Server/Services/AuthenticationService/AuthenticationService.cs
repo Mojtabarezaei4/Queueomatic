@@ -34,7 +34,8 @@ public class AuthenticationService : IAuthenticationService
             Email = userSignup.Email,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            NickName = userSignup.NickName!
+            NickName = userSignup.NickName!,
+			Role = Role.User
         };
 
         await UnitOfWork.UserRepository.AddAsync(user);
