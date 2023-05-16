@@ -16,18 +16,18 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
     public override void Configure()
     {
         Get("/users/{email}");
-        AllowAnonymous();       
+        Roles("Administrator", "User");
+        Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(GetUserByEmailRequest req, CancellationToken ct)
     {
-        
-            var response = new GetUserByEmailResponse(new UserDto());
-            if (response is null) await SendAsync(new GetUserByEmailResponse(null), 404, cancellation: ct);
-            else
-            {
-                await SendAsync(response, cancellation: ct);
-            }
-        
+        if (User.IsInRole("User") && !req.Email.Equals(req.UserId))
+        {
+            await SendUnauthorizedAsync();
+            return;
+        }
+
     }
+    
 }

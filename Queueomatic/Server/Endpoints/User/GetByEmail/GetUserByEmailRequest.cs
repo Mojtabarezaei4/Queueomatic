@@ -1,3 +1,5 @@
-﻿namespace Queueomatic.Server.Endpoints.User.GetByEmail;
+﻿using FastEndpoints;
 
-public record GetUserByEmailRequest(string Email);
+namespace Queueomatic.Server.Endpoints.User.GetByEmail;
+
+public record GetUserByEmailRequest(string Email, [property: FromClaim] string UserId);
