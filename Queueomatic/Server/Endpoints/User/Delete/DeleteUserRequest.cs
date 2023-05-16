@@ -1,3 +1,3 @@
 ﻿namespace Queueomatic.Server.Endpoints.User.Delete;
 
-public record DeleteUserRequest(string Emaila);
+public record DeleteUserRequest(string Email);

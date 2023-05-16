@@ -1,9 +1,16 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Server.Endpoints.User.Delete;
 
 public class DeleteUserEndpoint: Endpoint<DeleteUserRequest, DeleteUserResponse>
 {
+    private readonly IUnitOfWork _unitOfWork;
+
+    public DeleteUserEndpoint(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;   
+    }
     public override void Configure()
     {
         Verbs(Http.DELETE);
@@ -13,15 +20,7 @@ public class DeleteUserEndpoint: Endpoint<DeleteUserRequest, DeleteUserResponse>
 
     public override async Task HandleAsync(DeleteUserRequest req, CancellationToken ct)
     {
-        try
-        {
-            var response = new DeleteUserResponse();
-            await SendAsync(response, 204, cancellation: ct);
-        }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(DeleteUserEndpoint)} was cancelled.");
-        }
+        await _unitOfWork.UserRepository.DeleteAsync(req.Email);
+        await SendAsync(new DeleteUserResponse(), 200);
     }
 }
