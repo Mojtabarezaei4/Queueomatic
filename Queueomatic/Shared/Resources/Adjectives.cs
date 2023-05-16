@@ -1,0 +1,35 @@
+﻿namespace Queueomatic.Shared.Resources;
+
+public enum Adjectives
+{
+    Hilarious,
+    Absurd,
+    Whimsical,
+    Silly,
+    Goofy,
+    Zany,
+    Quirky,
+    Bizarre,
+    Ridiculous,
+    Witty,
+    Peculiar,
+    Ludicrous,
+    Outlandish,
+    Farfetched,
+    Offbeat,
+    Eccentric,
+    Amusing,
+    Comical,
+    Droll,
+    Wacky,
+    Lighthearted,
+    Cheeky,
+    Hysterical,
+    Mirthful,
+    Jovial,
+    Playful,
+    Chucklesome,
+    Frivolous,
+    Farcical,
+    Whacky
+}

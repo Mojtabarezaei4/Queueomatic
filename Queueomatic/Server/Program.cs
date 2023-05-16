@@ -28,6 +28,7 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICreateRoomService, CreateRoomService>();
+builder.Services.AddTransient(typeof(Random));
 
 builder.Services.AddAuthorization(options =>
 {
