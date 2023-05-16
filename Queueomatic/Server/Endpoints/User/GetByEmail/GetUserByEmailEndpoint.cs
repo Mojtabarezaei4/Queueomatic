@@ -27,9 +27,19 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
             await SendUnauthorizedAsync();
             return;
         }
+        
+        var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
+        var roomDto = new RoomDto
+        {
+            Name = user.Rooms.
+        }
 
-
-
+        await SendAsync(new(new UserDto
+        {
+            Email = user.Email,
+            NickName = user.NickName,
+            Rooms = user.Rooms
+        }));
     }
     
 }
