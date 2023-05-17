@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetAsync(string email)
     {
-        var result = await _context.Users.Include(u => u.Rooms.Select(r => r.Participators)).FirstOrDefaultAsync(u => u.Email.Equals(email));
+        var result = await _context.Users.Include(u => u.Rooms).ThenInclude(p => p.Participators).FirstOrDefaultAsync(u => u.Email.Equals(email));
         return result;
     }
 
