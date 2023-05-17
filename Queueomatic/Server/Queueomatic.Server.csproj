@@ -27,4 +27,8 @@
 	<ItemGroup>
 		<Watch Include="..\Client\**\*.razor" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\HashIdService\" />
+	</ItemGroup>
 </Project>
