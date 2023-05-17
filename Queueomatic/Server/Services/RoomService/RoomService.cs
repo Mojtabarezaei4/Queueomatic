@@ -19,7 +19,7 @@ public class RoomService : IRoomService
         _hashIdService = hashIdService;
     }
 
-    public async Task<bool> CreateRoomAsync(RoomDto room, string userEmail)
+    public async Task<bool> CreateRoomAsync(string name, string userEmail)
     {
         var user = await _unitOfWork.UserRepository.GetAsync(userEmail);
 
@@ -27,9 +27,11 @@ public class RoomService : IRoomService
 
         var roomModel = new Room()
         {
-            Name = string.IsNullOrEmpty(room.Name) ? GetName() : room.Name,
+            Name = string.IsNullOrEmpty(name) ? GetName() : name,
             Participators = new List<Participant>(),
-            Owner = user
+            Owner = user,
+            CreatedAt = DateTime.UtcNow,
+            ExpireAt = DateTime.UtcNow.AddDays(1)
         };
 
         await _unitOfWork.RoomRepository.AddAsync(roomModel);

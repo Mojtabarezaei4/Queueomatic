@@ -33,14 +33,13 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
         }
         
         var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
-        var roomDtos = 
+        var roomDtos = _roomService.ToEntity(user.Rooms);
 
         await SendAsync(new(new UserDto
         {
             Email = user.Email,
             NickName = user.NickName,
-            Rooms = user.Rooms
+            Rooms = roomDtos
         }));
     }
-    
 }
