@@ -1,5 +1,4 @@
 ﻿using HashidsNet;
-using Microsoft.Extensions.Configuration;
 
 namespace Queueomatic.Server.Services.HashIdService;
 
