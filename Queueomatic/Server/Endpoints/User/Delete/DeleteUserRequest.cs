@@ -1,3 +1,9 @@
-﻿namespace Queueomatic.Server.Endpoints.User.Delete;
+﻿using FastEndpoints;
 
-public record DeleteUserRequest(string Email);
+namespace Queueomatic.Server.Endpoints.User.Delete;
+
+public record DeleteUserRequest
+{
+    [FromClaim]
+    public string Email { get; set; }
+};
