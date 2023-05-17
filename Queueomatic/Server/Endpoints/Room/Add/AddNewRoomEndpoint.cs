@@ -14,8 +14,7 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
     
     public override void Configure()
     {
-        Verbs(Http.POST);
-        Routes("/addNewRoom");
+        Post("/addNewRoom");
         Policies("SignedInUser");
     }
 
@@ -23,11 +22,11 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
     {
             var roomCreated = await _createRoomService.CreateRoomAsync(req.Room, req.UserEmail);
 
-        if (roomCreated is false)
+        if (roomCreated == false)
         {
-            await SendAsync("Something went wrong.",400, cancellation: ct);
+            await SendAsync("Something went wrong.",400);
             return;
         }
-        await SendAsync(new AddNewRoomResponse(), 201, cancellation: ct);
+        await SendAsync(new AddNewRoomResponse(), 201);
     }
 }
