@@ -9,6 +9,6 @@ public interface IRoomService
 
     public RoomDto ToEntity(Room room);
     public IEnumerable<RoomDto> ToEntity(IEnumerable<Room> room);
-    public RoomDto FromEntity(Room room);
-    public IEnumerable<RoomDto> FromEntity(IEnumerable<Room> room); 
+    public Room FromEntity(RoomDto room);
+    public IEnumerable<Room> FromEntity(IEnumerable<RoomDto> room); 
 }
