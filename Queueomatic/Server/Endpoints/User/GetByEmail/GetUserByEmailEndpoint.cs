@@ -1,6 +1,7 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
+using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.GetByEmail;
@@ -8,12 +9,12 @@ namespace Queueomatic.Server.Endpoints.User.GetByEmail;
 public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEmailResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
-	private readonly IHashIdService _hashIdService;
+	private readonly IRoomService _roomService;
 
-	public GetUserByEmailEndpoint(IUnitOfWork unitOfWork, IHashIdService hashIdService)
+	public GetUserByEmailEndpoint(IUnitOfWork unitOfWork, IRoomService roomService)
 	{
 		_unitOfWork = unitOfWork;
-		_hashIdService = hashIdService;
+		_roomService = roomService;
 	}
 
     public override void Configure()
@@ -32,10 +33,7 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
         }
         
         var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
-        var roomDto = new RoomDto
-        {
-            Name = user.Rooms.
-        }
+        var roomDtos = 
 
         await SendAsync(new(new UserDto
         {
