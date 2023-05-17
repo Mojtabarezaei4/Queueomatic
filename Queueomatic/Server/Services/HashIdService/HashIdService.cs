@@ -6,21 +6,20 @@ namespace Queueomatic.Server.Services.HashIdService;
 public class HashIdService : IHashIdService
 {
 	private readonly Hashids _hashids;
-	private readonly string _salt;
 
-	public HashIdService(Hashids hashids, IConfiguration configuration)
+	public HashIdService(IConfiguration configuration)
 	{
-		_hashids = hashids;
-		_salt = configuration.GetSection("HashIdKey").GetSection("Default").Value;
+		var _salt = configuration.GetSection("HashIdKey").GetSection("Default").Value;
+		_hashids = new Hashids(_salt);
 	}
 
 	public string Encode(int id)
 	{
-
+		return _hashids.Encode(id);
 	}
 
 	public int Decode(string hash)
 	{
-		throw new NotImplementedException();
+		return _hashids.DecodeSingle(hash);
 	}
 }
