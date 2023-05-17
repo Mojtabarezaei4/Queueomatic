@@ -9,14 +9,14 @@ public class AddNewRoomValidator : Validator<AddNewRoomRequest>
 {
     public AddNewRoomValidator()
     {
-        When(x => x.UserEmail.IsNullOrEmpty(), () =>
+        When(x => x.UserId.IsNullOrEmpty(), () =>
         {
-            RuleFor(x => x.UserEmail)
+            RuleFor(x => x.UserId)
                 .Null()
                 .WithMessage("Email address can not be empty!");
         }).Otherwise(() =>
         {
-            RuleFor(x => x.UserEmail)
+            RuleFor(x => x.UserId)
                 .Matches(
                     "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
                 .WithMessage("Not a valid email address!");
@@ -30,17 +30,17 @@ public class AddNewRoomValidator : Validator<AddNewRoomRequest>
         });
     }
 
-    protected override bool PreValidate(FluentValidation.ValidationContext<AddNewRoomRequest> context, ValidationResult result)
-    {
-        if (context.InstanceToValidate != null)
-        {
-            if (context.InstanceToValidate.UserEmail.IsNullOrEmpty())
-            {
-                result.Errors.Add(new("", "Please ensure an email was supplied."));
-                return false;
-            }
-        }
-
-        return true;
-    }
+    // protected override bool PreValidate(FluentValidation.ValidationContext<AddNewRoomRequest> context, ValidationResult result)
+    // {
+    //     if (context.InstanceToValidate != null)
+    //     {
+    //         if (context.InstanceToValidate.UserId.IsNullOrEmpty())
+    //         {
+    //             result.Errors.Add(new("", "Please ensure an email was supplied."));
+    //             return false;
+    //         }
+    //     }
+    //
+    //     return true;
+    // }
 }
