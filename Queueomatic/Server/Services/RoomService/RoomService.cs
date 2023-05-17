@@ -90,7 +90,7 @@ public class RoomService : IRoomService
 
     public IEnumerable<Room> FromEntity(IEnumerable<RoomDto> room)
     {
-	    throw new NotImplementedException();
+	    return room.Select(FromEntity);
     }
 
     private string GetName()
