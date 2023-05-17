@@ -34,6 +34,26 @@ public class RoomService : IRoomService
         return true;
     }
 
+    public RoomDto ToEntity(Room room)
+    {
+	    throw new NotImplementedException();
+    }
+
+    public IEnumerable<RoomDto> ToEntity(IEnumerable<Room> room)
+    {
+	    throw new NotImplementedException();
+    }
+
+    public RoomDto FromEntity(Room room)
+    {
+	    throw new NotImplementedException();
+    }
+
+    public IEnumerable<RoomDto> FromEntity(IEnumerable<Room> room)
+    {
+	    throw new NotImplementedException();
+    }
+
     private string GetName()
     {
         string name;
