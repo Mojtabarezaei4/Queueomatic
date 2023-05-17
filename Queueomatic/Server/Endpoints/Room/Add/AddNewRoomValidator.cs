@@ -29,18 +29,4 @@ public class AddNewRoomValidator : Validator<AddNewRoomRequest>
                 .WithMessage("The room name can be 20 characters at max.");
         });
     }
-
-    // protected override bool PreValidate(FluentValidation.ValidationContext<AddNewRoomRequest> context, ValidationResult result)
-    // {
-    //     if (context.InstanceToValidate != null)
-    //     {
-    //         if (context.InstanceToValidate.UserId.IsNullOrEmpty())
-    //         {
-    //             result.Errors.Add(new("", "Please ensure an email was supplied."));
-    //             return false;
-    //         }
-    //     }
-    //
-    //     return true;
-    // }
 }
