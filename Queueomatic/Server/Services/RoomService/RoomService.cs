@@ -25,7 +25,7 @@ public class RoomService : IRoomService
 
         if (user is null) return false;
 
-        var roomModel = new Room()
+        var roomModel = new Room
         {
             Name = string.IsNullOrEmpty(name) ? GetName() : name,
             Participators = new List<Participant>(),
