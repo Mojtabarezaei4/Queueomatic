@@ -1,5 +1,6 @@
 ﻿using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;
 using Queueomatic.Shared.Resources;
 
@@ -9,11 +10,13 @@ public class RoomService : IRoomService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly Random _random;
+	private readonly IHashIdService _hashIdService;
 
-    public RoomService(IUnitOfWork unitOfWork, Random random)
+	public RoomService(IUnitOfWork unitOfWork, Random random, IHashIdService hashIdService)
     {
         _unitOfWork = unitOfWork;
         _random = random;
+        _hashIdService = hashIdService;
     }
 
     public async Task<bool> CreateRoomAsync(RoomDto room, string userEmail)
