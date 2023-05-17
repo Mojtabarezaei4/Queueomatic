@@ -14,22 +14,20 @@ public class DeleteUserEndpoint: Endpoint<DeleteUserRequest>
     }
     public override void Configure()
     {
-        Verbs(Http.DELETE);
-        Routes("/users/{email}");
+        Delete("/users/{email}");
         Policies("SignedInUser");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteUserRequest req, CancellationToken ct)
     {
-        var user =  _unitOfWork.UserRepository.DeleteAsync(req.Email);
-        if (user is null)
+        await  _unitOfWork.UserRepository.DeleteAsync(req.Email);
+        var result = await _unitOfWork.SaveAsync();
+        if (result == 0)
         {
             await SendNotFoundAsync();
+            return;
         }
-        else
-        {
-            await SendOkAsync("Account deleted");
-        }
+        await SendOkAsync("Account deleted");
+        
     }
 }
