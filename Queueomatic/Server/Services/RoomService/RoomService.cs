@@ -3,14 +3,14 @@ using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Shared.DTOs;
 using Queueomatic.Shared.Resources;
 
-namespace Queueomatic.Server.Services.CreateRoomService;
+namespace Queueomatic.Server.Services.RoomService;
 
-public class CreateRoomService : ICreateRoomService
+public class RoomService : IRoomService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly Random _random;
 
-    public CreateRoomService(IUnitOfWork unitOfWork, Random random)
+    public RoomService(IUnitOfWork unitOfWork, Random random)
     {
         _unitOfWork = unitOfWork;
         _random = random;

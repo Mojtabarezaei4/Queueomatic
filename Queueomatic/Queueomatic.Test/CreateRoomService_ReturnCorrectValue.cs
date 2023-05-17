@@ -1,6 +1,6 @@
 ﻿using FakeItEasy;
 using Queueomatic.DataAccess.UnitOfWork;
-using Queueomatic.Server.Services.CreateRoomService;
+using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Test;
@@ -20,7 +20,7 @@ public class CreateRoomService_ReturnCorrectValue
         roomDto.Name = roomName;
         
         // Act 
-        var sut = new CreateRoomService(uow, new Random());
+        var sut = new RoomService(uow, new Random());
         var result = await sut.CreateRoomAsync(roomDto, email);
         
         // Assert
