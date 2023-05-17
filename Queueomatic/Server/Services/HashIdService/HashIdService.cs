@@ -9,7 +9,7 @@ public class HashIdService : IHashIdService
 	public HashIdService(IConfiguration configuration)
 	{
 		var _salt = configuration.GetSection("HashIdKey").GetSection("Default").Value;
-		_hashids = new Hashids(_salt);
+		_hashids = new Hashids(_salt, 6);
 	}
 
 	public string Encode(int id)

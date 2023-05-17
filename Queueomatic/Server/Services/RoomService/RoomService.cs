@@ -39,8 +39,26 @@ public class RoomService : IRoomService
 
     public RoomDto ToEntity(Room room)
     {
-	    throw new NotImplementedException();
-    }
+		return new RoomDto()
+		{
+			HashIds = _hashIdService.Encode(room.Id),
+			Name = room.Name,
+			Owner = new UserDto
+			{
+				Email = room.Owner.Email,
+				NickName = room.Owner.NickName
+			},
+			Participators = room.Participators.Select(p => new ParticipantDto
+			{
+				Id = p.Id,
+				NickName = p.NickName,
+				StatusDate = p.StatusDate, 
+				Status = (StatusDto)p.Status
+			}),
+            CreatedAt = room.CreatedAt,
+            ExpireAt = room.ExpireAt
+		};
+	}
 
     public IEnumerable<RoomDto> ToEntity(IEnumerable<Room> room)
     {
