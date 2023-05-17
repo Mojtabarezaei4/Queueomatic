@@ -17,7 +17,7 @@ public class LoginEndpoint : Endpoint<LoginRequest>
         _authenticationService = authenticationService;
         _configuration = configuration;
         _unitOfWork = unitOfWork;
-    }§
+    }
 
 
     public override void Configure()
