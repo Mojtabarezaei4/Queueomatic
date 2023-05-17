@@ -1,15 +1,15 @@
 ﻿using FastEndpoints;
-using Queueomatic.Server.Services.CreateRoomService;
+using Queueomatic.Server.Services.RoomService;
 
 namespace Queueomatic.Server.Endpoints.Room.Add;
 
 public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 {
-    private readonly ICreateRoomService _createRoomService;
+    private readonly IRoomService _roomService;
 
-    public AddNewRoomEndpoint(ICreateRoomService createRoomService)
+    public AddNewRoomEndpoint(IRoomService roomService)
     {
-        _createRoomService = createRoomService;
+        _roomService = roomService;
     }
     
     public override void Configure()
@@ -21,7 +21,7 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 
     public override async Task HandleAsync(AddNewRoomRequest req, CancellationToken ct)
     {
-            var roomCreated = await _createRoomService.CreateRoomAsync(req.Room, req.UserId);
+            var roomCreated = await _roomService.CreateRoomAsync(req.Room, req.UserId);
 
         if (roomCreated == false)
         {
