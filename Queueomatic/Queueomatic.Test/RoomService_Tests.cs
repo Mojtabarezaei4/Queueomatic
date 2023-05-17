@@ -24,7 +24,7 @@ public class RoomService_Tests
 		var sut = new RoomService(uow, random, hashIdService);
 
 		//Act
-		var result = sut.ToEntity(room);
+		var result = sut.FromEntity(room);
 
 		//Assert
 		Assert.Equal(6, result.HashIds.Length);
