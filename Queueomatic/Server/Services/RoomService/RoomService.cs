@@ -65,12 +65,30 @@ public class RoomService : IRoomService
 	    return room.Select(ToEntity);
     }
 
-    public RoomDto FromEntity(Room room)
+    public Room FromEntity(RoomDto room)
     {
-	    throw new NotImplementedException();
-    }
+		return new Room()
+		{
+			Id = _hashIdService.Decode(room.HashIds),
+			Name = room.Name,
+			Owner = new User
+			{
+				Email = room.Owner.Email,
+				NickName = room.Owner.NickName
+			},
+			Participators = (ICollection<Participant>)room.Participators.Select(p => new Participant
+			{
+				Id = p.Id,
+				NickName = p.NickName,
+				StatusDate = p.StatusDate,
+				Status = (Status)p.Status
+			}),
+			CreatedAt = room.CreatedAt,
+			ExpireAt = room.ExpireAt
+		};
+	}
 
-    public IEnumerable<RoomDto> FromEntity(IEnumerable<Room> room)
+    public IEnumerable<Room> FromEntity(IEnumerable<RoomDto> room)
     {
 	    throw new NotImplementedException();
     }
