@@ -1,5 +1,6 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.GetByEmail;
@@ -7,11 +8,13 @@ namespace Queueomatic.Server.Endpoints.User.GetByEmail;
 public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEmailResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
+	private readonly IHashIdService _hashIdService;
 
-    public GetUserByEmailEndpoint(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+	public GetUserByEmailEndpoint(IUnitOfWork unitOfWork, IHashIdService hashIdService)
+	{
+		_unitOfWork = unitOfWork;
+		_hashIdService = hashIdService;
+	}
 
     public override void Configure()
     {
