@@ -15,6 +15,7 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
     public override void Configure()
     {
         Post("/addNewRoom");
+        Description(x => x.WithName("AddNewRoom"));
         Policies("SignedInUser");
     }
 
@@ -24,9 +25,9 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 
         if (roomCreated == false)
         {
-            await SendAsync("Something went wrong.",400);
+            ThrowError("Something went wrong.");
             return;
         }
-        await SendAsync(new AddNewRoomResponse(), 201);
+        await SendCreatedAtAsync<AddNewRoomEndpoint>("AddNewRoom", "Room created");
     }
 }
