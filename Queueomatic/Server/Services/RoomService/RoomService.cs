@@ -39,7 +39,7 @@ public class RoomService : IRoomService
 
     public RoomDto ToEntity(Room room)
     {
-		return new RoomDto()
+		return new RoomDto
 		{
 			HashIds = _hashIdService.Encode(room.Id),
 			Name = room.Name,
@@ -67,7 +67,7 @@ public class RoomService : IRoomService
 
     public Room FromEntity(RoomDto room)
     {
-		return new Room()
+		return new Room
 		{
 			Id = _hashIdService.Decode(room.HashIds),
 			Name = room.Name,
