@@ -21,7 +21,7 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 
     public override async Task HandleAsync(AddNewRoomRequest req, CancellationToken ct)
     {
-            var roomCreated = await _createRoomService.CreateRoomAsync(req.Room, req.UserEmail);
+            var roomCreated = await _createRoomService.CreateRoomAsync(req.Room, req.UserId);
 
         if (roomCreated == false)
         {
