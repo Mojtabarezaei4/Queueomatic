@@ -62,7 +62,7 @@ public class RoomService : IRoomService
 
     public IEnumerable<RoomDto> ToEntity(IEnumerable<Room> room)
     {
-	    throw new NotImplementedException();
+	    return room.Select(ToEntity);
     }
 
     public RoomDto FromEntity(Room room)
