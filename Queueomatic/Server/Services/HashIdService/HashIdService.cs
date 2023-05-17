@@ -14,7 +14,8 @@ public class HashIdService : IHashIdService
 
 	public string Encode(int id)
 	{
-		return _hashids.Encode(id);
+		var hash = _hashids.Encode(id);
+		return hash;
 	}
 
 	public int Decode(string hash)

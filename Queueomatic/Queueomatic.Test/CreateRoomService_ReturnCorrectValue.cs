@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
@@ -17,11 +18,13 @@ public class CreateRoomService_ReturnCorrectValue
         // Arrange
         var roomDto = A.Fake<RoomDto>();
         var uow = A.Fake<IUnitOfWork>();
-        roomDto.Name = roomName;
-        
-        // Act 
-        var sut = new RoomService(uow, new Random());
-        var result = await sut.CreateRoomAsync(roomDto, email);
+		var hashIdService = A.Fake<IHashIdService>();
+		roomDto.Name = roomName;
+
+		// Act 
+		var sut = new RoomService(uow, new Random(), hashIdService);
+
+		var result = await sut.CreateRoomAsync(roomDto, email);
         
         // Assert
         Assert.True(result);
