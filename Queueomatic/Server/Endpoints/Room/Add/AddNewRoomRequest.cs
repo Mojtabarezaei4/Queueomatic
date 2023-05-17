@@ -3,4 +3,4 @@ using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Room.Add;
 
-public record AddNewRoomRequest(RoomDto Room, [property: FromClaim]string UserId);
+public record AddNewRoomRequest(string Name, [property: FromClaim]string UserId);

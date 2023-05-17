@@ -14,14 +14,14 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 
 	public override void Configure()
 	{
-		Post("/addNewRoom");
+		Post("/room/create");
 		Description(x => x.WithName("AddNewRoom"));
 		Policies("SignedInUser");
 	}
 
 	public override async Task HandleAsync(AddNewRoomRequest req, CancellationToken ct)
 	{
-		var roomCreated = await _roomService.CreateRoomAsync(req.Room, req.UserId);
+		var roomCreated = await _roomService.CreateRoomAsync(req.Name, req.UserId);
 
 		if (roomCreated == false)
 		{
