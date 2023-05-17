@@ -16,7 +16,7 @@ public class DeleteUserEndpoint: Endpoint<DeleteUserRequest>
     {
         Verbs(Http.DELETE);
         Routes("/users/{email}");
-        Policies("ValidParticipant");
+        Policies("SignedInUser");
         AllowAnonymous();
     }
 
