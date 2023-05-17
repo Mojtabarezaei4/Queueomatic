@@ -36,7 +36,7 @@ public class CreateRoomService : ICreateRoomService
 
     private string GetName()
     {
-        string name = String.Empty;
+        string name;
 
         var randomIndex = _random.Next(0, Enum.GetValues<Adjectives>().Length);
         
