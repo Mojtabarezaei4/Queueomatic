@@ -2,5 +2,6 @@
 
 public interface IHashIdService
 {
-
+	public string Encode(int id);
+	public int Decode(string hash);
 }
