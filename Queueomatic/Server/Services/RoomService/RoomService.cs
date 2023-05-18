@@ -37,7 +37,7 @@ public class RoomService : IRoomService
         return true;
     }
 
-    public RoomDto ToEntity(Room room)
+    public RoomDto FromEntity(Room room)
     {
 		return new RoomDto
 		{
@@ -60,12 +60,12 @@ public class RoomService : IRoomService
 		};
 	}
 
-    public IEnumerable<RoomDto> ToEntity(IEnumerable<Room> room)
+    public IEnumerable<RoomDto> FromEntity(IEnumerable<Room> room)
     {
-	    return room.Select(ToEntity);
+	    return room.Select(FromEntity);
     }
 
-    public Room FromEntity(RoomDto room)
+    public Room ToEntity(RoomDto room)
     {
 		return new Room
 		{
@@ -88,9 +88,9 @@ public class RoomService : IRoomService
 		};
 	}
 
-    public IEnumerable<Room> FromEntity(IEnumerable<RoomDto> room)
+    public IEnumerable<Room> ToEntity(IEnumerable<RoomDto> room)
     {
-	    return room.Select(FromEntity);
+	    return room.Select(ToEntity);
     }
 
     private string GetName()
