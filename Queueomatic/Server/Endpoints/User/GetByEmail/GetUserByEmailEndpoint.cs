@@ -1,32 +1,45 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
+using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.GetByEmail;
 
 public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEmailResponse>
 {
+    private readonly IUnitOfWork _unitOfWork;
+	private readonly IRoomService _roomService;
+
+	public GetUserByEmailEndpoint(IUnitOfWork unitOfWork, IRoomService roomService)
+	{
+		_unitOfWork = unitOfWork;
+		_roomService = roomService;
+	}
+
     public override void Configure()
     {
-        Verbs(Http.GET);
-        Routes("/users/{email}");
-        AllowAnonymous();
+        Get("/users/{email}");
+        Roles("Administrator", "User");
+        Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(GetUserByEmailRequest req, CancellationToken ct)
     {
-        try
+        if (User.IsInRole("User") && !req.Email.Equals(req.UserId))
         {
-            var response = new GetUserByEmailResponse(new UserDto());
-            if (response is null) await SendAsync(new GetUserByEmailResponse(null), 404, cancellation: ct);
-            else
-            {
-                await SendAsync(response, cancellation: ct);
-            }
+            await SendUnauthorizedAsync();
+            return;
         }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
+        
+        var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
+        var roomDtos = _roomService.FromEntity(user.Rooms);
+
+        await SendAsync(new(new UserDto
         {
-            Logger.LogInformation($"Task {nameof(GetUserByEmailEndpoint)} was cancelled.");
-        }
+            Email = user.Email,
+            NickName = user.NickName,
+            Rooms = roomDtos
+        }));
     }
 }

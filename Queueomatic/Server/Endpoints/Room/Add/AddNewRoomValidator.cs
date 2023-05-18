@@ -22,9 +22,9 @@ public class AddNewRoomValidator : Validator<AddNewRoomRequest>
                 .WithMessage("Not a valid email address!");
         });
 
-        When(x => !x.Room.Name.IsNullOrEmpty(), () =>
+        When(x => !x.Name.IsNullOrEmpty(), () =>
         {
-            RuleFor(x => x.Room.Name)
+            RuleFor(x => x.Name)
                 .Length(1, 20)
                 .WithMessage("The room name can be 20 characters at max.");
         });

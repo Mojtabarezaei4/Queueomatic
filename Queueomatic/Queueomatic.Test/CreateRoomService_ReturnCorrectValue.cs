@@ -16,15 +16,13 @@ public class CreateRoomService_ReturnCorrectValue
     public async Task CreateRoomAsync_ReturnTrue(string roomName, string email)
     {
         // Arrange
-        var roomDto = A.Fake<RoomDto>();
         var uow = A.Fake<IUnitOfWork>();
 		var hashIdService = A.Fake<IHashIdService>();
-		roomDto.Name = roomName;
 
 		// Act 
 		var sut = new RoomService(uow, new Random(), hashIdService);
 
-		var result = await sut.CreateRoomAsync(roomDto, email);
+		var result = await sut.CreateRoomAsync(roomName, email);
         
         // Assert
         Assert.True(result);
