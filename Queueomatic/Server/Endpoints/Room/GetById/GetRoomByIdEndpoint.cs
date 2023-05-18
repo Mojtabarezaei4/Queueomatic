@@ -1,5 +1,6 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
@@ -9,11 +10,13 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRoomService _roomService;
+    private readonly IHashIdService _hashIdService;
 
-    public GetRoomByIdEndpoint(IUnitOfWork unitOfWork, IRoomService roomService)
+    public GetRoomByIdEndpoint(IUnitOfWork unitOfWork, IRoomService roomService, IHashIdService hashIdService)
     {
         _unitOfWork = unitOfWork;
         _roomService = roomService;
+        _hashIdService = hashIdService;
     }
 
     public override void Configure()
@@ -24,8 +27,15 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
 
     public override async Task HandleAsync(GetRoomByIdRequest req, CancellationToken ct)
     {
-        // var response = _unitOfWork.RoomRepository.GetAsync(_roomService.ToEntity(req.Id)));
-        
-        await SendAsync(null, cancellation: ct);
+        var decodedRoomId = _hashIdService.Decode(req.Id);
+        var room = await _unitOfWork.RoomRepository.GetAsync(decodedRoomId);
+        if (room is null)
+        {
+            await SendNotFoundAsync();
+            return;
+        }
+
+        var response = _roomService.FromEntity(room);
+        await SendAsync(new (response), cancellation: ct);
     }
 }
