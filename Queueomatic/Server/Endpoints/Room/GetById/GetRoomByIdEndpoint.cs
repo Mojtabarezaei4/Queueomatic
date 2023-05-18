@@ -39,7 +39,7 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
             }
 
             var response = _roomService.FromEntity(room);
-            await SendAsync(new(response), cancellation: ct);
+            await SendAsync(new(response));
         }
         catch (NoResultException exception)
         {

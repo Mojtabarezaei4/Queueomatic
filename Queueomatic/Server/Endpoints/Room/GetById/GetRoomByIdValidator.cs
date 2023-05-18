@@ -8,7 +8,7 @@ public class GetRoomByIdValidator : Validator<GetRoomByIdRequest>
     public GetRoomByIdValidator()
     {
         RuleFor(x => x.Id)
-            .Length(6)
+            .MinimumLength(6)
             .NotNull()
             .NotEmpty();
     }
