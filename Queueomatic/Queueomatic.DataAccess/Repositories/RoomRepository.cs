@@ -16,12 +16,18 @@ public class RoomRepository : IRoomRepository
 
     public async Task<Room?> GetAsync(int id)
     {
-        return await _context.Rooms.FindAsync(id);
+        return await _context.Rooms
+            .Include(r => r.Owner)
+            .Include(r => r.Participators)
+            .FirstOrDefaultAsync(r => r.Id == id);
     }
 
     public async Task<IEnumerable<Room>> GetAllAsync()
     {
-        return await _context.Rooms.Include(r => r.Owner).Include(r => r.Participators).ToListAsync();
+        return await _context.Rooms
+            .Include(r => r.Owner)
+            .Include(r => r.Participators)
+            .ToListAsync();
     }
 
     public async Task AddAsync(Room entity)

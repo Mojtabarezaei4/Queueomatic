@@ -1,14 +1,28 @@
 ﻿using FastEndpoints;
+using HashidsNet;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
+using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Room.GetById;
 
 public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdResponse>
 {
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IRoomService _roomService;
+    private readonly IHashIdService _hashIdService;
+
+    public GetRoomByIdEndpoint(IUnitOfWork unitOfWork, IRoomService roomService, IHashIdService hashIdService)
+    {
+        _unitOfWork = unitOfWork;
+        _roomService = roomService;
+        _hashIdService = hashIdService;
+    }
+
     public override void Configure()
     {
-        Verbs(Http.GET);
-        Routes("/rooms/{id}");
+        Get("/rooms/{id}");
         AllowAnonymous();
     }
 
@@ -16,25 +30,20 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
     {
         try
         {
-            var response = new GetRoomByIdResponse(new RoomDto()
+            var decodedRoomId = _hashIdService.Decode(req.Id);
+            var room = await _unitOfWork.RoomRepository.GetAsync(decodedRoomId);
+            if (room is null)
             {
-                Name = "Test",
-                Owner = null,
-                Participators = new List<ParticipantDto>(),
-                CreatedAt = DateTime.UtcNow,
-                ExpireAt = DateTime.UtcNow,
-                HashIds = req.Id
-            });
-            if (response is null) await SendAsync(new GetRoomByIdResponse(null), 404, cancellation: ct);
-            else
-            {
-                await SendAsync(response, cancellation: ct);
+                await SendNotFoundAsync();
+                return;
             }
+
+            var response = _roomService.FromEntity(room);
+            await SendAsync(new(response));
         }
-        catch (TaskCanceledException exception)
-            when (exception.CancellationToken == ct)
+        catch (NoResultException exception)
         {
-            Logger.LogInformation($"Task {nameof(GetRoomByIdEndpoint)} has cancelled.");
+            await SendNotFoundAsync();
         }
     }
 }
