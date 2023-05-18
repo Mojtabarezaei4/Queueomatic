@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
@@ -27,15 +28,22 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
 
     public override async Task HandleAsync(GetRoomByIdRequest req, CancellationToken ct)
     {
-        var decodedRoomId = _hashIdService.Decode(req.Id);
-        var room = await _unitOfWork.RoomRepository.GetAsync(decodedRoomId);
-        if (room is null)
+        try
+        {
+            var decodedRoomId = _hashIdService.Decode(req.Id);
+            var room = await _unitOfWork.RoomRepository.GetAsync(decodedRoomId);
+            if (room is null)
+            {
+                await SendNotFoundAsync();
+                return;
+            }
+
+            var response = _roomService.FromEntity(room);
+            await SendAsync(new(response), cancellation: ct);
+        }
+        catch (NoResultException exception)
         {
             await SendNotFoundAsync();
-            return;
         }
-
-        var response = _roomService.FromEntity(room);
-        await SendAsync(new (response), cancellation: ct);
     }
 }
