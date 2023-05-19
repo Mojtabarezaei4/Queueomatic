@@ -30,6 +30,15 @@ public class RoomRepository : IRoomRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Room>> GetAllAsync(int id, string name)
+    {
+        return await _context.Rooms
+            .Include(r => r.Owner)
+            .Include(r => r.Participators)
+            .Where(r => r.Id == id || r.Name.Equals(name))
+            .ToListAsync();
+    }
+
     public async Task AddAsync(Room entity)
     {
         await _context.Rooms.AddAsync(entity);
@@ -49,4 +58,6 @@ public class RoomRepository : IRoomRepository
             _context.Rooms.Remove(room);
         }
     }
+
+    
 }
