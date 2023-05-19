@@ -35,7 +35,7 @@ public class RoomRepository : IRoomRepository
         return await _context.Rooms
             .Include(r => r.Owner)
             .Include(r => r.Participators)
-            .Where(r => r.Id == id || r.Name.Equals(name))
+            .Where(r => id < 0 && r.Name.Contains(name) || r.Id == id || r.Name.Contains(name))
             .ToListAsync();
     }
 
