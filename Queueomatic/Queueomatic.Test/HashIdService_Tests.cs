@@ -40,4 +40,27 @@ public class HashIdService_Tests
 		//Assert
 		Assert.Equal("", hashedId);
 	}
+
+    [Theory]
+	[InlineData("")]
+	[InlineData("asfasg")]
+	[InlineData("1123")]
+	[InlineData("fthgmrtjymrmty")]
+	[InlineData("zx132")]
+	[InlineData("-1")]
+	[InlineData("test")]
+	[InlineData(".-,-.,")]
+    public void DecodeMalformedValue_ShouldReturnNegativeNumber(string id)
+    {
+		//Arrange
+        var config = A.Fake<IConfiguration>();
+        config.GetSection("HashIdKey").GetSection("Default").Value = "1234567890";
+        var sut = new HashIdService(config);
+
+        //Act
+		var result = sut.Decode(id);
+
+        //Assert
+		Assert.True(result < 0);
+    }
 }
