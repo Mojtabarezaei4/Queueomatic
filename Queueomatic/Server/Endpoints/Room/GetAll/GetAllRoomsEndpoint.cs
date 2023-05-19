@@ -28,6 +28,5 @@ public class GetAllRoomsEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomsRespon
     {
         var rooms = await _unitOfWork.RoomRepository.GetAllAsync(req.RoomId, req.RoomName);
 
-        await SendAsync(new GetAllRoomsResponse(rooms));
     }
 }
