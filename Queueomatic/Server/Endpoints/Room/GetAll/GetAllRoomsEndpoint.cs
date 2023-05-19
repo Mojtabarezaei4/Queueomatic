@@ -27,7 +27,8 @@ public class GetAllRoomsEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomsRespon
     public override async Task HandleAsync(GetAllRoomRequest req, CancellationToken ct)
     {
         var roomId = _hashIdService.Decode(req.RoomId);
-        var rooms = await _unitOfWork.RoomRepository.GetAllAsync(roomId, req.RoomName);
+        var roomName = req.RoomName == null ? "" : req.RoomName;
+        var rooms = await _unitOfWork.RoomRepository.GetAllAsync(roomId, roomName);
 
         await SendAsync(new GetAllRoomsResponse(_roomService.FromEntity(rooms)));
     }
