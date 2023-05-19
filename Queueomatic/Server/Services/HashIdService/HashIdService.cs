@@ -19,6 +19,13 @@ public class HashIdService : IHashIdService
 
 	public int Decode(string hash)
 	{
-		return _hashids.DecodeSingle(hash);
-	}
+        try
+        {
+            return _hashids.DecodeSingle(hash);
+        }
+        catch (NoResultException)
+        {
+            return -1;
+        }
+    }
 }

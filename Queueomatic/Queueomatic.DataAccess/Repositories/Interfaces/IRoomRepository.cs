@@ -4,4 +4,5 @@ namespace Queueomatic.DataAccess.Repositories.Interfaces;
 
 public interface IRoomRepository : IRepository<Room, int> 
 {
+    Task<IEnumerable<Room>> GetAllAsync(int id, string name);
 }
