@@ -2,4 +2,4 @@
 
 namespace Queueomatic.Server.Endpoints.Room.GetAll;
 
-public record GetAllRoomResponse(IEnumerable<RoomDto> Rooms);
+public record GetAllRoomsResponse(IEnumerable<RoomDto> Rooms);
