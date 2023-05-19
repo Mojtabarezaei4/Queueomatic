@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
-using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Room.GetAll;
 
@@ -9,11 +9,13 @@ public class GetAllRoomsEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomsRespon
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRoomService _roomService;
+    private readonly IHashIdService _hashIdService;
 
-    public GetAllRoomsEndpoint(IUnitOfWork unitOfWork, IRoomService roomService)
+    public GetAllRoomsEndpoint(IUnitOfWork unitOfWork, IRoomService roomService, IHashIdService hashIdService)
     {
         _unitOfWork = unitOfWork;
         _roomService = roomService;
+        _hashIdService = hashIdService;
     }
 
     public override void Configure()
@@ -25,5 +27,7 @@ public class GetAllRoomsEndpoint : Endpoint<GetAllRoomRequest, GetAllRoomsRespon
     public override async Task HandleAsync(GetAllRoomRequest req, CancellationToken ct)
     {
         var rooms = await _unitOfWork.RoomRepository.GetAllAsync(req.RoomId, req.RoomName);
+
+        await SendAsync(new GetAllRoomsResponse(rooms));
     }
 }
