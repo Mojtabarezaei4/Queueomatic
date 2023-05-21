@@ -6,6 +6,7 @@ public interface IUnitOfWork
 {
     public IUserRepository UserRepository { get; }
     public IRoomRepository RoomRepository { get; }
+    public IParticipantRepository ParticipantRepository { get; }
     public Task<int> SaveAsync();
     public void Dispose();
 
