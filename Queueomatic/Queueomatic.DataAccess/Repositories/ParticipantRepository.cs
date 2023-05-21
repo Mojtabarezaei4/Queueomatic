@@ -14,11 +14,11 @@ public class ParticipantRepository : IParticipantRepository
         _context = context;
     }
 
-    public async Task<Participant?> GetAsync(string id)
+    public async Task<Participant?> GetAsync(Guid id)
     {
         return await _context.Participants
             .Include(x => x.Room)
-            .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<IEnumerable<Participant>> GetAllAsync()
@@ -39,7 +39,7 @@ public class ParticipantRepository : IParticipantRepository
         return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(Guid id)
     {
         var participant = await GetAsync(id);
         if (participant != null)
