@@ -15,9 +15,17 @@ public class UnitOfWork : IDisposable, IUnitOfWork
         UserRepository = userRepository;
         RoomRepository = roomRepository;
     }
+    
+    public UnitOfWork(ApplicationContext context, IParticipantRepository participantRepository, IRoomRepository roomRepository)
+    {
+        _context = context;
+        ParticipantRepository = participantRepository;
+        RoomRepository = roomRepository;
+    }
 
     public IUserRepository UserRepository { get; }
     public IRoomRepository RoomRepository { get; }
+    public IParticipantRepository ParticipantRepository { get; }
 
     public async Task<int> SaveAsync()
     {
