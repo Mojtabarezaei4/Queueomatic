@@ -1,27 +1,33 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.User.Delete;
 
-public class DeleteUserEndpoint: Endpoint<DeleteUserRequest, DeleteUserResponse>
+public class DeleteUserEndpoint: Endpoint<DeleteUserRequest>
 {
+    private readonly IUnitOfWork _unitOfWork;
+
+    public DeleteUserEndpoint(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
     public override void Configure()
     {
-        Verbs(Http.DELETE);
-        Routes("/users/{email}");
-        AllowAnonymous();
+        Delete("/users/{email}");
+        Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(DeleteUserRequest req, CancellationToken ct)
     {
-        try
+        await  _unitOfWork.UserRepository.DeleteAsync(req.Email);
+        var result = await _unitOfWork.SaveAsync();
+        if (result == 0)
         {
-            var response = new DeleteUserResponse();
-            await SendAsync(response, 204, cancellation: ct);
+            await SendNotFoundAsync();
+            return;
         }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(DeleteUserEndpoint)} was cancelled.");
-        }
+        await SendNoContentAsync();
+        
     }
 }
