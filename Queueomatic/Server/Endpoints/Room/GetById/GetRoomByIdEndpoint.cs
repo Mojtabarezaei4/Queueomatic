@@ -3,7 +3,6 @@ using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
-using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Room.GetById;
 

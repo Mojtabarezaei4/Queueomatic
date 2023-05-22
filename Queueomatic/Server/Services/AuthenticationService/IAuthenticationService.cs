@@ -1,5 +1,4 @@
-﻿using Queueomatic.DataAccess.Models;
-using Queueomatic.Shared.DTOs;
+﻿using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Services.AuthenticationService;
 
