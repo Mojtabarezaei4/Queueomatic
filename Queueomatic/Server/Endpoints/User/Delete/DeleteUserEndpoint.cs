@@ -27,7 +27,7 @@ public class DeleteUserEndpoint: Endpoint<DeleteUserRequest>
             await SendNotFoundAsync();
             return;
         }
-        await SendOkAsync("Account deleted");
+        await SendNoContentAsync();
         
     }
 }
