@@ -6,7 +6,12 @@
     </a>
     <div class="d-flex align-items-center  col-sm-5 col-12 ">
         <div class="button-login button-login-1 me-4  container d-flex align-items-center justify-content-center" @onclick="NavigateToLogin"><span class="btn-login-txt">Login</span></div>
-        <div class="btn btn-success" id="context-button" @onclick="NavigateToSignup">Signup</div>
+        <button class="signup-button d-flex justify-content-center" @onclick="NavigateToSignup">
+            Sign up
+            <div class="arrow-wrapper">
+                <div class="arrow"></div>
+            </div>
+        </button>
     </div>
 </div>
 

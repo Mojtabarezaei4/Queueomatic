@@ -1,6 +1,6 @@
 .button-login {
     height: 50px;
-    width: 200px;
+    width: 120px;
     position: relative;
     background-color: transparent;
     cursor: pointer;
@@ -42,18 +42,17 @@
     transform: scale(100) translateX(2px);
 }
 
-
 .signup-button {
-    --primary-color: #645bff;
+    --primary-color: #336a6b;
     --secondary-color: #fff;
-    --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
     border: 0;
     border-radius: 20px;
     color: var(--secondary-color);
-    padding: 1em 1.8em;
+    height: 50px;
+    width: 120px;
     background: var(--primary-color);
     display: flex;
     transition: 0.2s background;
@@ -62,11 +61,11 @@
     font-weight: bold;
 }
 
-    .signup-button .arrow-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.signup-button .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}    
 
 .signup-button .arrow {
         margin-top: 1px;
@@ -75,7 +74,7 @@
         height: var(--arrow-stroke);
         position: relative;
         transition: 0.2s;
-    }
+}
 
 .signup-button .arrow::before {
         content: "";
@@ -89,16 +88,16 @@
         transition: 0.2s;
         padding: 3px;
         transform: rotate(-45deg);
-    }
+}
 
-.signup-button:hover {
-        background-color: var(--hover-color);
+    .signup-button:hover {
+        background-color: #333333;
     }
 
 .signup-button:hover .arrow {
-        background: var(--secondary-color);
-    }
+    background: var(--secondary-color);
+}
 
-    .signup-button:hover .arrow:before {
-        right: 0;
-    }
+.signup-button:hover .arrow:before {
+    right: 0;
+}
