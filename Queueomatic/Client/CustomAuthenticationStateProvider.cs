@@ -1,5 +1,4 @@
-﻿
-namespace Queueomatic.Client;
+﻿namespace Queueomatic.Client;
 
 using System.Net.Http.Headers;
 using System.Security.Claims;

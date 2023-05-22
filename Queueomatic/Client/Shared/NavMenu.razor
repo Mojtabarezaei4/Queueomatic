@@ -9,8 +9,14 @@
 
     <AuthorizeView>
         <Authorized>
-            <div class="container d-flex align-items-center  col-sm-5 col-12 mt-4">
-                <button class="btn btn-primary">Hello, @_userName</button>
+            <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
+                <button class="profile-button" @onclick="NavigateToProfile">
+                    <span></span>
+                    <span></span>
+                    <span></span>Profile 
+                    <span></span> 
+                </button>
+                @*TODO: Add logout button *@
             </div>
         </Authorized>
         <NotAuthorized>
@@ -48,7 +54,13 @@
 
     private void NavigateToSignup()
     {
-        NavigationManager.NavigateTo("/login");
+        NavigationManager.NavigateTo("/signup");
+    }
+
+    private void NavigateToProfile()
+    {
+        //TODO: Add proper link
+        NavigationManager.NavigateTo("/profile");
     }
 
 }
