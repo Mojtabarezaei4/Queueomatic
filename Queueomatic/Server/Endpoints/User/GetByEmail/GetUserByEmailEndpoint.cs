@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
-using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
 using Queueomatic.Shared.DTOs;
 

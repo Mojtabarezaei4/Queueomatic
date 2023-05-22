@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Queueomatic.Shared.Resources;
+﻿namespace Queueomatic.Shared.Resources;
 
 public enum Nouns
 {
