@@ -31,9 +31,9 @@ public class UserRepository : IUserRepository
     }
 
     public Task UpdateAsync(User entity)
-    {
-         _context.Update(entity);
-         return Task.CompletedTask;
+    { 
+        _context.Users.Update(entity);
+        return Task.CompletedTask;
     }
 
     public async Task DeleteAsync(string id)

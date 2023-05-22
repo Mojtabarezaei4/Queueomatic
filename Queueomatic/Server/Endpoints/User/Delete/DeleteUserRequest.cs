@@ -2,8 +2,4 @@
 
 namespace Queueomatic.Server.Endpoints.User.Delete;
 
-public record DeleteUserRequest
-{
-    [FromClaim]
-    public string Email { get; set; }
-};
+public record DeleteUserRequest([property: FromClaim] string UserId, string Email);

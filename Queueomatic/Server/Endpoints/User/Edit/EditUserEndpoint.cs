@@ -1,32 +1,52 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.Edit;
 
 public class EditUserEndpoint: Endpoint<EditUserRequest, EditUserResponse>
 {
+    private readonly IUnitOfWork _unitOfWork;
+
+    public EditUserEndpoint(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
     public override void Configure()
     {
-        Verbs(Http.PUT);
-        Routes("/users/{email}");
-        AllowAnonymous();
+        Put("/users/{email}/update/profile");
+        Roles("User");
+        Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(EditUserRequest req, CancellationToken ct)
     {
-        try
+        if (!User.IsInRole("User") && !req.Email.Equals(req.UserId))
         {
-            var response = new EditUserResponse();
-            await SendAsync(response, 204, cancellation: ct);
+            await SendUnauthorizedAsync();
+            return;
         }
-        catch (NullReferenceException nullException)
+        var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
+        if (user is not null)
         {
-            Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendAsync(response:null, 400, ct);
+            user.Email = req.User.Email;
+            user.NickName = req.User.NickName;
         }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
+
+        await _unitOfWork.UserRepository.UpdateAsync(user);
+        
+        var result = await _unitOfWork.SaveAsync();
+        
+        if (result == 0)
         {
-            Logger.LogInformation($"Task {nameof(EditUserEndpoint)} was cancelled.");
+            await SendErrorsAsync();
+            return;
         }
+
+        await SendAsync(new(new UserDto
+        {
+            Email = user.Email,
+            NickName = user.NickName
+        }));
     }
 }
