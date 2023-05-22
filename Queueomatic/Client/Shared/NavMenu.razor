@@ -1,14 +1,17 @@
-﻿@inject NavigationManager NavigationManager
-
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <div class="container ">
     <a href="/" class="col-sm-7 col-12">
-        <img src="/static/logo.png" alt="logo" class="img-fluid "/>
+        <img src="/static/logo.png" alt="logo" class="img-fluid " />
     </a>
-    
+
     <AuthorizeView>
         <Authorized>
-            <p>Hello, </p>
-            <p><button >Authorized Only Button</button></p>
+            <div class="container d-flex align-items-center  col-sm-5 col-12 mt-4">
+                <button class="btn btn-primary">Hello, @_userName</button>
+            </div>
         </Authorized>
         <NotAuthorized>
             <div class="container d-flex align-items-center  col-sm-5 col-12 mt-4">
@@ -26,6 +29,17 @@
 
 
 @code {
+
+    private string _userName = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var name = state.User.Claims.FirstOrDefault();
+        if (name != null)
+            _userName = name.Value;
+
+    }
 
     private void NavigateToLogin()
     {
