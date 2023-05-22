@@ -15,19 +15,11 @@ public class DeleteUserEndpoint: Endpoint<DeleteUserRequest>
     public override void Configure()
     {
         Delete("/users/{email}");
-        Roles("User");
         Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(DeleteUserRequest req, CancellationToken ct)
     {
-
-        if (!User.IsInRole("User") && !req.Email.Equals(req.UserId))
-        {
-            await SendUnauthorizedAsync();
-            return;
-        }
-
         await  _unitOfWork.UserRepository.DeleteAsync(req.Email);
         var result = await _unitOfWork.SaveAsync();
         if (result == 0)

@@ -15,17 +15,11 @@ public class EditUserEndpoint: Endpoint<EditUserRequest, EditUserResponse>
     public override void Configure()
     {
         Put("/users/{email}/update/profile");
-        Roles("User");
         Policies("SignedInUser");
     }
 
     public override async Task HandleAsync(EditUserRequest req, CancellationToken ct)
     {
-        if (!User.IsInRole("User") && !req.Email.Equals(req.UserId))
-        {
-            await SendUnauthorizedAsync();
-            return;
-        }
         var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
         if (user is not null)
         {
