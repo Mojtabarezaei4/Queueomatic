@@ -1,5 +1,23 @@
-﻿
+﻿@inject NavigationManager NavigationManager
+
+<div class="container d-flex justify-content-end">
+    <img src="/static/logo.png" alt="logo" class="img-fluid" />
+    <div class="d-flex flex-column">
+        <div class="btn btn-outline-info" @onclick="NavigateToLogin">Login</div>
+        <div class="btn btn-success" @onclick="NavigateToSignup"></div>
+    </div>
+</div>
 
 @code {
-    
+
+    private void NavigateToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
+    private void NavigateToSignup()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
 }
