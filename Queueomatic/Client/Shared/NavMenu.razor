@@ -1,19 +1,31 @@
-﻿@inject NavigationManager NavigationManager
+﻿﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager NavigationManager
 
 <div class="container ">
     <a href="/" class="col-sm-7 col-12">
         <img src="/static/logo.png" alt="logo" class="img-fluid "/>
     </a>
-    <div class="container d-flex align-items-center  col-sm-5 col-12 mt-4">
-        <div class="button-login button-login-1 me-4  container d-flex align-items-center justify-content-center" @onclick="NavigateToLogin"><span class="btn-login-txt">Login</span></div>
-        <button class="signup-button d-flex justify-content-center" @onclick="NavigateToSignup">
-            Sign up
-            <div class="arrow-wrapper">
-                <div class="arrow"></div>
+    
+    <AuthorizeView>
+        <Authorized>
+            <p>Hello, </p>
+            <p><button >Authorized Only Button</button></p>
+        </Authorized>
+        <NotAuthorized>
+            <div class="container d-flex align-items-center  col-sm-5 col-12 mt-4">
+                <div class="button-login button-login-1 me-4  container d-flex align-items-center justify-content-center" @onclick="NavigateToLogin"><span class="btn-login-txt">Login</span></div>
+                <button class="signup-button d-flex justify-content-center" @onclick="NavigateToSignup">
+                    Sign up
+                    <div class="arrow-wrapper">
+                        <div class="arrow"></div>
+                    </div>
+                </button>
             </div>
-        </button>
-    </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
+
 
 @code {
 
