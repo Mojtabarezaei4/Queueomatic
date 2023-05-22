@@ -20,11 +20,12 @@ public class UserRepository_ReturnCorrectValues
         var userModel = A.Fake<User>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
+        var participantRepository = A.Fake<IParticipantRepository>();
         A.CallTo(() => userRepository.GetAsync(userModel.Email)).Returns(userModel);
 
         //Act   
         await using var context = new ApplicationContext(options);
-        var sut = new UnitOfWork(context, userRepository, roomRepository);
+        var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
         var result = await sut.UserRepository.GetAsync(userModel.Email);
 
         //Assert
@@ -42,11 +43,12 @@ public class UserRepository_ReturnCorrectValues
         var users = A.Fake<IEnumerable<User>>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
+        var participantRepository = A.Fake<IParticipantRepository>();
         A.CallTo(() => userRepository.GetAllAsync()).Returns(users);
 
         //Act   
         await using var context = new ApplicationContext(options);
-        var sut = new UnitOfWork(context, userRepository, roomRepository);
+        var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
         var result = await sut.UserRepository.GetAllAsync();
 
         //Assert

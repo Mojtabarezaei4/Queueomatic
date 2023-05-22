@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.Repositories.Interfaces;
@@ -19,12 +20,13 @@ public class ParticipantRepository_ReturnCorrectValue
 
         var participant = A.Fake<Participant>();
         var participantRepository = A.Fake<IParticipantRepository>();
+        var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
         A.CallTo(() => participantRepository.GetAsync(participant.Id)).Returns(participant);
 
         //Act   
         await using var context = new ApplicationContext(options);
-        var sut = new UnitOfWork(context, participantRepository, roomRepository);
+        var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
         var result = await sut.ParticipantRepository.GetAsync(participant.Id);
 
         //Assert
@@ -41,12 +43,13 @@ public class ParticipantRepository_ReturnCorrectValue
 
         var participants = A.Fake<IEnumerable<Participant>>();
         var participantRepository = A.Fake<IParticipantRepository>();
+        var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
         A.CallTo(() => participantRepository.GetAllAsync()).Returns(participants);
 
         //Act   
         await using var context = new ApplicationContext(options);
-        var sut = new UnitOfWork(context, participantRepository, roomRepository);
+        var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
         var result = await sut.RoomRepository.GetAllAsync();
 
         //Assert

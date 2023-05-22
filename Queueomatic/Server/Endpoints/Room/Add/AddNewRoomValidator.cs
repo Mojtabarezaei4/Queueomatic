@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Queueomatic.Server.Endpoints.Room.Add;

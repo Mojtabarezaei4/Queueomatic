@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Queueomatic.DataAccess.Models;
+﻿using Queueomatic.DataAccess.Models;
 
 namespace Queueomatic.DataAccess.Repositories.Interfaces;
 
