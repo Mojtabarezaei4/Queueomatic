@@ -1,6 +1,6 @@
 .button-login {
     height: 50px;
-    width: 120px;
+    width: 150px;
     position: relative;
     background-color: transparent;
     cursor: pointer;
@@ -52,7 +52,7 @@
     border-radius: 20px;
     color: var(--secondary-color);
     height: 50px;
-    width: 120px;
+    width: 150px;
     background: var(--primary-color);
     display: flex;
     transition: 0.2s background;
