@@ -1,10 +1,12 @@
 ﻿@inject NavigationManager NavigationManager
 
-<div class="container d-flex justify-content-end">
-    <img src="/static/logo.png" alt="logo" class="img-fluid" />
-    <div class="d-flex flex-column">
-        <div class="btn btn-outline-info" @onclick="NavigateToLogin">Login</div>
-        <div class="btn btn-success" @onclick="NavigateToSignup"></div>
+<div class="row">
+    <a href="/" class="col-sm-7 col-12">
+        <img src="/static/logo.png" alt="logo" class="img-fluid "/>
+    </a>
+    <div class="d-flex align-items-center  col-sm-5 col-12 ">
+        <div class="button-login button-login-1 me-4  container d-flex align-items-center justify-content-center" @onclick="NavigateToLogin"><span class="btn-login-txt">Login</span></div>
+        <div class="btn btn-success" id="context-button" @onclick="NavigateToSignup">Signup</div>
     </div>
 </div>
 
