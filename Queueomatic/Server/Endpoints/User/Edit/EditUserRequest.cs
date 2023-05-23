@@ -1,5 +1,6 @@
-﻿using Queueomatic.Shared.DTOs;
+﻿using FastEndpoints;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.Edit;
 
-public record EditUserRequest(string Email, UserDto User);
+public record EditUserRequest([property: FromClaim]string UserId, UserDto User, string Email);

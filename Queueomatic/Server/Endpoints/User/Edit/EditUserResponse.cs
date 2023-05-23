@@ -1,3 +1,5 @@
-﻿namespace Queueomatic.Server.Endpoints.User.Edit;
+﻿using Queueomatic.Shared.DTOs;
 
-public record EditUserResponse();
+namespace Queueomatic.Server.Endpoints.User.Edit;
+
+public record EditUserResponse(UserDto User);
