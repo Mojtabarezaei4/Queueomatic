@@ -1,32 +1,52 @@
-﻿using FastEndpoints;
+﻿using System.Security.Claims;
+using FastEndpoints;
+using FastEndpoints.Security;
+using Queueomatic.DataAccess.Models;
+using Queueomatic.Server.Services.ParticipantService;
 
 namespace Queueomatic.Server.Endpoints.Participant.Add;
 
-public class AddNewParticipantEndpoint: Endpoint<AddNewParticipantRequest, AddNewParticipantResponse>
+public class AddNewParticipantEndpoint: Endpoint<AddNewParticipantRequest>
 {
+    private readonly IConfiguration _configuration;
+    private readonly IParticipantService _participantService;
+
+    public AddNewParticipantEndpoint(IConfiguration configuration, IParticipantService participantService)
+    {
+        _configuration = configuration;
+        _participantService = participantService;
+    }
+
     public override void Configure()
     {
         Verbs(Http.POST);
         Routes("/rooms/{roomId}/newParticipant");
+        Description(builder => builder.WithName("AddNewParticipant"));
         AllowAnonymous();
     }
 
     public override async Task HandleAsync(AddNewParticipantRequest req, CancellationToken ct)
     {
-        try
+        var participant = await _participantService.CreateOneAsync(req.Participant, req.RoomId);
+        if (participant == null)
         {
-            var response = new AddNewParticipantResponse();
-            await SendAsync(response, 201, cancellation: ct);
+            await SendErrorsAsync();
+            return;
         }
-        catch (NullReferenceException nullException)
+        
+        var jwtToken = JWTBearer.CreateToken(
+            signingKey: _configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value!,
+            expireAt: DateTime.UtcNow.AddDays(1),
+            priviledges: u =>
+            {
+                u.Roles.Add(Role.Participant.ToString());
+                u.Claims.Add(new Claim("ParticipantId", participant.Id.ToString()));
+            });
+        
+        await SendCreatedAtAsync<AddNewParticipantEndpoint>("AddNewParticipant",new
         {
-            Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendAsync(response:null, 400, ct);
-        }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(AddNewParticipantEndpoint)} was cancelled.");
-        }
+            Token = jwtToken,
+            ParticipantName = participant.NickName
+        });
     }
 }
