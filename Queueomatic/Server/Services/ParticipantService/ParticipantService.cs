@@ -1,5 +1,6 @@
 ﻿using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Services.ParticipantService;
@@ -7,16 +8,31 @@ namespace Queueomatic.Server.Services.ParticipantService;
 public class ParticipantService : IParticipantService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHashIdService _hashIdService;
 
-    public ParticipantService(IUnitOfWork unitOfWork)
+    public ParticipantService(IUnitOfWork unitOfWork, IHashIdService hashIdService)
     {
         _unitOfWork = unitOfWork;
+        _hashIdService = hashIdService;
     }
 
 
-    public async Task<bool> CreateOneAsync(ParticipantDto participantDto)
+    public async Task<ParticipantDto?> CreateOneAsync(ParticipantDto participantDto, string roomId)
     {
-        throw new NotImplementedException();
+        var room = await _unitOfWork.RoomRepository.GetAsync(_hashIdService.Decode(roomId));
+        if (room is null) return null;
+        
+        var participant = new Participant
+        {
+            NickName = participantDto.NickName,
+            Room = room,
+            StatusDate = DateTime.UtcNow,
+            Status = (Status)participantDto.Status
+        };
+        
+        await _unitOfWork.ParticipantRepository.AddAsync(participant);
+        await _unitOfWork.SaveAsync();
+        return FromModel(participant);
     }
 
     public ParticipantDto FromModel(Participant participant)
@@ -41,36 +57,9 @@ public class ParticipantService : IParticipantService
                 CreatedAt = participant.Room.CreatedAt,
                 ExpireAt = participant.Room.ExpireAt,
             },
+            Id = participant.Id,
             NickName = participant.NickName,
             Status = StatusDto.Idling,
-            StatusDate = DateTime.UtcNow
-        };
-    }
-
-    public Participant ToModel(ParticipantDto participantDto)
-    {
-        return new()
-        {
-            Room = new Room
-            {
-                Name = participantDto.Room.Name,
-                Owner = new User
-                {
-                    Email = participantDto.Room.Owner.Email,
-                    NickName = participantDto.Room.Owner.NickName
-                },
-                Participators = (ICollection<Participant>)participantDto.Room.Participators.Select(p => new Participant
-                {
-                    Id = p.Id,
-                    NickName = p.NickName,
-                    StatusDate = p.StatusDate,
-                    Status = (Status)p.Status
-                }),
-                CreatedAt = participantDto.Room.CreatedAt,
-                ExpireAt = participantDto.Room.ExpireAt,
-            },
-            NickName = participantDto.NickName,
-            Status = Status.Idling,
             StatusDate = DateTime.UtcNow
         };
     }
