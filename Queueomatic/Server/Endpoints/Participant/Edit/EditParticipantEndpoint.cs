@@ -1,33 +1,33 @@
 ﻿using FastEndpoints;
+using Queueomatic.Server.Services.ParticipantService;
 
 namespace Queueomatic.Server.Endpoints.Participant.Edit;
 
-public class EditParticipantEndpoint: Endpoint<EditParticipantRequest, EditParticipantResponse>
+public class EditParticipantEndpoint: Endpoint<EditParticipantRequest>
 {
+    private readonly IParticipantService _participantService;
+
+    public EditParticipantEndpoint(IParticipantService participantService)
+    {
+        _participantService = participantService;
+    }
+
     public override void Configure()
     {
-        Verbs(Http.PUT);
-        Routes("/participants/{id}");
-        AllowAnonymous();
+        Put("/participants/{id}");
+        Roles("Participant", "User");
     }
 
     public override async Task HandleAsync(EditParticipantRequest req, CancellationToken ct)
     {
-        
-        try
+        var updatedParticipant = await _participantService.UpdateOneAsync(req.Participant, req.Id);
+
+        if (updatedParticipant == false)
         {
-            var response = new EditParticipantResponse();
-            await SendAsync(response, 204, cancellation: ct);
+            await SendErrorsAsync();
+            return;
         }
-        catch (NullReferenceException nullException)
-        {
-            Logger.LogInformation($"The request can not be null.\nMessage: {nullException.Message}");
-            await SendAsync(response:null, 400, ct);
-        }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(EditParticipantEndpoint)} was cancelled.");
-        }
+
+        await SendNoContentAsync();
     }
 }

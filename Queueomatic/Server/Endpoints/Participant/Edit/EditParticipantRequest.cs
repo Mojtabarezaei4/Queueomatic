@@ -1,4 +1,5 @@
-﻿using Queueomatic.Shared.DTOs;
+﻿using FastEndpoints;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Participant.Edit;
 
