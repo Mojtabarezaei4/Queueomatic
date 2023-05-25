@@ -24,4 +24,24 @@ public class ParticipantService_AddParticipant
         // Assert
         Assert.IsType<ParticipantDto>(result);
     }
+    
+    [Theory]
+    [InlineData(StatusDto.Idling)]
+    [InlineData(StatusDto.Waiting)]
+    [InlineData(StatusDto.Ongoing)]
+    public async Task UpdateParticipant_ReturnTrue(StatusDto statusDto)
+    {
+        // Arrange
+        var unitOfWork = A.Fake<IUnitOfWork>();
+        var participantDto = A.Fake<ParticipantDto>();
+        participantDto.Status = statusDto;
+        var hashidsService = A.Fake<IHashIdService>();
+        var guid = new Guid();
+        var sut = new ParticipantService(unitOfWork, hashidsService);
+        // Act
+        var result = await sut.UpdateOneAsync(participantDto,guid);
+
+        // Assert
+        Assert.True(result);
+    }
 }
