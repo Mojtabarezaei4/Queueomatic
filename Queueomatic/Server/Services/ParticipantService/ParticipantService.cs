@@ -1,4 +1,5 @@
-﻿using Queueomatic.DataAccess.Models;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;
@@ -33,6 +34,23 @@ public class ParticipantService : IParticipantService
         await _unitOfWork.ParticipantRepository.AddAsync(participant);
         await _unitOfWork.SaveAsync();
         return FromModel(participant);
+    }
+
+    public async Task<bool> UpdateOneAsync(ParticipantDto participantDto, Guid id)
+    {
+        var oldParticipant = await _unitOfWork.ParticipantRepository.GetAsync(id);
+
+        if (oldParticipant == null ) return false;
+        
+        oldParticipant.StatusDate = DateTime.UtcNow;
+        oldParticipant.Status = (Status) participantDto.Status;
+
+        var updatedParticipant = oldParticipant;
+
+        await _unitOfWork.ParticipantRepository.UpdateAsync(updatedParticipant);
+        await _unitOfWork.SaveAsync();
+
+        return true;
     }
 
     public ParticipantDto FromModel(Participant participant)
