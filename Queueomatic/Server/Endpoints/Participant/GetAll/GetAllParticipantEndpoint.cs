@@ -1,28 +1,32 @@
 ﻿using FastEndpoints;
+using Queueomatic.Server.Services.ParticipantService;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.Participant.GetAll;
 
 public class GetAllParticipantEndpoint: Endpoint<GetAllParticipantRequest, GetAllParticipantResponse>
 {
+    private readonly IParticipantService _participantService;
+
+    public GetAllParticipantEndpoint(IParticipantService participantService)
+    {
+        _participantService = participantService;
+    }
+
     public override void Configure()
     {
-        Verbs(Http.GET);
-        Routes("/rooms/{roomId}/participants");
+        Get("/rooms/{roomId}/participants");
         AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetAllParticipantRequest req, CancellationToken ct)
     {
-        try
+        var result = await _participantService.GetAllAsync(req.RoomId);
+        if (result == null)
         {
-            var response = new GetAllParticipantResponse(new List<ParticipantDto>());
-            await SendAsync(response, cancellation: ct);
+            await SendErrorsAsync();
+            return;
         }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(GetAllParticipantEndpoint)} was cancelled.");
-        }
+        await SendOkAsync(new GetAllParticipantResponse(result));
     }
 }
