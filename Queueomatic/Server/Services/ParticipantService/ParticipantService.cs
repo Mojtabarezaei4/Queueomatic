@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Queueomatic.DataAccess.Models;
+﻿using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;
@@ -16,8 +15,7 @@ public class ParticipantService : IParticipantService
         _unitOfWork = unitOfWork;
         _hashIdService = hashIdService;
     }
-
-
+    
     public async Task<ParticipantDto?> CreateOneAsync(ParticipantDto participantDto, string roomId)
     {
         var room = await _unitOfWork.RoomRepository.GetAsync(_hashIdService.Decode(roomId));
@@ -39,7 +37,6 @@ public class ParticipantService : IParticipantService
     public async Task<bool> UpdateOneAsync(ParticipantDto participantDto, Guid id)
     {
         var oldParticipant = await _unitOfWork.ParticipantRepository.GetAsync(id);
-
         if (oldParticipant == null ) return false;
         
         oldParticipant.StatusDate = DateTime.UtcNow;
@@ -51,6 +48,14 @@ public class ParticipantService : IParticipantService
         await _unitOfWork.SaveAsync();
 
         return true;
+    }
+
+    public async Task<IEnumerable<ParticipantDto>?> GetAllAsync(string roomId)
+    {
+        var room = await _unitOfWork.RoomRepository.GetAsync(_hashIdService.Decode(roomId));
+
+        var participantsInTheRoom = room?.Participators.Select(FromModel);
+        return participantsInTheRoom;
     }
 
     public ParticipantDto FromModel(Participant participant)
