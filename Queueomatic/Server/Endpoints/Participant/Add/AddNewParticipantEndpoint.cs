@@ -19,8 +19,7 @@ public class AddNewParticipantEndpoint: Endpoint<AddNewParticipantRequest>
 
     public override void Configure()
     {
-        Verbs(Http.POST);
-        Routes("/rooms/{roomId}/newParticipant");
+        Post("/rooms/{roomId}/newParticipant");
         Description(builder => builder.WithName("AddNewParticipant"));
         AllowAnonymous();
     }

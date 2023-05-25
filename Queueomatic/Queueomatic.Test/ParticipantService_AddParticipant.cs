@@ -13,10 +13,10 @@ public class ParticipantService_AddParticipant
     public async Task AddParticipant_ReturnParticipantDto()
     {
         // Arrange
-        var uof = A.Fake<IUnitOfWork>();
+        var unitOfWork = A.Fake<IUnitOfWork>();
         var participantDto = A.Fake<ParticipantDto>();
         var hashidsService = A.Fake<IHashIdService>();
-        var sut = new ParticipantService(uof, hashidsService);
+        var sut = new ParticipantService(unitOfWork, hashidsService);
         participantDto.StatusDate = DateTime.UtcNow;
         // Act
         var result = await sut.CreateOneAsync(participantDto, "satezx");
