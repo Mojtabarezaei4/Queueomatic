@@ -48,9 +48,7 @@ public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest>
         var isUserTheOwner =
             user.Rooms.Any(r => r.Participators.FirstOrDefault(p =>
                         p.Id == req.Id) != null);
-
-        if (isUserTheOwner == false) return false;
-
-        return true;
+        
+        return isUserTheOwner;
     }
 }
