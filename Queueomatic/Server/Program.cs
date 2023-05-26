@@ -70,7 +70,6 @@ app.UseFastEndpoints(config =>
     config.Endpoints.RoutePrefix = "api";
 });
 
-app.MapRazorPages();
 app.MapFallbackToFile("index.html");
 
 app.Run();
