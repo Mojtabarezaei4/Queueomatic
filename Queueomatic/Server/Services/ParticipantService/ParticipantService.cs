@@ -53,6 +53,12 @@ public class ParticipantService : IParticipantService
         return true;
     }
 
+    public async Task DeleteOneAsync(Guid id)
+    {
+        await _unitOfWork.ParticipantRepository.DeleteAsync(id);
+        await _unitOfWork.SaveAsync();
+    }
+
     public ParticipantDto FromModel(Participant participant)
     {
         return new()

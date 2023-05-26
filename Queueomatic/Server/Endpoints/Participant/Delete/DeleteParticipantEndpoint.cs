@@ -1,27 +1,54 @@
 ﻿using FastEndpoints;
+using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Services.ParticipantService;
 
 namespace Queueomatic.Server.Endpoints.Participant.Delete;
 
-public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest, DeleteParticipantResponse>
+public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest>
 {
+    private readonly IParticipantService _participantService;
+    private readonly IUnitOfWork _unitOfWork;
+    public DeleteParticipantEndpoint(IParticipantService participantService, IUnitOfWork unitOfWork)
+    {
+        _participantService = participantService;
+        _unitOfWork = unitOfWork;
+    }
+
     public override void Configure()
     {
-        Verbs(Http.DELETE);
-        Routes("/participants/{id}");
-        AllowAnonymous();
+        Delete("/participants/{id}");
+        Roles("Participant", "User");
     }
 
     public override async Task HandleAsync(DeleteParticipantRequest req, CancellationToken ct)
     {
-        try
+        if (req.ParticipantId != null && 
+            req.ParticipantId != req.Id)
         {
-            var response = new DeleteParticipantResponse();
-            await SendAsync(response, 204, cancellation: ct);
+            await SendUnauthorizedAsync();
+            return;
         }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
+
+        if (!string.IsNullOrEmpty(req.UserId) && 
+            !await IsUserOwnerOfTheRoom(req))
         {
-            Logger.LogInformation($"Task {nameof(DeleteParticipantEndpoint)} was cancelled.");
-        }   
+            await SendUnauthorizedAsync();
+            return;
+        }
+        
+        await _participantService.DeleteOneAsync(req.Id);
+        await SendNoContentAsync();
+    }
+
+    private async Task<bool> IsUserOwnerOfTheRoom(DeleteParticipantRequest req)
+    {
+        var user = await _unitOfWork.UserRepository.GetAsync(req.UserId);
+        if (user == null) return false;
+
+        var isUserTheOwner =
+            user.Rooms.Any(r => r.Participators.FirstOrDefault(p =>
+                        p.Id == req.Id) != null);
+        
+        return isUserTheOwner;
     }
 }

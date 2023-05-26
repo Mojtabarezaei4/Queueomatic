@@ -1,3 +1,8 @@
-﻿namespace Queueomatic.Server.Endpoints.Participant.Delete;
+﻿using System.ComponentModel;
+using FastEndpoints;
 
-public record DeleteParticipantRequest(Guid Id);
+namespace Queueomatic.Server.Endpoints.Participant.Delete;
+
+public record DeleteParticipantRequest(Guid Id, 
+    [property:FromClaim(IsRequired = false)] Guid? ParticipantId, 
+    [property:FromClaim(IsRequired = false)] string? UserId);
