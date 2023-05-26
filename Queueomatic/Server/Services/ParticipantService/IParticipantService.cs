@@ -7,5 +7,6 @@ public interface IParticipantService
 {
     Task<ParticipantDto?> CreateOneAsync(ParticipantDto participantDto, string roomId);
     Task<bool> UpdateOneAsync(ParticipantDto participantDto, Guid id);
+    Task DeleteOneAsync(Guid id);
     public ParticipantDto FromModel(Participant participant);
 }
