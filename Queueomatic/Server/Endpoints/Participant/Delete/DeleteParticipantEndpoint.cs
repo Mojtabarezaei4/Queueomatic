@@ -1,27 +1,26 @@
 ﻿using FastEndpoints;
+using Queueomatic.Server.Services.ParticipantService;
 
 namespace Queueomatic.Server.Endpoints.Participant.Delete;
 
-public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest, DeleteParticipantResponse>
+public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest>
 {
+    private readonly IParticipantService _participantService;
+
+    public DeleteParticipantEndpoint(IParticipantService participantService)
+    {
+        _participantService = participantService;
+    }
+
     public override void Configure()
     {
-        Verbs(Http.DELETE);
-        Routes("/participants/{id}");
-        AllowAnonymous();
+        Delete("/participants/{id}");
+        Roles("Participant", "User");
     }
 
     public override async Task HandleAsync(DeleteParticipantRequest req, CancellationToken ct)
     {
-        try
-        {
-            var response = new DeleteParticipantResponse();
-            await SendAsync(response, 204, cancellation: ct);
-        }
-        catch (TaskCanceledException exception)
-            when(exception.CancellationToken == ct)
-        {
-            Logger.LogInformation($"Task {nameof(DeleteParticipantEndpoint)} was cancelled.");
-        }   
+        await _participantService.DeleteOneAsync(req.Id);
+        await SendNoContentAsync();
     }
 }
