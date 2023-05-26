@@ -18,12 +18,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddSignalR();
 builder.Services.AddFastEndpoints();
+
 
 var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value;
 builder.Services.AddJWTBearerAuth(jwtSecret);
 
-builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
@@ -69,7 +70,6 @@ app.UseFastEndpoints(config =>
     config.Endpoints.RoutePrefix = "api";
 });
 
-app.MapRazorPages();
 app.MapFallbackToFile("index.html");
 
 app.Run();
