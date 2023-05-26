@@ -45,10 +45,8 @@ public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest>
         var user = await _unitOfWork.UserRepository.GetAsync(req.UserId);
         if (user == null) return false;
 
-        var userRooms = user.Rooms.ToList();
-        
         var isUserTheOwner =
-            userRooms.FirstOrDefault(r =>
+            user.Rooms.FirstOrDefault(r =>
                 r.Participators.FirstOrDefault(p =>
                     p.Id == req.Id) != null);
 
