@@ -76,7 +76,6 @@
     }
 }
 
-
 .info-card {
     width: 17em;
     height: 22.5em;
@@ -114,42 +113,6 @@
     margin: auto;
     overflow: hidden;
 }
-
-.info-card .share {
-    margin-top: 1em;
-    display: flex;
-    justify-content: center;
-    gap: 1em;
-}
-
-.info-card a {
-    color: white;
-    transition: .4s ease-in-out;
-}
-
-.info-card a:hover {
-    color: red;
-}
-
-.info-card button {
-    padding: 0.8em 1.7em;
-    display: block;
-    margin: auto;
-    border-radius: 25px;
-    border: none;
-    font-weight: bold;
-    background: #ffffff;
-    color: rgb(0, 0, 0);
-    transition: .4s ease-in-out;
-}
-
-.info-card button:hover {
-    background: red;
-    color: white;
-    cursor: pointer;
-}
-
-
 
 .social-buttons {
     display: -webkit-box;
