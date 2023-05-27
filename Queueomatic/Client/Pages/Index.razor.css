@@ -1,4 +1,9 @@
-﻿.bg-wrapper {
+﻿@font-face {
+    font-family: roomFont;
+    src: url(/static/moonrising.ttf);
+}
+
+.bg-wrapper {
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
@@ -13,7 +18,7 @@
     50% {
         background-position: 100% 50%;
     }
-
+    
     100% {
         background-position: 0% 50%;
     }
@@ -26,7 +31,7 @@
     margin: 0 auto;
     justify-content: center;
     height: 3.5rem;
-    font-family: "Moonrising"
+    font-family: roomFont
 }
 
 .submit-button {
@@ -56,7 +61,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
-    font-family: "Moonrising"
+    font-family: roomFont
 }
 
 .submit-button:hover span {
@@ -73,18 +78,18 @@
     padding-left: 8px;
     color: white;
     font-size: 1.5rem;
-    font-family: "Moonrising";
+    font-family: roomFont;
     text-align: center
 }
 
 ::placeholder {
     color: rgb(184, 184, 184);
-    font-family: "Moonrising";
+    font-family: roomFont;
     text-align: center
 }
 
 .main-header {
-    font-family: "Moonrising";
+    font-family: roomFont;
     font-size: 2.5rem
 }
 
