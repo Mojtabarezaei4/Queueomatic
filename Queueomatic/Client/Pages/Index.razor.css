@@ -112,6 +112,7 @@
     background: white;
     border-radius: 15px;
     margin: auto;
+    overflow: hidden;
 }
 
 .info-card .share {
@@ -146,4 +147,70 @@
     background: red;
     color: white;
     cursor: pointer;
+}
+
+
+
+.social-buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-shadow: 0px 0px 15px #00000027;
+    box-shadow: 0px 0px 15px #00000027;
+    padding: 15px 10px;
+    border-radius: 5em;
+}
+
+.social-button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 4px #00000027;
+    box-shadow: 0px 0px 4px #00000027;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.social-button:hover {
+    background-color: #f2f2f2;
+    -webkit-box-shadow: 0px 0px 6px 3px #00000027;
+    box-shadow: 0px 0px 6px 3px #00000027;
+}
+
+.social-buttons svg {
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    height: 20px;
+}
+
+
+.github {
+    background-color: #333;
+}
+
+.github svg {
+    width: 25px;
+    height: 25px;
+    fill: #f2f2f2;
+}
+
+.github:hover svg {
+    fill: #333;
 }
