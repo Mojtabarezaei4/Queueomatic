@@ -82,6 +82,10 @@
     text-align: center
 }
 
+#input-field:focus {
+    outline: none;
+}
+
 ::placeholder {
     color: rgb(184, 184, 184);
     font-family: roomFont;
@@ -135,7 +139,6 @@
 .info-card .img {
     width: 4.8em;
     height: 4.8em;
-    background: white;
     border-radius: 15px;
     margin: auto;
     overflow: hidden;
