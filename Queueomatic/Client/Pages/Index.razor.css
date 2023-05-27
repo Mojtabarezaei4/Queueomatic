@@ -124,8 +124,8 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-shadow: 0px 0px 15px #00000027;
-    box-shadow: 0px 0px 15px #00000027;
+    -webkit-box-shadow: 0 0 15px;
+    box-shadow: 0 0 15px;
     padding: 15px 10px;
     border-radius: 5em;
 }
@@ -145,16 +145,16 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #fff;
-    -webkit-box-shadow: 0px 0px 4px #00000027;
-    box-shadow: 0px 0px 4px #00000027;
+    -webkit-box-shadow: 0 0 4px;
+    box-shadow: 0 0 4px;
     -webkit-transition: 0.3s;
     transition: 0.3s;
 }
 
 .social-button:hover {
     background-color: #f2f2f2;
-    -webkit-box-shadow: 0px 0px 6px 3px #00000027;
-    box-shadow: 0px 0px 6px 3px #00000027;
+    -webkit-box-shadow: 0 0 6px 3px;
+    box-shadow: 0 0 6px 3px;
 }
 
 .social-buttons svg {
@@ -162,7 +162,6 @@
     transition: 0.3s;
     height: 20px;
 }
-
 
 .github {
     background-color: #333;
