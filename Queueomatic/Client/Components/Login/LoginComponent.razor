@@ -14,18 +14,24 @@
         <p class="title">Login</p>
         <EditForm class="form" Model="_loginDto" OnValidSubmit="Login">
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" placeholder="" id="input-field" @bind-value="_loginDto.Email">
+                <label for="username">Email</label>
+                <input type="email" name="username" placeholder="" id="input-field" @bind-value="_loginDto.Email" required>
+                <div class="invalid-feedback">
+                    Please provide your email.
+                </div>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="" id="input-field" @bind-value="_loginDto.Password">
+                <input type="password" name="password" placeholder="" id="input-field" @bind-value="_loginDto.Password" required>
+                <div class="invalid-feedback">
+                    Please provide your password.
+                </div>
                 <div class="forgot">
                     <a rel="noopener noreferrer" href="#">Forgot Password?</a>
                 </div>
             </div>
             <button class="submit-button">
-                <span>LOGIn</span>
+                <span>LOGIN</span>
             </button>
         </EditForm>
         <div class="line-container">
