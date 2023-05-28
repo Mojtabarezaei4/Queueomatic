@@ -1,24 +1,33 @@
-﻿<LogoComponent/>
+﻿@using Blazored.SessionStorage
+@inject HttpClient _httpClient;
+@inject NavigationManager _navigationManager;
+@inject ISessionStorageService _sessionStorageService;
+
+<LogoComponent/>
+<AuthorizeView>
+    <Authorized>
+        <RedirectHome/>
+    </Authorized>
+</AuthorizeView>
 <div class="component">
     <div class="form-container">
         <p class="title">Login</p>
-        <form class="form">
+        <EditForm class="form" Model="_loginDto" OnValidSubmit="Login">
             <div class="input-group">
                 <label for="username">Username</label>
-                @* <input type="text" name="username" id="username" placeholder=""> *@
-                <input type="text" name="username" placeholder="" id="input-field">
+                <input type="text" name="username" placeholder="" id="input-field" @bind-value="_loginDto.Email">
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                @* <input type="password" name="password" id="password" placeholder=""> *@
-                <input type="password" name="password" placeholder="" id="input-field">
+                <input type="password" name="password" placeholder="" id="input-field" @bind-value="_loginDto.Password">
                 <div class="forgot">
                     <a rel="noopener noreferrer" href="#">Forgot Password?</a>
                 </div>
             </div>
-            <button class="submit-button"><span>LOGIn</span></button>
-            @* <button class="sign">Sign in</button> *@
-        </form>
+            <button class="submit-button">
+                <span>LOGIn</span>
+            </button>
+        </EditForm>
         <div class="line-container">
             <div class="line"></div>
         </div>
@@ -29,7 +38,3 @@
         </p>
     </div>
 </div>
-
-@code {
-
-}
