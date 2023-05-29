@@ -17,17 +17,17 @@ public partial class LoginComponent : ComponentBase
             Password = _loginDto.Password
         });
         
-        var response = await _httpClient.PostAsJsonAsync("api/login", loginRequest);
+        var response = await HttpClient.PostAsJsonAsync("api/login", loginRequest);
 
         if (!response.IsSuccessStatusCode)
         {        
-            _navigationManager.NavigateTo("/error");
+            NavigationManager.NavigateTo("/error");
             return;
         }
         
         var responseContent = await response.Content.ReadFromJsonAsync<PostResult>();
-        await _sessionStorageService.SetItemAsync("authToken", responseContent!);
-        _navigationManager.NavigateTo("/");
+        await SessionStorageService.SetItemAsync("authToken", responseContent!);
+        NavigationManager.NavigateTo("/");
     }
 }
 

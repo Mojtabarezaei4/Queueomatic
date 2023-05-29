@@ -1,7 +1,7 @@
 ﻿@using Blazored.SessionStorage
-@inject HttpClient _httpClient;
-@inject NavigationManager _navigationManager;
-@inject ISessionStorageService _sessionStorageService;
+@inject HttpClient HttpClient;
+@inject NavigationManager NavigationManager;
+@inject ISessionStorageService SessionStorageService;
 
 <LogoComponent/>
 <AuthorizeView>
@@ -15,14 +15,14 @@
         <EditForm class="form" Model="_loginDto" OnValidSubmit="Login">
             <div class="input-group">
                 <label for="username">Email</label>
-                <input type="email" name="username" placeholder="" id="input-field" @bind-value="_loginDto.Email" required>
+                <input type="email" name="username" placeholder="" class="input-field" id="username" @bind-value="_loginDto.Email" required>
                 <div class="invalid-feedback">
                     Please provide your email.
                 </div>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="" id="input-field" @bind-value="_loginDto.Password" required>
+                <input type="password" name="password" placeholder="" class="input-field" id="password" @bind-value="_loginDto.Password" required>
                 <div class="invalid-feedback">
                     Please provide your password.
                 </div>
