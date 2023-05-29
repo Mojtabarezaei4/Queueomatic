@@ -41,10 +41,12 @@ a:hover {
     margin-top: 1.5rem;
 }
 
-.input-field, #username, #password {
+.input-field,
+#username,
+#password {
     width: 100%;
     height: 2.5rem;
-    background-color: #2E2E2E;
+    background-color: #2e2e2e;
     border-radius: 10px;
     border: none;
     font-size: 1rem;
@@ -54,11 +56,14 @@ a:hover {
     padding: 0.75rem 1rem;
 }
 
-.input-field, #username, #password:focus {
+.input-field,
+#username,
+#password:focus {
     outline: none;
 }
 
-.input-field, label {
+.input-field,
+label {
     display: block;
     margin-top: 8px;
     margin-bottom: 4px;
@@ -73,18 +78,20 @@ a:hover {
     line-height: 1rem;
     color: rgba(156, 163, 175, 1);
     margin: 8px 0 14px 0;
-    padding-top: .5rem;
+    padding-top: 0.5rem;
 }
 
-.forgot a, .signup a {
+.forgot a,
+.signup a {
     color: rgba(243, 244, 246, 1);
     text-decoration: none;
     font-size: 14px;
 }
 
-.forgot a:hover, .signup a:hover {
+.forgot a:hover,
+.signup a:hover {
     transition: 0.3s;
-    background: #2E2E2E;
+    background: #2e2e2e;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
@@ -98,14 +105,14 @@ a:hover {
     padding: 0.5em 2em;
     border: transparent;
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
-    background: #2E2E2E;
+    background: #2e2e2e;
     border-radius: 10px;
     transition: 0.3s;
 }
 
 .submit-button:hover {
     transition: 0.3s;
-    background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+    background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
     cursor: pointer;
 }
 
@@ -116,7 +123,7 @@ a:hover {
 .submit-button span {
     font-weight: 800;
     letter-spacing: 2px;
-    background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+    background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
@@ -124,7 +131,7 @@ a:hover {
 }
 
 .submit-button:hover span {
-    background: #2E2E2E;
+    background: #2e2e2e;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
@@ -147,16 +154,11 @@ a:hover {
     line-height: 1rem;
     color: rgb(222, 222, 222);
 }
+
 @keyframes fade {
     0% {
         opacity: 0;
     }
-
-    /*50% {*/
-    /*    transform: scale(1.2);*/
-    /*    background-color: #6793fb;*/
-    /*    box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);*/
-    /*}*/
 
     100% {
         opacity: 1;
