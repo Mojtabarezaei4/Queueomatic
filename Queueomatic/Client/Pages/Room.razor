@@ -10,7 +10,7 @@
         <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
             <div class="d-flex flex-column ">
-                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                     <ChildContent>
                         <div class="card box">
                             <div class="card-body">
@@ -23,7 +23,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Idling</p>
-            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
                     <div class="card" style="border-left: 3px solid lime">
                         <div class="card-body">
@@ -35,7 +35,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center justify-content-center">
             <p class="header">Waiting for help</p>
-            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
                     <div class="card" style="border-left: 3px solid orange">
                         <div class="card-body">
@@ -57,14 +57,14 @@
 
     public string RoomName { get; set; } = "TestRoom";
 
-    public List<string> IdlingParticipants = new() { "hej", "ja" };
-    public List<string> WaitingParticipants = new() { "nej", "kanske" };
-    public List<string> ActiveParticipants = new() { "absolut", "möjligtvis" };
+    public List<string> IdlingParticipants = new() { "Erik", "Jan" };
+    public List<string> WaitingParticipants = new() { "John", "Eliza" };
+    public List<string> ActiveParticipants = new() { "Keller", "Rebecca" };
 
     private bool CanMove(string user) => user.Equals(ParticipantName); //should be updated with participant Id
 
 
-    private void UpdateUser(string p0, StatusDto status)
+    private void UpdateUser(string user, StatusDto status)
     {
         //Update SignalR Clients
     }
