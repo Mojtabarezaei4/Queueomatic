@@ -5,23 +5,25 @@
 
 <h3>Room</h3>
 
-
 <div class="container">
     <div class="row py-4">
-        <div class="col-12 d-flex flex-column align-items-center justify-content-center">
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
+            <div class="d-flex flex-column ">
+
             <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
-                    <div class="card" style="border-left: 3px solid lime">
-                        <div class="card-body">
-                            <h5 class="text-center">@context</h5>
+                        <div class="card box">
+                            <div class="card-body">
+                                <h5 class="text-center">@context</h5>
+                            </div>
                         </div>
-                    </div>
+                    
                 </ChildContent>
             </Dropzone>
-
+            </div>
         </div>
-        <div class="col d-flex flex-column align-items-center justify-content-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Idling</p>
             <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
