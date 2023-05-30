@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.Shared", "Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.Test", "Queueomatic.Test\Queueomatic.Test.csproj", "{B31EF8F2-EC2E-48E7-8811-22DB45193215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queueomatic.DataAccess", "Queueomatic.DataAccess\Queueomatic.DataAccess.csproj", "{68C9644A-605A-4155-B673-EF3D922ED43E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queueomatic.DataAccess", "Queueomatic.DataAccess\Queueomatic.DataAccess.csproj", "{68C9644A-605A-4155-B673-EF3D922ED43E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
