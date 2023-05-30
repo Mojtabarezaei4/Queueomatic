@@ -2,25 +2,23 @@
 @page "/room/{RoomId}"
 @page "/room/{RoomId}/{ParticipantName}"
 @using Queueomatic.Shared.DTOs
-
-<h3>Room</h3>
+<LogoComponent />
+<h1 class="text-center roomText mt-5">Welcome to @RoomName!</h1>
 
 <div class="container">
     <div class="row py-4">
         <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
             <div class="d-flex flex-column ">
-
-            <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
-                <ChildContent>
+                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                    <ChildContent>
                         <div class="card box">
                             <div class="card-body">
                                 <h5 class="text-center">@context</h5>
                             </div>
                         </div>
-                    
-                </ChildContent>
-            </Dropzone>
+                    </ChildContent>
+                </Dropzone>
             </div>
         </div>
         <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
@@ -57,13 +55,13 @@
     [Parameter]
     public string ParticipantName { get; set; }
 
-    public string RoomName { get; set; }
+    public string RoomName { get; set; } = "TestRoom";
 
     public List<string> IdlingParticipants = new() { "hej", "ja" };
     public List<string> WaitingParticipants = new() { "nej", "kanske" };
     public List<string> ActiveParticipants = new() { "absolut", "möjligtvis" };
 
-    private bool CanMove(string user) => user.Equals(ParticipantName); //should be participant Id
+    private bool CanMove(string user) => user.Equals(ParticipantName); //should be updated with participant Id
 
 
     private void UpdateUser(string p0, StatusDto status)
