@@ -2,6 +2,7 @@
 @page "/room/{RoomId}"
 @page "/room/{RoomId}/{ParticipantName}"
 @using Queueomatic.Shared.DTOs
+
 <LogoComponent />
 <h1 class="text-center roomText mt-5">Welcome to @RoomName!</h1>
 
@@ -10,7 +11,7 @@
         <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
             <div class="d-flex flex-column ">
-                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                     <ChildContent>
                         <div class="card box">
                             <div class="card-body">
@@ -23,7 +24,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Idling</p>
-            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
                     <div class="card" style="border-left: 3px solid lime">
                         <div class="card-body">
@@ -35,7 +36,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center justify-content-center">
             <p class="header">Waiting for help</p>
-            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
                     <div class="card" style="border-left: 3px solid orange">
                         <div class="card-body">
@@ -68,5 +69,4 @@
     {
         //Update SignalR Clients
     }
-
 }
