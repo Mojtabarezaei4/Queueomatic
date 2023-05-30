@@ -1,7 +1,11 @@
 using FastEndpoints;
 using FastEndpoints.Security;
+using MailKit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Queueomatic.DataAccess.DataContexts;
+using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
@@ -25,6 +29,7 @@ builder.Services.AddFastEndpoints();
 var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value;
 builder.Services.AddJWTBearerAuth(jwtSecret);
 
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
@@ -41,6 +46,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("SignedInUser", x => x.RequireRole("User").RequireClaim("UserId"));
     options.AddPolicy("ValidParticipant", x => x.RequireRole("Participant").RequireClaim("ParticipantId"));
 });
+
+builder.Services.AddTransient<IMailService, MailService>();
 
 var app = builder.Build();
 
