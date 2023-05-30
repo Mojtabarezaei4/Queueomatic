@@ -1,5 +1,57 @@
-﻿<h3>Room</h3>
+﻿@page "/room/{RoomId}"
+@using Queueomatic.Shared.DTOs
+<h3>Room</h3>
+<div class="container">
+    <div class="row py-4">
+        <div class="col">
+            <p>To Do</p>
+            <Dropzone Items="Users" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s, Users2)" OnItemDrop="@((i)=> UpdateUser(i, StatusDto.Idling ))" Class="plk-dd-dropzone h-100">
+                <ChildContent>
+                    <div class="card" style="border-left: 3px solid black">
+                        <div class="card-body">
+                            <h6>@context</h6>
+                            <p>Sapien elit in malesuada semper mi, id sollicitudin urna fermentum.</p>
+                        </div>
+                    </div>
+                </ChildContent>
+            </Dropzone>
+        </div>
+        <div class="col">
+            <p>In Progress</p>
+            <Dropzone Items="Users2" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s, Users2)" OnItemDrop="@((i)=> UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+                <ChildContent>
+                    <div class="card" style="border-left: 3px solid orange">
+                        <div class="card-body">
+                            <h6>@context</h6>
+                            <p>Sapien elit in malesuada semper mi, id sollicitudin urna fermentum.</p>
+                        </div>
+                    </div>
+                </ChildContent>
+            </Dropzone>
+        </div>
+    </div>
+</div>
 
+<div>Last Dropped Item: @lastdropped</div>
 @code {
+
+    public string lastdropped { get; set; }
+
+    [Parameter]
+    public string RoomId { get; set; }
+
+    public List<string> Users = new() { "hej", "ja" };
+    public List<string> Users2 = new() { "nej", "kanske" };
+
+
+    private bool CanMove(string user, List<string> users)
+    {
+        return user.Equals("nej") || user.Equals("hej") || true;
+    }
+
+    private void UpdateUser(string p0, StatusDto status)
+    {
+        throw new NotImplementedException();
+    }
 
 }
