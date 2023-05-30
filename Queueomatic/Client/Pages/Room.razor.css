@@ -106,3 +106,13 @@
     font-size: 2rem;
     font-family: roomFont;
 }
+
+.reverse-column {
+    flex-direction: column-reverse;
+}
+
+@media screen and (min-width: 770px) {
+    .reverse-column {
+        flex-direction: row !important;
+    }
+}

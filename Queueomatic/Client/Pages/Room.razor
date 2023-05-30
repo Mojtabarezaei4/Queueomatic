@@ -22,29 +22,34 @@
                 </Dropzone>
             </div>
         </div>
-        <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
-            <p class="header">Idling</p>
-            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
-                <ChildContent>
-                    <div class="card" style="border-left: 3px solid lime">
-                        <div class="card-body">
-                            <h5 class="text-center">@context</h5>
-                        </div>
-                    </div>
-                </ChildContent>
-            </Dropzone>
-        </div>
-        <div class="col d-flex flex-column align-items-center justify-content-center">
-            <p class="header">Waiting for help</p>
-            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
-                <ChildContent>
-                    <div class="card" style="border-left: 3px solid orange">
-                        <div class="card-body">
-                            <h5 class="text-center">@context</h5>
-                        </div>
-                    </div>
-                </ChildContent>
-            </Dropzone>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="row d-flex reverse-column">
+
+                <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
+                    <p class="header">Idling</p>
+                    <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                        <ChildContent>
+                            <div class="card" style="border-left: 3px solid lime">
+                                <div class="card-body">
+                                    <h5 class="text-center">@context</h5>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </Dropzone>
+                </div>
+                <div class="col d-flex flex-column align-items-center justify-content-center">
+                    <p class="header">Waiting for help</p>
+                    <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+                        <ChildContent>
+                            <div class="card" style="border-left: 3px solid orange">
+                                <div class="card-body">
+                                    <h5 class="text-center">@context</h5>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </Dropzone>
+                </div>
+            </div>
         </div>
     </div>
 </div>
