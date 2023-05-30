@@ -1,4 +1,8 @@
-﻿﻿ /*add this to avoid flickering*/
+﻿@font-face {
+    font-family: roomFont;
+    src: url(static/moonrising.ttf);
+}﻿
+/*add this to avoid flickering*/
 .plk-dd-inprogess > * {
     pointer-events: none;
 }
@@ -36,14 +40,6 @@
     animation: blinker 1s linear infinite;
 }
 
-/*.plk-dd-in-transit {
-    opacity: 0;
-}
-
-.plk-dd-in-transit > div {
-    opacity: 0;
-}*/
-
 @keyframes blinker {
     50% {
         opacity: 0;
@@ -52,4 +48,20 @@
 
 .blink_me {
     animation: blinker 1s linear infinite;
+}
+.header {
+    font-family: roomFont;
+    font-size: 1.5rem
+}
+
+.card {
+    font: 1em/1.618 Inter, sans-serif;
+    max-width: 400px;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    margin: 0.5rem 0;
 }

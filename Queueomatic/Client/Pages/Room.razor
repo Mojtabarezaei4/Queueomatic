@@ -1,34 +1,45 @@
-﻿@page "/room/{RoomId}"
+﻿@*there needs to be a check if the room owner is connecting when participantname is omitted*@
+@page "/room/{RoomId}"
 @page "/room/{RoomId}/{ParticipantName}"
 @using Queueomatic.Shared.DTOs
-@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3>Room</h3>
 
 
 <div class="container">
     <div class="row py-4">
-        <div class="col">
-            <p>Idling</p>
-            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i)=> UpdateUser(i, StatusDto.Idling ))" Class="plk-dd-dropzone h-100">
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center">
+            <p class="header">Currently helping</p>
+            <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
-                    <div class="card" style="border-left: 3px solid black">
+                    <div class="card" style="border-left: 3px solid lime">
                         <div class="card-body">
-                            <h6>@context</h6>
-                            <p>Sapien elit in malesuada semper mi, id sollicitudin urna fermentum.</p>
+                            <h5 class="text-center">@context</h5>
+                        </div>
+                    </div>
+                </ChildContent>
+            </Dropzone>
+
+        </div>
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <p class="header">Idling</p>
+            <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                <ChildContent>
+                    <div class="card" style="border-left: 3px solid lime">
+                        <div class="card-body">
+                            <h5 class="text-center">@context</h5>
                         </div>
                     </div>
                 </ChildContent>
             </Dropzone>
         </div>
-        <div class="col">
-            <p>Waiting for help</p>
-            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i)=> UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <p class="header">Waiting for help</p>
+            <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(s, s1) => s1 == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@((i) => UpdateUser(i, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
                 <ChildContent>
                     <div class="card" style="border-left: 3px solid orange">
                         <div class="card-body">
-                            <h6>@context</h6>
-                            <p>Sapien elit in malesuada semper mi, id sollicitudin urna fermentum.</p>
+                            <h5 class="text-center">@context</h5>
                         </div>
                     </div>
                 </ChildContent>
@@ -44,16 +55,18 @@
     [Parameter]
     public string ParticipantName { get; set; }
 
+    public string RoomName { get; set; }
+
     public List<string> IdlingParticipants = new() { "hej", "ja" };
     public List<string> WaitingParticipants = new() { "nej", "kanske" };
-    public string ActiveParticipant { get; set; }
+    public List<string> ActiveParticipants = new() { "absolut", "möjligtvis" };
 
     private bool CanMove(string user) => user.Equals(ParticipantName); //should be participant Id
-    
+
 
     private void UpdateUser(string p0, StatusDto status)
     {
-       //Update SignalR Clients
+        //Update SignalR Clients
     }
 
 }
