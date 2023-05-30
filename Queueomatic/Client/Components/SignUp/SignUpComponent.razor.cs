@@ -13,7 +13,7 @@ public partial class SignUpComponent : ComponentBase
         isClicked = true;
         var signUpRequest = new SignUpRequest(new()
         {
-            NickName = _signUpDto.NickName,
+            NickName = _signUpDto.NickName ?? String.Empty,
             Email = _signUpDto.Email.ToLower(),
             Password = _signUpDto.Password,
             ConfirmPassword = _signUpDto.ConfirmPassword

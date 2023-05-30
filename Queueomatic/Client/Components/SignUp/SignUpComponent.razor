@@ -17,18 +17,11 @@
             <div class="input-group">
                 <label for="username">Nickname</label>
                 <input type="text" name="username" placeholder="" class="input-field" id="username" @bind-value="_signUpDto.NickName">
-                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.NickName )"/>
-                @* <div class="invalid-feedback"> *@
-                @*     Please provide a nickname. *@
-                @* </div> *@
             </div>
             <div class="input-group">
                 <label for="userEmail">Email</label>
                 <input type="email" name="email" placeholder="" class="input-field" id="userEmail" @bind-value="_signUpDto.Email">
                 <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Email )"/>
-                @* <div class="invalid-feedback"> *@
-                @*     Please provide your email. *@
-                @* </div> *@
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
