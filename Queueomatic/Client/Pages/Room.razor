@@ -1,0 +1,55 @@
+﻿@*there needs to be a check if the room owner is connecting when participantname is omitted*@
+@page "/rooms/{RoomId}"
+@page "/rooms/{RoomId}/{ParticipantName}"
+@using Queueomatic.Shared.DTOs
+
+<LogoComponent />
+<h1 class="text-center roomText mt-5">Welcome to @RoomName!</h1>
+
+<div class="container">
+    <div class="row py-4">
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
+            <p class="header">Currently helping</p>
+            <div class="d-flex flex-column ">
+                <Dropzone Items="ActiveParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                    <ChildContent>
+                        <div class="card box">
+                            <div class="card-body">
+                                <h5 class="text-center">@context</h5>
+                            </div>
+                        </div>
+                    </ChildContent>
+                </Dropzone>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="row d-flex reverse-column">
+
+                <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
+                    <p class="header">Idling</p>
+                    <Dropzone Items="IdlingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Idling))" Class="plk-dd-dropzone h-100">
+                        <ChildContent>
+                            <div class="card" style="border-left: 3px solid lime">
+                                <div class="card-body">
+                                    <h5 class="text-center">@context</h5>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </Dropzone>
+                </div>
+                <div class="col d-flex flex-column align-items-center justify-content-center">
+                    <p class="header">Waiting for help</p>
+                    <Dropzone Items="WaitingParticipants" TItem="string" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMove(s)" OnItemDrop="@(user => UpdateUser(user, StatusDto.Waiting))" Class="plk-dd-dropzone h-100">
+                        <ChildContent>
+                            <div class="card" style="border-left: 3px solid orange">
+                                <div class="card-body">
+                                    <h5 class="text-center">@context</h5>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </Dropzone>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
