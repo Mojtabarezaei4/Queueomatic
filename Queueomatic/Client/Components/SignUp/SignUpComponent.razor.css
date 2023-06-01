@@ -112,7 +112,7 @@ label {
 }
 
 .submit-button:disabled {
-    cursor: not-allowed;
+    cursor: wait;
     opacity: .4;
 }
 
