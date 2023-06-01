@@ -2,8 +2,15 @@
 
 <div class="page">
     <main>
-        <article>
-            @Body
-        </article>
+        <ErrorBoundary>
+            <ChildContent>
+                <article>
+                    @Body
+                </article>
+            </ChildContent>
+            <ErrorContent>
+                <ErrorComponent/>
+            </ErrorContent>
+        </ErrorBoundary>
     </main>
 </div>
