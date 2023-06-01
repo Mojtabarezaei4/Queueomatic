@@ -30,9 +30,10 @@
                     <a rel="noopener noreferrer" href="#">Forgot Password?</a>
                 </div>
             </div>
-            <button class="submit-button">
-                <span>LOGIN</span>
+            <button class="submit-button" disabled=@_isClicked>
+                <span>@_buttonContent</span>
             </button>
+            <h6 class="response-message">@_responseMessage</h6>
         </EditForm>
         <div class="line-container">
             <div class="line"></div>

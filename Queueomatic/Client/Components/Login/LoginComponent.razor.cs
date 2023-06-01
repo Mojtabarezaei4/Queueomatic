@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Queueomatic.Shared.DTOs;
@@ -8,9 +9,14 @@ namespace Queueomatic.Client.Components.Login;
 public partial class LoginComponent : ComponentBase
 {
     private LoginDto _loginDto = new();
+    private bool _isClicked = false;
+    private string _buttonContent = "Login";
+    private string _responseMessage = String.Empty;
 
     private async Task Login()
     {
+        _isClicked = true;
+        _buttonContent = "Processing...";
         var loginRequest = new LoginRequest(new()
         {
             Email = _loginDto.Email.ToLower(),
@@ -18,8 +24,20 @@ public partial class LoginComponent : ComponentBase
         });
         
         var response = await HttpClient.PostAsJsonAsync("api/login", loginRequest);
-
-        if (!response.IsSuccessStatusCode)
+        
+        if (response.StatusCode == HttpStatusCode.Unauthorized || 
+            response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            _responseMessage = "Password or Email is wrong.";
+            _loginDto.Email = string.Empty;
+            _loginDto.Password = string.Empty;
+            _isClicked = false;
+            _buttonContent = "Login";
+            return;
+        }
+        
+        if (response.StatusCode != HttpStatusCode.Unauthorized && 
+            response.StatusCode != HttpStatusCode.OK)
         {        
             NavigationManager.NavigateTo("/error");
             return;
