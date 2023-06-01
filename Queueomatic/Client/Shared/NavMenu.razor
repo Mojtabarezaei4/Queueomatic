@@ -8,12 +8,9 @@
     <AuthorizeView>
         <Authorized>
             <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
-                <button class="profile-button" @onclick="NavigateToProfile">
-                    <span></span>
-                    <span></span>
-                    <span></span>Profile 
-                    <span></span> 
-                </button>
+                <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
+                    <span class="btn-login-txt" href="profile">Profile</span>
+                </div>
                 @*TODO: Add logout button *@
             </div>
         </Authorized>
@@ -44,7 +41,6 @@
         var name = state.User.Claims.FirstOrDefault();
         if (name != null)
             _userName = name.Value;
-
     }
 
     private void NavigateToLogin()
@@ -59,7 +55,7 @@
 
     private void NavigateToProfile()
     {
-        //TODO: Add proper link
+    //TODO: Add proper link
         NavigationManager.NavigateTo("/profile");
     }
 

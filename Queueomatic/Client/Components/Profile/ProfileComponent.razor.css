@@ -9,6 +9,7 @@
 .card {
     display: flex;
     justify-content: center;
+    min-width: 40vw;
     border-radius: 5px;
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
@@ -89,6 +90,7 @@
     background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
     cursor: pointer;
 }
+
 /* ------------------------------- */
 dialog::
 dialog.bdrp::backdrop {
@@ -348,5 +350,3 @@ h6 {
     margin-bottom: .2rem;
     color: #7b7b7b;
 }
-
-
