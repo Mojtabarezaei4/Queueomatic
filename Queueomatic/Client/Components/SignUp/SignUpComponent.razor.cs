@@ -7,9 +7,11 @@ namespace Queueomatic.Client.Components.SignUp;
 public partial class SignUpComponent : ComponentBase
 {
     private SignupDto _signUpDto = new();
+    private string _buttonContent = "Signup";
     private bool isClicked = false;
     private async Task SignUp()
     {
+        _buttonContent = "Processing...";
         isClicked = true;
         var signUpRequest = new SignUpRequest(new()
         {
