@@ -41,14 +41,14 @@ public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
         user.ResetTokenExpires = DateTime.Now.AddDays(1);
         await _unitOfWork.SaveAsync();
 
-        var url = $"{_configuration["AppUrl"]}/ResetPassword?email={req.Email}&token={user.PasswordResetToken}";
+        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPasswordDto?token={user.PasswordResetToken}";
 
         var email = new EmailDto()
         {
             ToEmail = req.Email,
             Subject = "Reset Password",
             Body = "<h1>Follow the instructions to reset your password</h1>" +
-                   $"<p>To reset your password <a href='{url}'>Click here</a></p>"
+                   $"<p>To reset your password <a href='{url}' target='_blank'>Click here</a></p>"
         };
 
         await _mailService.SendEmailAsync(email);
