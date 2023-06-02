@@ -7,7 +7,8 @@ namespace Queueomatic.Client.Components.Profile;
 
 public partial class ProfileComponent : ComponentBase
 {
-    private UserDto User { get; set; } = new();
+    private UserDto _user = new();
+    private UserDto _updatedUserInfo = new();
 
     private bool _modalIsOpen = false;
 
@@ -29,7 +30,8 @@ public partial class ProfileComponent : ComponentBase
             return;
         }
 
-        User = response.user;
+        _user = response.user;
+        _updatedUserInfo = _user;
     }
 
     private void OpenModal()
@@ -40,6 +42,12 @@ public partial class ProfileComponent : ComponentBase
     private void CloseModal()
     {
         _modalIsOpen = false;
+    }
+
+    // TODO: Update function
+    private void Update()
+    {
+        return;
     }
 }
 
