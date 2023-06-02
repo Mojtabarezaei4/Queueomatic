@@ -1,0 +1,80 @@
+﻿@using Blazored.SessionStorage
+@inject HttpClient HttpClient;
+@inject ISessionStorageService SessionStorageService;
+@inject NavigationManager NavigationManager;
+
+<div class="padding">
+    <div class="container d-flex justify-content-center">
+        <div class="card user-card-full">
+            <div class="row">
+                <div class="col-sm-4 bg-c-lite-green user-profile">
+                    <div class="card-block text-center text-white">
+                        <div class="m-b-25">
+                            @* img src "https://icons8.com/icon/pm4OSDf9HTVG/class-dojo" *@
+                            <img src="avatar.png" class="img-radius" alt="User-Profile-Image">
+                        </div>
+                        <h6 class="f-w-600">@_user.NickName</h6>
+                        <p>A Nice Person</p>
+                        <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="card-block">
+                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600">
+                            Information
+                            <button class="button" @onclick="OpenModal">
+                                <span>Edit</span>
+                            </button>
+                        </h6>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="m-b-10 f-w-600">Nickname</p>
+                                <h6 class="text-muted f-w-400">@_user.NickName</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="m-b-10 f-w-600">Email</p>
+                                <h6 class="text-muted f-w-400">@_user.Email</h6>
+                            </div>
+                        </div>
+                        <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Active Rooms</h6>
+                        <div class="row">
+                            @if (!_user.Rooms.Any())
+                            {
+                                <div class="name">You have no active room</div>
+                            }
+                            <Virtualize Items="_user.Rooms.ToArray()" Context="room">
+                                <a class="badge" href="/rooms/@room.HashIds">
+                                    <div>
+                                        <div class="name">@room.Name</div>
+                                        <div class="hashIds">Id: @room.HashIds</div>
+                                    </div>
+                                </a>
+                            </Virtualize>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dialog class="bcgrnd animate" id="background" data-modal open=@_modalIsOpen>
+    <div class="component">
+        <div class="form-container">
+            <p class="title">Edit Nickname</p>
+            <EditForm class="form" method="dialog" Model="_updatedUserInfo">
+                <div class="input-group">
+                    <label for="username">Nickname</label>
+                    <input type="text" name="username" placeholder="" class="input-field" id="username" @bind-value="_updatedUserInfo.NickName">
+                </div>
+                <div class="button-group">
+                    <button class="button save-button" @onclick="Update">
+                        <span>Save</span>
+                    </button>
+                    <button class="button close-button" @onclick="CloseModal">
+                        <span>Close</span>
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</dialog>

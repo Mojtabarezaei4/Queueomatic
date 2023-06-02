@@ -35,7 +35,8 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
             {
                 identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
                 _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
+                    new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", "")
+                        .Split(',')[0].Split(':')[1]);
             }
             catch
             {
