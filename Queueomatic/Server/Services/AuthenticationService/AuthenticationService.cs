@@ -68,4 +68,9 @@ public class AuthenticationService : IAuthenticationService
 		var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         return computedHash.SequenceEqual(passwordHash);
 	}
+
+    public string CreateRandomToken()
+    {
+        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+    }
 }

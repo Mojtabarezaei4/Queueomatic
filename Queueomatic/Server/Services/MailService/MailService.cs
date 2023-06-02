@@ -3,30 +3,34 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Queueomatic.DataAccess.Models;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Services.MailService;
 
 public class MailService : IMailService
 {
-    private readonly MailSettings _mailSettings;
-    public MailService(IOptions<MailSettings> mailSettings)
+    private readonly MailSettingsDto _mailSettings;
+    public MailService(IOptions<MailSettingsDto> mailSettings)
     {
         _mailSettings = mailSettings.Value;
     }
 
-    public async Task SendEmailAsync(Email model)
+    public async Task SendEmailAsync(EmailDto model)
     {
-        var mail = new MimeMessage();
-        mail.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-        mail.To.Add(MailboxAddress.Parse(model.ToEmail));
-        mail.Subject = model.Subject;
+        var email = new MimeMessage();
+        email.From.Add(MailboxAddress.Parse("coldmagpie@gmail.com"));
+        email.To.Add(MailboxAddress.Parse("coldmagpie@gmail.com"));
+        email.Subject = model.Subject;
+
         var builder = new BodyBuilder();
         builder.HtmlBody = model.Body;
-        mail.Body = builder.ToMessageBody();
+        email.Body = builder.ToMessageBody();
+
         using var smtp = new SmtpClient();
         smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
         smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-        await smtp.SendAsync(mail);
+        await smtp.SendAsync(email);
+
         smtp.Disconnect(true);
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Queueomatic.DataAccess.Models;
+using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Services.MailService;
 
 public interface IMailService
 {
-    Task SendEmailAsync(Email model);
+    public Task SendEmailAsync(EmailDto dto);
 }

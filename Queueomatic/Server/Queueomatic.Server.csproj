@@ -36,6 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Endpoints\ForgetPassword\" />
 	  <Folder Include="Services\HashIdService\" />
 	  <Folder Include="Services\MailService\" />
 	</ItemGroup>

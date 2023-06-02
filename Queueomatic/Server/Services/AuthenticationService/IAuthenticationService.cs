@@ -8,4 +8,6 @@ public interface IAuthenticationService
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
     public Task<bool> CredentialsAreValid(string email, string password);
 	public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+
+    public string CreateRandomToken();
 }
