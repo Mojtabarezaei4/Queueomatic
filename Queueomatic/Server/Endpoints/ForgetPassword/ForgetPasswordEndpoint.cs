@@ -23,7 +23,7 @@ public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
 
     public override void Configure()
     {
-        Post("/forgetPassword/{email}");
+        Post("/forgetPassword");
         AllowAnonymous();
     }
 

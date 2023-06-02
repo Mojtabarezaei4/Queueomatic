@@ -18,8 +18,8 @@ public class MailService : IMailService
     public async Task SendEmailAsync(EmailDto model)
     {
         var email = new MimeMessage();
-        email.From.Add(MailboxAddress.Parse("coldmagpie@gmail.com"));
-        email.To.Add(MailboxAddress.Parse("coldmagpie@gmail.com"));
+        email.From.Add(MailboxAddress.Parse("aglae16@ethereal.email"));
+        email.To.Add(MailboxAddress.Parse("aglae16@ethereal.email"));
         email.Subject = model.Subject;
 
         var builder = new BodyBuilder();
