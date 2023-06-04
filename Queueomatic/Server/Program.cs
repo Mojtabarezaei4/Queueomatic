@@ -5,6 +5,7 @@ using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Middlewares;
 using Queueomatic.Server.Services.AuthenticationService;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.ParticipantService;
@@ -63,6 +64,9 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseMiddleware<ApiKeyAuthMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseFastEndpoints(config =>
