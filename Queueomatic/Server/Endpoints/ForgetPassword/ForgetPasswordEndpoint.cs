@@ -40,7 +40,7 @@ public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
         await _unitOfWork.SaveAsync();
 
 
-        await _mailService.SendEmailAsync(_mailService.CreateEmail(req.Email,user));
+        await _mailService.SendEmailAsync(_mailService.CreateEmail(req.Email,user), req.Email);
 
         await SendOkAsync("Link to reset password have sent to your email", ct);
     }

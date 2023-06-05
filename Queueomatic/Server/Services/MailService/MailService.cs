@@ -13,16 +13,17 @@ public class MailService : IMailService
 {
     private readonly MailSettingsDto _mailSettings;
     private readonly IConfiguration _configuration;
-    public MailService(IOptions<MailSettingsDto> mailSettings)
+    public MailService(IOptions<MailSettingsDto> mailSettings, IConfiguration configuration)
     {
         _mailSettings = mailSettings.Value;
+        _configuration = configuration;
     }
 
-    public async Task SendEmailAsync(EmailDto model)
+    public async Task SendEmailAsync(EmailDto model, string mail)
     {
         var email = new MimeMessage();
-        email.From.Add(MailboxAddress.Parse("aglae16@ethereal.email"));
-        email.To.Add(MailboxAddress.Parse("aglae16@ethereal.email"));
+        email.From.Add(MailboxAddress.Parse(_mailSettings.Mail));
+        email.To.Add(MailboxAddress.Parse(mail));
         email.Subject = model.Subject;
 
         var builder = new BodyBuilder();
@@ -39,7 +40,7 @@ public class MailService : IMailService
 
     public EmailDto CreateEmail(string email, User user)
     {
-        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPassword/{user.PasswordResetToken}";
+        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}?token={user.PasswordResetToken}";
 
         return new EmailDto()
         {

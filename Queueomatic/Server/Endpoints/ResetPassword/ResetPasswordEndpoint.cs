@@ -17,7 +17,7 @@ public class ResetPasswordEndpoint : Endpoint<ResetPasswordRequest>
 
     public override void Configure()
     {
-        Post("/resetPassword/{token}");
+        Post("/reset-password");
         AllowAnonymous();
     }
 
@@ -38,6 +38,6 @@ public class ResetPasswordEndpoint : Endpoint<ResetPasswordRequest>
 
         await _unitOfWork.SaveAsync();
 
-        await SendOkAsync("password reset successfully!");
+        await SendOkAsync("Password reset successfully!");
     }
 }
