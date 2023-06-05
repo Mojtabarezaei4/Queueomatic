@@ -38,7 +38,7 @@ public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
 
         var token = _authenticationService.CreateRandomToken();
         user.PasswordResetToken = token;
-        user.ResetTokenExpires = DateTime.Now.AddDays(1);
+        user.ResetTokenExpires = DateTime.Now.AddMinutes(15);
         await _unitOfWork.SaveAsync();
 
         var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPasswordDto?token={user.PasswordResetToken}";
