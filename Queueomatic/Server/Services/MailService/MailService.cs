@@ -37,17 +37,16 @@ public class MailService : IMailService
         smtp.Disconnect(true);
     }
 
-    public async Task<EmailDto> CreateEmail(string email, User user)
+    public EmailDto CreateEmail(string email, User user)
     {
-        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPasswordDto?token={user.PasswordResetToken}";
+        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPassword/{user.PasswordResetToken}";
 
-        var mail = new EmailDto()
+        return new EmailDto()
         {
             ToEmail = email,
             Subject = "Reset Password",
             Body = "<h1>Follow the instructions to reset your password</h1>" +
                    $"<p>To reset your password <a href='{url}' target='_blank'>Click here</a></p>"
         };
-        return mail;
     }
 }

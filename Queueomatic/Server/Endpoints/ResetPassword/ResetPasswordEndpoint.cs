@@ -17,19 +17,19 @@ public class ResetPasswordEndpoint : Endpoint<ResetPasswordRequest>
 
     public override void Configure()
     {
-        Post("/resetPassword");
+        Post("/resetPassword/{token}");
         AllowAnonymous();
     }
 
     public override async Task HandleAsync(ResetPasswordRequest req, CancellationToken ct)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByToken(req.request.Token);
+        var user = await _unitOfWork.UserRepository.GetUserByToken(req.Request.Token);
         if (user is null || user.ResetTokenExpires < DateTime.Now)
         {
             await SendErrorsAsync();
         }
 
-        _authenticationService.CreatePasswordHash(req.request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        _authenticationService.CreatePasswordHash(req.Request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
