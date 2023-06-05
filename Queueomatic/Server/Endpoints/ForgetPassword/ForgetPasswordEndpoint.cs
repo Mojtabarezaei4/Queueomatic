@@ -10,13 +10,11 @@ namespace Queueomatic.Server.Endpoints.ForgetPassword;
 public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
 {
     private readonly IAuthenticationService _authenticationService;
-    private readonly IConfiguration _configuration;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMailService _mailService;
-    public ForgetPasswordEndpoint(IAuthenticationService authenticationService, IConfiguration configuration, IUnitOfWork unitOfWork, IMailService mailService)
+    public ForgetPasswordEndpoint(IAuthenticationService authenticationService, IUnitOfWork unitOfWork, IMailService mailService)
     {
         _authenticationService = authenticationService;
-        _configuration = configuration;
         _unitOfWork = unitOfWork;
         _mailService = mailService;
     }
@@ -41,17 +39,8 @@ public class ForgetPasswordEndpoint : Endpoint<ForgetPasswordRequest>
         user.ResetTokenExpires = DateTime.Now.AddMinutes(15);
         await _unitOfWork.SaveAsync();
 
-        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPasswordDto?token={user.PasswordResetToken}";
 
-        var email = new EmailDto()
-        {
-            ToEmail = req.Email,
-            Subject = "Reset Password",
-            Body = "<h1>Follow the instructions to reset your password</h1>" +
-                   $"<p>To reset your password <a href='{url}' target='_blank'>Click here</a></p>"
-        };
-
-        await _mailService.SendEmailAsync(email);
+        await _mailService.SendEmailAsync(await _mailService.CreateEmail(req.Email,user));
 
         await SendOkAsync("Link to reset password have sent to your email", ct);
     }

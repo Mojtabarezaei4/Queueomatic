@@ -1,7 +1,9 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using Org.BouncyCastle.Ocsp;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.Shared.DTOs;
 
@@ -10,6 +12,7 @@ namespace Queueomatic.Server.Services.MailService;
 public class MailService : IMailService
 {
     private readonly MailSettingsDto _mailSettings;
+    private readonly IConfiguration _configuration;
     public MailService(IOptions<MailSettingsDto> mailSettings)
     {
         _mailSettings = mailSettings.Value;
@@ -32,5 +35,19 @@ public class MailService : IMailService
         await smtp.SendAsync(email);
 
         smtp.Disconnect(true);
+    }
+
+    public async Task<EmailDto> CreateEmail(string email, User user)
+    {
+        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}/ResetPasswordDto?token={user.PasswordResetToken}";
+
+        var mail = new EmailDto()
+        {
+            ToEmail = email,
+            Subject = "Reset Password",
+            Body = "<h1>Follow the instructions to reset your password</h1>" +
+                   $"<p>To reset your password <a href='{url}' target='_blank'>Click here</a></p>"
+        };
+        return mail;
     }
 }
