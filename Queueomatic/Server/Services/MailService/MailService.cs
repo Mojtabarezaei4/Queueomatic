@@ -1,9 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Org.BouncyCastle.Ocsp;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.Shared.DTOs;
 

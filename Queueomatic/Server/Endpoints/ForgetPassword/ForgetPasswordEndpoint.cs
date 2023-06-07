@@ -2,7 +2,6 @@
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
 using Queueomatic.Server.Services.MailService;
-using Queueomatic.Shared.DTOs;
 
 
 namespace Queueomatic.Server.Endpoints.ForgetPassword;
