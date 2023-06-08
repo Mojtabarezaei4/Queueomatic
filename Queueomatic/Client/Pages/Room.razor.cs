@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Pages;
@@ -24,4 +25,40 @@ public partial class Room : ComponentBase
     {
         //Update SignalR Clients
     }
+
+    private HubConnection? hubConnection;
+    private List<string> messages = new List<string>();
+    private string? userInput;
+    private string? messageInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri($"/rooms/{RoomId}"))
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var encodedMsg = $"{user}: {message}";
+            messages.Add(encodedMsg);
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+        await hubConnection.InvokeAsync("JoinRoom", RoomId);
+
+    }
+
+    private async Task Send()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("SendMessage", userInput, messageInput, RoomId);
+        }
+    }
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+   
 }
