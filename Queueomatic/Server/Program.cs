@@ -2,11 +2,13 @@ using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.EntityFrameworkCore;
 using Queueomatic.DataAccess.DataContexts;
+using Queueomatic.Shared.DTOs;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.AuthenticationService;
 using Queueomatic.Server.Services.HashIdService;
+using Queueomatic.Server.Services.MailService;
 using Queueomatic.Server.Services.ParticipantService;
 using Queueomatic.Server.Services.RoomService;
 
@@ -34,6 +36,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IHashIdService, HashIdService>();
 builder.Services.AddScoped<IParticipantService, ParticipantService>();
+builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddTransient(typeof(Random));
 
 builder.Services.AddAuthorization(options =>
@@ -41,6 +44,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("SignedInUser", x => x.RequireRole("User").RequireClaim("UserId"));
     options.AddPolicy("ValidParticipant", x => x.RequireRole("Participant").RequireClaim("ParticipantId"));
 });
+
+builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 
