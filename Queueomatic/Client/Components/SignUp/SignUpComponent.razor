@@ -1,4 +1,5 @@
 ﻿@using Blazored.SessionStorage
+@using BlazorBootstrapToasts
 @inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager;
 @inject ISessionStorageService SessionStorageService;
@@ -21,24 +22,23 @@
             <div class="input-group">
                 <label for="userEmail">Email</label>
                 <input type="email" name="email" placeholder="" class="input-field" id="userEmail" @bind-value="_signUpDto.Email">
-                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Email )"/>
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Email)"/>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" placeholder="" class="input-field" id="password" @bind-value="_signUpDto.Password">
-                    <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Password )"/>
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Password)"/>
             </div>
             <div class="input-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" placeholder="" class="input-field" id="confirmPassword" @bind-value="_signUpDto.ConfirmPassword">
-                    <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.ConfirmPassword )"/>
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.ConfirmPassword)"/>
                 <div class="invalid-feedback">
                 </div>
             </div>
             <button class="submit-button" disabled=@isClicked>
                 <span>@_buttonContent</span>
             </button>
-            <h6 class="response-message">@_responseMessage</h6>
         </EditForm>
         <div class="line-container">
             <div class="line"></div>
@@ -49,4 +49,5 @@
             <a rel="noopener noreferrer" href="login" class="signup-a">Login</a>
         </p>
     </div>
+    <Toast @ref="Toast"></Toast>
 </div>

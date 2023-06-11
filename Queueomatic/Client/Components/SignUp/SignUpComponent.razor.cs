@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using BlazorBootstrapToasts;
 using Microsoft.AspNetCore.Components;
 using Queueomatic.Shared.DTOs;
 
@@ -11,6 +12,8 @@ public partial class SignUpComponent : ComponentBase
     private string _buttonContent = "Signup";
     private bool isClicked = false;
     private string _responseMessage = String.Empty;
+    private Toast Toast { get; set; }
+    
     private async Task SignUp()
     {
         _buttonContent = "Processing...";
@@ -33,6 +36,7 @@ public partial class SignUpComponent : ComponentBase
                 .Replace("\"", ""); 
             isClicked = false;
             _buttonContent = "Signup";
+            Toast.Show("danger", _responseMessage, 5000);
             return;
         }
         
@@ -41,7 +45,6 @@ public partial class SignUpComponent : ComponentBase
             NavigationManager.NavigateTo("/error");
             return;
         }
-
         NavigationManager.NavigateTo("/login");
     }
 }
