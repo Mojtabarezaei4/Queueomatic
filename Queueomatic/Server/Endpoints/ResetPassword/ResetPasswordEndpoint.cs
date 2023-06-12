@@ -24,7 +24,7 @@ public class ResetPasswordEndpoint : Endpoint<ResetPasswordRequest>
     public override async Task HandleAsync(ResetPasswordRequest req, CancellationToken ct)
     {
         var user = await _unitOfWork.UserRepository.GetUserByToken(req.Request.Token);
-        if (user is null || user.ResetTokenExpires < DateTime.Now)
+        if (user is null || user.ResetTokenExpires < DateTime.UtcNow)
         {
             await SendErrorsAsync();
         }
