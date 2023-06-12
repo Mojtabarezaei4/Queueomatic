@@ -66,7 +66,7 @@ public class RoomRepository : IRoomRepository
         }
     }
     
-    public Task Delete(Room entity)
+    public Task DeleteAsync(Room entity)
     {
         _context.Rooms.Remove(entity);
         return Task.CompletedTask;
