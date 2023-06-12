@@ -15,17 +15,16 @@ public sealed class RoomDeletionService : IRoomDeletionService
 
     public async Task DeleteExpiredRoomsAsync()
     {
-        var roomsToBeDeleted = _unitOfWork.RoomRepository
-            .GetAllAsync()
-            .Result
-            .Where(r => r.ExpireAt <= DateTime.UtcNow)
-            .ToList();
+        var roomsToBeDeleted = await _unitOfWork
+            .RoomRepository
+            .GetExpiredRoomsAsync();
         foreach (var room in roomsToBeDeleted)
         {
-            await _unitOfWork.RoomRepository.DeleteAsync(room.Id);
+            await _unitOfWork.RoomRepository.DeleteAsync(room);
+            await _unitOfWork.SaveAsync();
+            
             _logger.LogInformation("Deleted Room: {RoomName} owned by {OwnerEmail}",
                 room.Name, room.Owner.Email);
-            await _unitOfWork.SaveAsync();
         }
     }
 }
