@@ -39,6 +39,13 @@ public class RoomRepository : IRoomRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Room>> GetExpiredRoomsAsync()
+    {
+        return await _context.Rooms
+            .Where(r => r.ExpireAt <= DateTime.UtcNow)
+            .ToListAsync();
+    }
+
     public async Task AddAsync(Room entity)
     {
         await _context.Rooms.AddAsync(entity);
@@ -57,6 +64,12 @@ public class RoomRepository : IRoomRepository
         {
             _context.Rooms.Remove(room);
         }
+    }
+    
+    public Task DeleteAsync(Room entity)
+    {
+        _context.Rooms.Remove(entity);
+        return Task.CompletedTask;
     }
 
     

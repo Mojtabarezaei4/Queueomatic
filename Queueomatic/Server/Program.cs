@@ -6,10 +6,12 @@ using Queueomatic.Shared.DTOs;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.BackgroundServices;
 using Queueomatic.Server.Services.AuthenticationService;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.MailService;
 using Queueomatic.Server.Services.ParticipantService;
+using Queueomatic.Server.Services.RoomDeletionService;
 using Queueomatic.Server.Services.RoomService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +48,9 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
+
+builder.Services.AddHostedService<ScopedBackgroundService>();
+builder.Services.AddScoped<IRoomDeletionService, RoomDeletionService>();
 
 var app = builder.Build();
 
