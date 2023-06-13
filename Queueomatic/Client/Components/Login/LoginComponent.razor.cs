@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using BlazorBootstrapToasts;
 using Microsoft.AspNetCore.Components;
 using Queueomatic.Shared.DTOs;
 
@@ -12,6 +13,7 @@ public partial class LoginComponent : ComponentBase
     private bool _isClicked = false;
     private string _buttonContent = "Login";
     private string _responseMessage = String.Empty;
+    private Toast Toast { get; set; }
 
     private async Task Login()
     {
@@ -32,6 +34,7 @@ public partial class LoginComponent : ComponentBase
             _loginDto.Email = string.Empty;
             _loginDto.Password = string.Empty;
             _isClicked = false;
+            Toast.Show("danger", _responseMessage, 5000);
             _buttonContent = "Login";
             return;
         }

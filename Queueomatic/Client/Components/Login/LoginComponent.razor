@@ -1,4 +1,5 @@
 ﻿@using Blazored.SessionStorage
+@using BlazorBootstrapToasts
 @inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager;
 @inject ISessionStorageService SessionStorageService;
@@ -33,7 +34,6 @@
             <button class="submit-button" disabled=@_isClicked>
                 <span>@_buttonContent</span>
             </button>
-            <h6 class="response-message">@_responseMessage</h6>
         </EditForm>
         <div class="line-container">
             <div class="line"></div>
@@ -44,4 +44,5 @@
             <a rel="noopener noreferrer" href="signup" class="signup-a">Sign up</a>
         </p>
     </div>
+    <Toast @ref="Toast"></Toast>
 </div>
