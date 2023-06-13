@@ -1,0 +1,20 @@
+﻿@page "/logout"
+
+@using Blazored.SessionStorage;
+@inject ISessionStorageService SessionStorageService;
+@inject NavigationManager NavigationManager;
+
+<AuthorizeView>
+    <NotAuthorized>
+        <RedirectHome/>
+    </NotAuthorized>
+</AuthorizeView>
+<div class="container main mb-3">
+    <h2 class="text-center main-header">
+        You have logged out.
+        <br/>
+        You will be redirected to the home page.
+        <br/>
+        In @Count
+    </h2>
+</div>
