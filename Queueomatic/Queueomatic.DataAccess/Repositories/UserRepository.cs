@@ -20,6 +20,14 @@ public class UserRepository : IUserRepository
         return result;
     }
 
+    public async Task<User?> GetUserByToken(string token)
+    {
+        var result = await _context.Users.Include(u => u.Rooms)
+            .ThenInclude(p => p.Participators)
+            .FirstOrDefaultAsync(u => u.PasswordResetToken.Equals(token));
+        return result;
+    }
+
     public async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _context.Users.Include(u => u.Rooms).ToListAsync();

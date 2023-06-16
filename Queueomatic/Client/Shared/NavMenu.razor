@@ -1,7 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
+@using Blazored.SessionStorage
+@using System.Net
+@using Microsoft.AspNetCore.Http.Connections
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ISessionStorageService SessionStorageService
 
 <div class="container pt-3">
     <LogoComponent/>
@@ -11,7 +15,12 @@
                 <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
                     <span class="btn-login-txt" href="profile">Profile</span>
                 </div>
-                @*TODO: Add logout button *@
+                <button class="logout-button d-flex justify-content-center m-1" @onclick="LogOut">
+                    Log Out
+                    <div class="arrow-wrapper">
+                        <div class="arrow"></div>
+                    </div>
+                </button>
             </div>
         </Authorized>
         <NotAuthorized>
@@ -20,7 +29,7 @@
                     <span class="btn-login-txt" href="login">Login</span>
                 </div>
                 <button class="signup-button d-flex justify-content-center m-1" @onclick="NavigateToSignup">
-                    Sign up
+                    Sign Up
                     <div class="arrow-wrapper">
                         <div class="arrow"></div>
                     </div>
@@ -55,8 +64,11 @@
 
     private void NavigateToProfile()
     {
-    //TODO: Add proper link
         NavigationManager.NavigateTo("/profile");
     }
 
+    private void LogOut()
+    {
+        NavigationManager.NavigateTo("/logout");
+    }
 }

@@ -133,6 +133,11 @@ label {
     transition: 0.3s;
 }
 
+.response-message {
+    margin-top: 1em;
+    padding-left: 5px;
+}
+
 .line-container {
     padding-top: 1rem;
 }

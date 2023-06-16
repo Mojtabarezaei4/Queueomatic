@@ -13,4 +13,6 @@ public class User
     public byte[] PasswordSalt { get; set; }
     public Role Role { get; set; }
     public virtual ICollection<Room> Rooms { get; set; }
+    public string? PasswordResetToken { get; set; }
+    public DateTime? ResetTokenExpires { get; set; }
 }
