@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,6 +11,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddBlazoredModal();
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
