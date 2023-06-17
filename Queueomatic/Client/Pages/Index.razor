@@ -1,6 +1,9 @@
 ﻿@page "/"
 @page "/home"
 
+@using BlazorBootstrapToasts
+@inject HttpClient HttpClient;
+
 <PageTitle>Queueomatic  |  A Nice Virtual Queue </PageTitle>
 
 <NavMenu />
@@ -8,8 +11,8 @@
 <div class="container main mb-3">
     <h2 class="text-center main-header">Enter an id below to join a room</h2>
     <div class="room-input-group d-flex justify-content-center">
-        <input placeholder="Room id" type="text" id="input-field">
-        <button class="submit-button"><span>JOIN</span></button>
+        <input placeholder="Room id" type="text" id="input-field" @bind="_roomId">
+        <button class="submit-button" disabled=@_isClicked @onclick="CheckRoomIsValid"><span>@_buttonContent</span></button>
     </div>
 </div>
 
@@ -29,3 +32,5 @@
         </div>
     </div>
 </div>
+
+<Toast @ref="Toast"></Toast>
