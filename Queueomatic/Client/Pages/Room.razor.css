@@ -2,7 +2,7 @@
     font-family: roomFont;
     src: url(static/moonrising.ttf);
 }﻿
-/*add this to avoid flickering*/
+
 .plk-dd-inprogess > * {
     pointer-events: none;
 }
@@ -37,6 +37,7 @@
     opacity: 0.6;
     animation: blinker 1s linear infinite;
 }
+
 
 @keyframes blinker {
     50% {

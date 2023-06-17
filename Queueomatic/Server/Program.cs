@@ -6,6 +6,7 @@ using Queueomatic.Shared.DTOs;
 using Queueomatic.DataAccess.Repositories;
 using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
+using Queueomatic.Server.Endpoints.Hubs.Room;
 using Queueomatic.Server.BackgroundServices;
 using Queueomatic.Server.Services.AuthenticationService;
 using Queueomatic.Server.Services.HashIdService;
@@ -80,6 +81,7 @@ app.UseFastEndpoints(config =>
     config.Endpoints.RoutePrefix = "api";
 });
 
+app.MapHub<RoomHub>("/rooms/{id}");
 app.MapFallbackToFile("index.html");
 
 app.Run();
