@@ -57,24 +57,3 @@
         </div>
     </div>
 </div>
-<dialog class="bcgrnd animate" id="background" data-modal open=@_modalIsOpen>
-    <div class="component">
-        <div class="form-container">
-            <p class="title">Edit Nickname</p>
-            <EditForm class="form" method="dialog" Model="_updatedUserInfo">
-                <div class="input-group">
-                    <label for="username">Nickname</label>
-                    <input type="text" name="username" placeholder="" class="input-field" id="username" @bind-value="_updatedUserInfo.NickName">
-                </div>
-                <div class="button-group">
-                    <button class="button save-button" @onclick="Update">
-                        <span>Save</span>
-                    </button>
-                    <button class="button close-button" @onclick="CloseModal">
-                        <span>Close</span>
-                    </button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
-</dialog>

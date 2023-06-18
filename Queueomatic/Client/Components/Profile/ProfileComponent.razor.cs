@@ -1,6 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
+using Queueomatic.Client.Components.EditProfile;
+using Queueomatic.Client.Components.Participant;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Components.Profile;
@@ -10,7 +14,8 @@ public partial class ProfileComponent : ComponentBase
     private UserDto _user = new();
     private UserDto _updatedUserInfo = new();
 
-    private bool _modalIsOpen = false;
+    [CascadingParameter] 
+    IModalService EditProfileModal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,18 +41,9 @@ public partial class ProfileComponent : ComponentBase
 
     private void OpenModal()
     {
-        _modalIsOpen = true;
-    }
-    
-    private void CloseModal()
-    {
-        _modalIsOpen = false;
-    }
-
-    // TODO: Update function
-    private void Update()
-    {
-        return;
+        var parameters = new ModalParameters()
+            .Add(nameof(EditProfileComponent.User), _user);
+        EditProfileModal.Show<EditProfileComponent>(null, parameters);
     }
 }
 

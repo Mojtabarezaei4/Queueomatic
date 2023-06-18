@@ -1,0 +1,20 @@
+﻿@using BlazorBootstrapToasts
+
+<div class="component">
+    <div class="form-container">
+        <p class="title">Edit Nickname</p>
+        <EditForm class="form" method="dialog" Model="User">
+            <div class="input-group">
+                <label for="username">Nickname</label>
+                <input type="text" name="username" placeholder="" class="input-field" id="username" @bind-value="User.NickName">
+            </div>
+            <div class="button-group">
+                <button class="button save-button" @onclick="Update">
+                    <span>Save</span>
+                </button>
+            </div>
+        </EditForm>
+    </div>
+    @*TODO: Remove toast when the save button is implemented *@
+    <Toast @ref="Toast"></Toast>
+</div>
