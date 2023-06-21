@@ -1,0 +1,24 @@
+﻿@using BlazorBootstrapToasts
+@using Blazored.SessionStorage
+@inject HttpClient HttpClient;
+@inject ISessionStorageService SessionStorageService;
+@inject NavigationManager NavigationManager;
+
+<div class="component">
+    <div class="form-container">
+        <p class="title">Join @RoomName</p>
+        <EditForm class="form" Model="_participantDto">
+            <div class="input-group">
+                <label for="username">Nickname</label>
+                <input type="text" name="username" placeholder="Nickname" class="input-field" 
+                       id="username" autocomplete="off" @bind-value="_participantDto.NickName" required>
+            </div>
+            <div class="button-group">
+                <button class="button save-button" @onclick="JoinTheRoom">
+                    <span>Join</span>
+                </button>
+            </div>
+        </EditForm>
+    </div>
+    <Toast @ref="Toast"></Toast>
+</div>

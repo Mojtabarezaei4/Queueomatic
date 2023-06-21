@@ -48,6 +48,10 @@
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
 }
+.submit-button:disabled {
+    cursor: wait;
+    opacity: .4;
+}
 
 #input-field {
     background-color: #2E2E2E;

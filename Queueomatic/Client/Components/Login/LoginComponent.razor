@@ -16,7 +16,8 @@
         <EditForm class="form" Model="_loginDto" OnValidSubmit="Login">
             <div class="input-group">
                 <label for="username">Email</label>
-                <input type="email" name="username" placeholder="" class="input-field" id="username" @bind-value="_loginDto.Email" required>
+                <input type="email" name="username" placeholder="" 
+                       class="input-field" id="username" @bind-value="_loginDto.Email" required>
                 <div class="invalid-feedback">
                     Please provide your email.
                 </div>

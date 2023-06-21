@@ -1,7 +1,32 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
 html,
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.custom-modal {
+    height: 50vh;
+    width: 100%;
+    padding: 10%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    color: rgba(156, 163, 175, 1);
+    font-family: roomFont;
+    letter-spacing: 2px;
+}
+
+.custom-modal > .bm-header {
+    position: relative;
+    z-index: 20;
+    padding: 0 !important;
+    right: 25px !important;
+}
+
+.bm-header > .bm-close {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 h1:focus {
