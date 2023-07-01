@@ -21,6 +21,15 @@ public partial class Index: ComponentBase
     {
         _isClicked = true;
         _buttonContent = "Processing...";
+        
+        if (_roomId.Length < 6)
+        {
+            Toast.Show("warning", "Wrong input!", 5000);
+            _isClicked = false;
+            _buttonContent = "Join";
+            return;
+        }
+        
         var response = await HttpClient.GetAsync($"api/rooms/{_roomId}");
 
         if (response.StatusCode == HttpStatusCode.NotFound)
