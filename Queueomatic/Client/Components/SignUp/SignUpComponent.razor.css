@@ -3,6 +3,11 @@
     src: url(static/moonrising.ttf);
 }
 
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
 .component {
     margin-top: 4%;
     display: flex;
@@ -10,7 +15,7 @@
     justify-content: center;
     align-items: center;
     color: rgba(156, 163, 175, 1);
-    font-family: roomFont;
+    font-family: roomFont, sans-serif;
     letter-spacing: 2px;
     animation: fade 1.5s ease-in-out;
 }
@@ -51,8 +56,8 @@ a:hover {
     background-color: #2e2e2e;
     border-radius: 10px;
     border: none;
-    font-size: 1rem;
-    font-family: roomFont;
+    font-size: 1.2rem;
+    font-family: nexa-heavy, sans-serif;
     text-align: center;
     color: rgba(243, 244, 246, 1);
     padding: 0.75rem 1rem;
@@ -84,7 +89,6 @@ label {
     background: #2e2e2e;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: 0.3s;
     cursor: pointer;
 }
 
@@ -123,7 +127,7 @@ label {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.3s;
-    font-family: roomFont;
+    font-family: roomFont, sans-serif;
 }
 
 .submit-button:hover span {

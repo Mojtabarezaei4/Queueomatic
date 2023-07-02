@@ -1,4 +1,9 @@
-﻿.padding {
+﻿@font-face {
+    font-family: nexa-light;
+    src: url(static/Nexa-ExtraLight.ttf);
+}
+
+.padding {
     padding: 3rem !important;
 }
 
@@ -15,6 +20,8 @@
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border: none;
     margin-bottom: 30px;
+    font-family: nexa-light, sans-serif;
+    font-size: 19px;
 }
 
 .button {
@@ -315,7 +322,8 @@ h6 {
     height: 4rem;
     width: 15rem;
     text-decoration: none;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: nexa-light, sans-serif;
+    font-weight: bold;
     filter: drop-shadow(0 0 0.5rem #0003)
 }
 

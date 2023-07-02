@@ -1,3 +1,8 @@
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
 .button-login {
     height: 50px;
     width: 150px;
@@ -9,6 +14,8 @@
     border-radius: 30px;
     color: #333;
     transition: all 0.5s ease-in-out;
+    font-weight: bold;
+    font-family: nexa-heavy, sans-serif;
 }
 
 .btn-login-txt {
@@ -58,6 +65,7 @@
     transition: 0.2s background;
     align-items: center;
     gap: 0.6em;
+    font-family: nexa-heavy, sans-serif;
     font-weight: bold;
 }
 
@@ -119,6 +127,7 @@
     align-items: center;
     gap: 0.6em;
     font-weight: bold;
+    font-family: nexa-heavy, sans-serif;
 }
 
 .signup-button .arrow-wrapper {
