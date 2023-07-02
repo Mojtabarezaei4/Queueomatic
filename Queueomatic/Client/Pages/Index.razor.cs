@@ -21,6 +21,15 @@ public partial class Index: ComponentBase
     {
         _isClicked = true;
         _buttonContent = "Processing...";
+        
+        if (_roomId.Length < 6)
+        {
+            Toast.Show("warning", $"Minimum length of room id is 6 characters!", 5000);
+            _isClicked = false;
+            _buttonContent = "Join";
+            return;
+        }
+        
         var response = await HttpClient.GetAsync($"api/rooms/{_roomId}");
 
         if (response.StatusCode == HttpStatusCode.NotFound)
