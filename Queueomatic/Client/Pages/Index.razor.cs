@@ -24,7 +24,7 @@ public partial class Index: ComponentBase
         
         if (_roomId.Length < 6)
         {
-            Toast.Show("warning", "Wrong input!", 5000);
+            Toast.Show("warning", $"Minimum characters of room id is 6 but you entered {_roomId.Length}!", 5000);
             _isClicked = false;
             _buttonContent = "Join";
             return;
