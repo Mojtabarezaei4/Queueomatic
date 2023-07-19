@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Queueomatic.Shared.DTOs;
 
@@ -83,5 +82,15 @@ public partial class Room : ComponentBase
     public bool IsConnected =>
         hubConnection?.State == HubConnectionState.Connected;
 
-   
+
+    private async Task Exit()
+    {
+        if (hubConnection is null) return;
+        // var participant = new ParticipantRoomDto { Id = Guid.NewGuid(), NickName = ParticipantName };
+        // RemoveOldUser(participant, GetList(participant.Status));
+        
+        await hubConnection.InvokeAsync("LeaveRoom", RoomId);
+        await SessionStorageService.RemoveItemAsync("authToken");
+        Navigation.NavigateTo("/");
+    }
 }
