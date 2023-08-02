@@ -16,8 +16,9 @@ public class RoomHub : Hub
         return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
     }
 
-    public Task LeaveRoom(string roomName)
+    public async Task LeaveRoom(ParticipantRoomDto participant, string roomName)
     {
-        return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+        await Clients.Groups(roomName).SendAsync("ClearTheRoom", participant);
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
     }
 }

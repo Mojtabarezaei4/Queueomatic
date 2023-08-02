@@ -14,25 +14,18 @@ public partial class Room : ComponentBase
 
     private HubConnection? hubConnection;
 
+    private ParticipantRoomDto _participantRoomDto;
+
     public string RoomName { get; set; } = "TestRoom";
 
-    public List<ParticipantRoomDto> IdlingParticipants = new();
-    public List<ParticipantRoomDto> WaitingParticipants = new();
-    public List<ParticipantRoomDto> ActiveParticipants = new() ;
-
-
-    private bool CanMove(ParticipantRoomDto participant) => participant.NickName.Equals(ParticipantName); //should be updated with participant Id
-
-    private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.SendAsync("UpdateParticipant", participant, status, RoomId);
-        }
-    }
+    private List<ParticipantRoomDto> IdlingParticipants = new();
+    private List<ParticipantRoomDto> WaitingParticipants = new();
+    private List<ParticipantRoomDto> ActiveParticipants = new() ;
 
     protected override async Task OnInitializedAsync()
     {
+        _participantRoomDto = new ParticipantRoomDto { Id = Guid.NewGuid(), NickName = ParticipantName };
+
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri($"/rooms/{RoomId}"))
             .Build();
@@ -42,12 +35,27 @@ public partial class Room : ComponentBase
             MoveParticipant(user, status);
             StateHasChanged();
         });
-
+        
+        hubConnection.On<ParticipantRoomDto>("ClearTheRoom", (user) =>
+        {
+            ClearTheRoom(user);
+            StateHasChanged();
+        });
+        
         await hubConnection.StartAsync();
         await hubConnection.InvokeAsync("JoinRoom", RoomId);
-        await UpdateUser(new ParticipantRoomDto { Id = Guid.NewGuid(), NickName = ParticipantName}, StatusDto.Idling);
+        await UpdateUser(_participantRoomDto, StatusDto.Idling);
     }
+    
+    private bool CanMove(ParticipantRoomDto participant) => participant.NickName.Equals(ParticipantName); //should be updated with participant Id
 
+    private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("UpdateParticipant", participant, status, RoomId);
+        }
+    }
     private void MoveParticipant(ParticipantRoomDto participant, StatusDto status)
     {
         RemoveOldUser(participant, GetList(participant.Status));
@@ -85,12 +93,29 @@ public partial class Room : ComponentBase
 
     private async Task Exit()
     {
-        if (hubConnection is null) return;
-        // var participant = new ParticipantRoomDto { Id = Guid.NewGuid(), NickName = ParticipantName };
-        // RemoveOldUser(participant, GetList(participant.Status));
-        
-        await hubConnection.InvokeAsync("LeaveRoom", RoomId);
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("LeaveRoom",_participantRoomDto, RoomId);
+        }
         await SessionStorageService.RemoveItemAsync("authToken");
         Navigation.NavigateTo("/");
+    }
+
+    private void ClearTheRoom(ParticipantRoomDto participantRoomDto)
+    {
+        if (ActiveParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        {
+            RemoveOldUser(participantRoomDto, GetList(StatusDto.Ongoing));
+        }
+        
+        if (IdlingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        {
+            RemoveOldUser(participantRoomDto, GetList(StatusDto.Idling));
+        }
+        
+        if (WaitingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        {
+            RemoveOldUser(participantRoomDto, GetList(StatusDto.Waiting));
+        }
     }
 }
