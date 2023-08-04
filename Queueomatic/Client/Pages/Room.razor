@@ -3,6 +3,8 @@
 @page "/rooms/{RoomId}/{ParticipantName}"
 @using Queueomatic.Shared.DTOs
 @inject NavigationManager Navigation
+@using Blazored.SessionStorage;
+@inject ISessionStorageService SessionStorageService;
 
 <style>
     .dropzone {
@@ -14,6 +16,16 @@
 <PageTitle>@RoomName!</PageTitle>
 
 <LogoComponent />
+
+<div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
+    <button class="exit-button d-flex justify-content-center m-1" @onclick="Exit">
+        Exit
+        <div class="arrow-wrapper">
+            <div class="arrow"></div>
+        </div>
+    </button>
+</div>
+
 <h1 class="text-center roomText mt-5">Welcome to @RoomName!</h1>
 
 <div class="container">
