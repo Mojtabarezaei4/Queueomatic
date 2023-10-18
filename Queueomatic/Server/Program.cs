@@ -14,6 +14,7 @@ using Queueomatic.Server.Services.MailService;
 using Queueomatic.Server.Services.ParticipantService;
 using Queueomatic.Server.Services.RoomDeletionService;
 using Queueomatic.Server.Services.RoomService;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,7 @@ builder.Services.AddScoped<IHashIdService, HashIdService>();
 builder.Services.AddScoped<IParticipantService, ParticipantService>();
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddTransient(typeof(Random));
+builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 
 builder.Services.AddAuthorization(options =>
 {
