@@ -43,6 +43,11 @@ public partial class Room : ComponentBase
             ClearTheRoom(user);
             StateHasChanged();
         });
+        hubConnection.On<RoomModel>("UpdateRoom", (room) =>
+        {
+            UpdateRoom(room);
+            StateHasChanged();
+        });
 
 
         var participantId = Guid.NewGuid();
@@ -78,12 +83,16 @@ public partial class Room : ComponentBase
         if (hubConnection is not null)
         {
             var room = await hubConnection.InvokeAsync<RoomModel>("InitializeParticipant", participant, RoomId, RoomName);
+            var roomParticipant = room.IdlingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
+                room.WaitingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
+                    room.ActiveParticipants.Where(p => p.Id.Equals(participant.Id))))
+                .FirstOrDefault();
+            if (roomParticipant != null)
+            {
+                _participantRoomDto.Status = roomParticipant.Status;
+            }
 
-            IdlingParticipants = room.IdlingParticipants;
-            WaitingParticipants = room.WaitingParticipants;
-            ActiveParticipants = room.ActiveParticipants;
-
-            StateHasChanged();
+            UpdateRoom(room);
         }
     }
 
