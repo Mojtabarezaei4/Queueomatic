@@ -28,8 +28,14 @@ public class RoomHub : Hub
 
     public async Task<RoomModel> InitializeParticipant(ParticipantRoomDto participant, string roomId, string roomName)
     {
-        if (_cacheService.InitRoom(roomId, roomName, participant))
-            await Clients.Groups(roomId).SendAsync("MoveParticipant", participant, Status.Idling);
+        _cacheService.InitRoom(roomId, roomName, participant);
+ 
+        if(_cacheService.GetParticipant(participant.Id, roomId) is ParticipantRoomDto cachedParticipant)
+            participant.Status = cachedParticipant.Status;
+
+        _cacheService.UpdateRoom(participant, participant.Status, roomId);
+
+        await Clients.Groups(roomId).SendAsync("MoveParticipant", participant, participant.Status);
         return _cacheService.GetRoom(roomId);
     }
 

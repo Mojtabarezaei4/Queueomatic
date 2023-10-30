@@ -14,29 +14,32 @@ namespace Queueomatic.Server.Services.CacheRoomService
             _cache = cache ?? throw new ArgumentException($"The value of cache cannot be null");
         }
 
-        public RoomModel GetRoom(string roomId) => (RoomModel)_cache.Get(roomId);
-        
-
-        public bool InitRoom(string roomId, string roomName, ParticipantRoomDto participant)
+        public RoomModel GetRoom(string roomId)
         {
-            if (!_cache.TryGetValue(roomId, out _))
+            if (_cache.TryGetValue(roomId, out RoomModel room))
+                return room!;
+            return null;
+        }
+
+
+        public void InitRoom(string roomId, string roomName, ParticipantRoomDto participant)
+        {
+            if (_cache.TryGetValue(roomId, out _))
+                return;
+
+            var room = new RoomModel
             {
-                var room = new RoomModel
-                {
-                    RoomId = roomId,
-                    RoomName = roomName,
-                    IdlingParticipants = new(),
-                    WaitingParticipants = new(),
-                    ActiveParticipants = new()
-                };
+                RoomId = roomId,
+                RoomName = roomName,
+                IdlingParticipants = new(),
+                WaitingParticipants = new(),
+                ActiveParticipants = new()
+            };
 
-                participant.StatusDate = DateTime.UtcNow;
-                room!.IdlingParticipants.Add(participant);
-                _cache.Set(roomId, room);
+            participant.StatusDate = DateTime.UtcNow;
+            room!.IdlingParticipants.Add(participant);
+            _cache.Set(roomId, room);
 
-                return true;
-            }
-            return false;
         }
 
         public ParticipantRoomDto UpdateRoom(ParticipantRoomDto participant, StatusDto status, string roomId)
@@ -84,6 +87,14 @@ namespace Queueomatic.Server.Services.CacheRoomService
                 StatusDto.Ongoing => room.ActiveParticipants,
                 _ => throw new ArgumentOutOfRangeException(nameof(participantStatus), participantStatus, null)
             };
+        }
+        public ParticipantRoomDto GetParticipant(Guid participantId, string roomId)
+        {
+            var room = GetRoom(roomId);
+            return room.ActiveParticipants
+                 .Concat(room.WaitingParticipants)
+                 .Concat(room.ActiveParticipants)
+                 .FirstOrDefault(p => p.Id.Equals(participantId));
         }
     }
 }
