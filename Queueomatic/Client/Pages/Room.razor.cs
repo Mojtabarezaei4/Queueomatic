@@ -26,10 +26,11 @@ public partial class Room : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-
+        var a = await authProvider.GetAuthenticationStateAsync();
+       
 
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri($"/rooms/{RoomId}"))
+            .WithUrl(Navigation.ToAbsoluteUri($"/roomHubs/{RoomId}"))
             .Build();
 
         hubConnection.On<ParticipantRoomDto, StatusDto>("MoveParticipant", (user, status) =>
@@ -68,7 +69,7 @@ public partial class Room : ComponentBase
     }
 
 
-    private bool CanMove(ParticipantRoomDto participant) => participant.NickName.Equals(ParticipantName); //should be updated with participant Id
+    private bool CanMove(ParticipantRoomDto participant) => participant.Id.Equals(_participantRoomDto.Id);
 
     private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
     {
