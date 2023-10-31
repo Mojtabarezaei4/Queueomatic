@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Queueomatic.Shared.DTOs;
+using Queueomatic.Shared.Models;
 
 namespace Queueomatic.Client.Pages;
 
@@ -20,11 +22,11 @@ public partial class Room : ComponentBase
 
     private List<ParticipantRoomDto> IdlingParticipants = new();
     private List<ParticipantRoomDto> WaitingParticipants = new();
-    private List<ParticipantRoomDto> ActiveParticipants = new() ;
+    private List<ParticipantRoomDto> ActiveParticipants = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _participantRoomDto = new ParticipantRoomDto { Id = Guid.NewGuid(), NickName = ParticipantName };
+
 
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri($"/rooms/{RoomId}"))
@@ -35,18 +37,37 @@ public partial class Room : ComponentBase
             MoveParticipant(user, status);
             StateHasChanged();
         });
-        
+
         hubConnection.On<ParticipantRoomDto>("ClearTheRoom", (user) =>
         {
             ClearTheRoom(user);
             StateHasChanged();
         });
-        
+        hubConnection.On<RoomModel>("UpdateRoom", (room) =>
+        {
+            UpdateRoom(room);
+            StateHasChanged();
+        });
+
+
+        var participantId = Guid.NewGuid();
+
+        if (await SessionStorageService.ContainKeyAsync("clientId"))
+        {
+            participantId = await SessionStorageService.GetItemAsync<Guid>("clientId");
+
+        }
+        else
+            await SessionStorageService.SetItemAsync("clientId", participantId);
+
+        _participantRoomDto = new ParticipantRoomDto { Id = participantId, NickName = ParticipantName };
+
         await hubConnection.StartAsync();
         await hubConnection.InvokeAsync("JoinRoom", RoomId);
-        await UpdateUser(_participantRoomDto, StatusDto.Idling);
+        await InitializeRoom(_participantRoomDto);
     }
-    
+
+
     private bool CanMove(ParticipantRoomDto participant) => participant.NickName.Equals(ParticipantName); //should be updated with participant Id
 
     private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
@@ -55,6 +76,33 @@ public partial class Room : ComponentBase
         {
             await hubConnection.SendAsync("UpdateParticipant", participant, status, RoomId);
         }
+    }
+
+    private async Task InitializeRoom(ParticipantRoomDto participant)
+    {
+        if (hubConnection is not null)
+        {
+            var room = await hubConnection.InvokeAsync<RoomModel>("InitializeParticipant", participant, RoomId, RoomName);
+            var roomParticipant = room.IdlingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
+                room.WaitingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
+                    room.ActiveParticipants.Where(p => p.Id.Equals(participant.Id))))
+                .FirstOrDefault();
+            if (roomParticipant != null)
+            {
+                _participantRoomDto.Status = roomParticipant.Status;
+            }
+
+            UpdateRoom(room);
+        }
+    }
+
+    private void UpdateRoom(RoomModel room)
+    {
+        IdlingParticipants = room.IdlingParticipants;
+        WaitingParticipants = room.WaitingParticipants;
+        ActiveParticipants = room.ActiveParticipants;
+
+        StateHasChanged();
     }
     private void MoveParticipant(ParticipantRoomDto participant, StatusDto status)
     {
@@ -95,7 +143,7 @@ public partial class Room : ComponentBase
     {
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("LeaveRoom",_participantRoomDto, RoomId);
+            await hubConnection.SendAsync("LeaveRoom", _participantRoomDto, RoomId);
         }
         await SessionStorageService.RemoveItemAsync("authToken");
         Navigation.NavigateTo("/");
@@ -107,12 +155,12 @@ public partial class Room : ComponentBase
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Ongoing));
         }
-        
+
         if (IdlingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Idling));
         }
-        
+
         if (WaitingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Waiting));

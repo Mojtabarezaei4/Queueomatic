@@ -42,6 +42,7 @@ public class RoomRepository : IRoomRepository
     public async Task<IEnumerable<Room>> GetExpiredRoomsAsync()
     {
         return await _context.Rooms
+            .Include(r => r.Owner)
             .Where(r => r.ExpireAt <= DateTime.UtcNow)
             .ToListAsync();
     }
