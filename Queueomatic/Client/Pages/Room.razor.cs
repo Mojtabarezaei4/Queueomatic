@@ -1,8 +1,13 @@
-﻿using Blazored.SessionStorage;
+﻿using BlazorBootstrapToasts;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
+using Queueomatic.Client.Components.Participant;
 using Queueomatic.Shared.DTOs;
 using Queueomatic.Shared.Models;
+using System.Net;
+using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 
 namespace Queueomatic.Client.Pages;
 
@@ -26,9 +31,18 @@ public partial class Room : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var a = await authProvider.GetAuthenticationStateAsync();
-       
+        InitializeHub();
 
+        var authState = await authProvider.GetAuthenticationStateAsync();
+
+        if (authState.User.HasClaim(c => c.Type.Equals("ParticipantId")))
+            await InitializeParticipant();
+
+        await hubConnection!.StartAsync();
+    }
+
+    private void InitializeHub()
+    {
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri($"/roomHubs/{RoomId}"))
             .Build();
@@ -49,23 +63,37 @@ public partial class Room : ComponentBase
             UpdateRoom(room);
             StateHasChanged();
         });
+    }
 
+    private async Task InitializeParticipant()
+    {
+        if (!await SessionStorageService.ContainKeyAsync("authToken"))
+            await SessionStorageService.SetItemAsync("authToken", GetToken());
 
-        var participantId = Guid.NewGuid();
+        var authState = await authProvider.GetAuthenticationStateAsync();
+        var participantId = Guid.Parse(authState.User.Claims.FirstOrDefault(c => c.ValueType.Equals("ParticipantId")).Value);
 
-        if (await SessionStorageService.ContainKeyAsync("clientId"))
-        {
-            participantId = await SessionStorageService.GetItemAsync<Guid>("clientId");
-
-        }
-        else
-            await SessionStorageService.SetItemAsync("clientId", participantId);
 
         _participantRoomDto = new ParticipantRoomDto { Id = participantId, NickName = ParticipantName };
 
-        await hubConnection.StartAsync();
         await hubConnection.InvokeAsync("JoinRoom", RoomId);
         await InitializeRoom(_participantRoomDto);
+    }
+
+    private async Task<string> GetToken()
+    {
+        var addParticipantRequest = new AddParticipantRequest(new ParticipantDto { NickName = ParticipantName });
+
+        var response = await HttpClient.PostAsJsonAsync($"api/rooms/{RoomId}/newParticipant", addParticipantRequest);
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            Navigation.NavigateTo("/error");
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<PostResult>();
+        await SessionStorageService.SetItemAsync("authToken", result);
+        return result.token;
     }
 
 
