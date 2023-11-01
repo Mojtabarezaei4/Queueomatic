@@ -21,9 +21,9 @@ public class RoomHub : Hub
         await Clients.Groups(roomId).SendAsync("MoveParticipant", participantToBeUpdated, status);
     }
 
-    public async Task JoinRoom(string roomName)
+    public async Task JoinRoom(string roomId)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
     }
 
     public async Task<RoomModel> InitializeParticipant(ParticipantRoomDto participant, string roomId, string roomName)
@@ -44,5 +44,10 @@ public class RoomHub : Hub
         await Clients.Groups(roomId).SendAsync("ClearTheRoom", participant);
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
         _cacheService.CleanRoom(participant, roomId);
+    }
+
+    public async Task<RoomModel> GetState(string roomId)
+    {
+        return await Task.Run(() => _cacheService.GetRoom(roomId));
     }
 }

@@ -35,7 +35,7 @@ builder.Services.AddJWTBearerAuth(jwtSecret, bearerEvents: e =>
 {
     e.OnMessageReceived = context =>
     {
-        var accessToken = context.Request.Query["token"];
+        var accessToken = context.Request.Query["authToken"];
         var path = context.HttpContext.Request.Path;
 
         if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/roomHubs/"))

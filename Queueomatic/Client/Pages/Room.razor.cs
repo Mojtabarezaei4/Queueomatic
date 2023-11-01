@@ -8,6 +8,8 @@ using Queueomatic.Shared.Models;
 using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Queueomatic.Client.Pages;
 
@@ -22,23 +24,45 @@ public partial class Room : ComponentBase
     private HubConnection? hubConnection;
 
     private ParticipantRoomDto _participantRoomDto;
+    private RoomDto _roomDto;
 
-    public string RoomName { get; set; } = "TestRoom";
+    public string RoomName { get; set; } = "TestRoom"; //TODO: verify this
 
     private List<ParticipantRoomDto> IdlingParticipants = new();
     private List<ParticipantRoomDto> WaitingParticipants = new();
     private List<ParticipantRoomDto> ActiveParticipants = new();
+    private AuthenticationState authenticationState;
 
     protected override async Task OnInitializedAsync()
     {
         InitializeHub();
 
-        var authState = await authProvider.GetAuthenticationStateAsync();
-
-        if (authState.User.HasClaim(c => c.Type.Equals("ParticipantId")))
-            await InitializeParticipant();
+        authenticationState = await authProvider.GetAuthenticationStateAsync();
 
         await hubConnection!.StartAsync();
+        
+        if (authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) || !await CheckIsUserOwner() && !authenticationState.User.IsInRole("Administrator"))
+            await InitializeParticipant();
+        else
+        {
+            await hubConnection.InvokeAsync("JoinRoom", RoomId);
+            var room = await hubConnection.InvokeAsync<RoomModel?>("GetState", RoomId);
+            if (room != null)
+                UpdateRoom(room);
+        }
+    }
+
+    private async Task<bool> CheckIsUserOwner()
+    {
+        var response = await HttpClient.GetAsync($"api/rooms/{RoomId}");
+        var roomResponse = await response.Content.ReadFromJsonAsync<RoomResponse>();
+        if (roomResponse == null)
+            Navigation.NavigateTo("/error");
+        _roomDto = roomResponse.Room!;
+
+        var claimValue = GetClaim("UserId");
+        var res = claimValue != null && claimValue.Value.Equals(roomResponse.Room!.Owner.Email);
+        return res;
     }
 
     private void InitializeHub()
@@ -69,9 +93,9 @@ public partial class Room : ComponentBase
     {
         if (!await SessionStorageService.ContainKeyAsync("authToken"))
             await SessionStorageService.SetItemAsync("authToken", GetToken());
+        authenticationState = await authProvider.GetAuthenticationStateAsync();
 
-        var authState = await authProvider.GetAuthenticationStateAsync();
-        var participantId = Guid.Parse(authState.User.Claims.FirstOrDefault(c => c.ValueType.Equals("ParticipantId")).Value);
+        var participantId = Guid.Parse(GetClaim("ParticipantId").Value);
 
 
         _participantRoomDto = new ParticipantRoomDto { Id = participantId, NickName = ParticipantName };
@@ -79,6 +103,8 @@ public partial class Room : ComponentBase
         await hubConnection.InvokeAsync("JoinRoom", RoomId);
         await InitializeRoom(_participantRoomDto);
     }
+
+    private Claim? GetClaim(string identifier) => authenticationState.User.Claims.FirstOrDefault(c => c.Type.Equals(identifier));
 
     private async Task<string> GetToken()
     {
@@ -92,12 +118,21 @@ public partial class Room : ComponentBase
         }
 
         var result = await response.Content.ReadFromJsonAsync<PostResult>();
-        await SessionStorageService.SetItemAsync("authToken", result);
         return result.token;
     }
 
 
-    private bool CanMove(ParticipantRoomDto participant) => participant.Id.Equals(_participantRoomDto.Id);
+    private bool CanMoveAsync(ParticipantRoomDto participant)
+    {
+        var userClaim = GetClaim("UserId");
+        var participantClaim = GetClaim("ParticipantId");
+        
+        var canParticipantMove = participantClaim != null && participant.Id.Equals(Guid.Parse(participantClaim!.Value));
+        var isUserOwner = userClaim != null && _roomDto.Owner.Email.Equals(userClaim.Value);
+        return canParticipantMove 
+               || isUserOwner
+               || authenticationState.User.IsInRole("Administrator");
+    }
 
     private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
     {
