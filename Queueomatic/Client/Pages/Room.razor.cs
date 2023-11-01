@@ -41,7 +41,7 @@ public partial class Room : ComponentBase
 
         await hubConnection!.StartAsync();
         
-        if (authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) || !await CheckIsUserOwner() && !authenticationState.User.IsInRole("Administrator"))
+        if (authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) || !await IsUserOwner() && !authenticationState.User.IsInRole("Administrator"))
             await InitializeParticipant();
         else
         {
@@ -52,7 +52,7 @@ public partial class Room : ComponentBase
         }
     }
 
-    private async Task<bool> CheckIsUserOwner()
+    private async Task<bool> IsUserOwner()
     {
         var response = await HttpClient.GetAsync($"api/rooms/{RoomId}");
         var roomResponse = await response.Content.ReadFromJsonAsync<RoomResponse>();
@@ -120,7 +120,6 @@ public partial class Room : ComponentBase
         var result = await response.Content.ReadFromJsonAsync<PostResult>();
         return result.token;
     }
-
 
     private bool CanMoveAsync(ParticipantRoomDto participant)
     {
@@ -209,7 +208,7 @@ public partial class Room : ComponentBase
         {
             await hubConnection.SendAsync("LeaveRoom", _participantRoomDto, RoomId);
         }
-        await SessionStorageService.RemoveItemAsync("authToken");
+        //await SessionStorageService.RemoveItemAsync("authToken");
         Navigation.NavigateTo("/");
     }
 
