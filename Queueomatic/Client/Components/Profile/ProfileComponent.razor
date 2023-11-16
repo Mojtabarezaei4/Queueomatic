@@ -43,10 +43,10 @@
                                 <div class="name">You have no active room</div>
                             }
                             <Virtualize Items="_user.Rooms.ToArray()" Context="room">
-                                <a class="badge" href="/rooms/@room.HashIds">
+                                <a class="badge" href="/rooms/@room.HashId">
                                     <div>
                                         <div class="name">@room.Name</div>
-                                        <div class="hashIds">Id: @room.HashIds</div>
+                                        <div class="hashIds">Id: @room.HashId</div>
                                     </div>
                                 </a>
                             </Virtualize>

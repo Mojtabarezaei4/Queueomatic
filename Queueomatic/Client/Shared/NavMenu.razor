@@ -9,7 +9,7 @@
 
 <div class="container pt-3">
     <LogoComponent/>
-    <AuthorizeView>
+    <AuthorizeView Roles="User,Administrator">
         <Authorized>
             <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
                 <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">

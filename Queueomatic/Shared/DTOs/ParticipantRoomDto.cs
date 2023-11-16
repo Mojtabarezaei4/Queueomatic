@@ -7,4 +7,5 @@ public class ParticipantRoomDto
     public DateTime StatusDate { get; set; }
     public StatusDto Status { get; set; }
     public RoomDto Room { get; set; }
+    public string ConnectionId { get; set; }
 }

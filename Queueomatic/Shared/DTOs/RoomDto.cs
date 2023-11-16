@@ -2,7 +2,7 @@
 
 public class RoomDto
 {
-    public string HashIds { get; set; }
+    public string HashId { get; set; }
     public string Name { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime ExpireAt { get; set; }

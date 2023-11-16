@@ -51,7 +51,8 @@ namespace Queueomatic.Server.Services.CacheRoomService
                 Status = participant.Status,
                 NickName = participant.NickName,
                 Room = participant.Room,
-                StatusDate = participant.StatusDate
+                StatusDate = participant.StatusDate,
+                ConnectionId = participant.ConnectionId
             };
 
             var room = _cache.Get<RoomModel>(roomId);
@@ -93,7 +94,7 @@ namespace Queueomatic.Server.Services.CacheRoomService
             var room = GetRoom(roomId);
             return room.ActiveParticipants
                  .Concat(room.WaitingParticipants)
-                 .Concat(room.ActiveParticipants)
+                 .Concat(room.IdlingParticipants)
                  .FirstOrDefault(p => p.Id.Equals(participantId));
         }
     }

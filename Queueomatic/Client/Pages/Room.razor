@@ -1,5 +1,4 @@
-﻿@*there needs to be a check if the room owner is connecting when participantname is omitted*@
-@page "/rooms/{RoomId}"
+﻿@page "/rooms/{RoomId}"
 @page "/rooms/{RoomId}/{ParticipantName}"
 @using Queueomatic.Shared.DTOs
 @inject NavigationManager Navigation
@@ -35,19 +34,21 @@
         <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
             <div class="d-flex flex-column ">
-                <Dropzone Items="ActiveParticipants" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Ongoing))" Class="plk-dd-dropzone  dropzone h-100 w-100">
+                <Dropzone Items="ActiveParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Ongoing))" Class="plk-dd-dropzone  dropzone h-100 w-100">
                     <ChildContent>
                         <div class="card box">
                             <div class="card-body">
                                 <div class="d-flex justify-content-center ">
                                     <div class="nameBox">
-                                        <h5 class="text-center">@context.NickName</h5>
+                                        <h5 class="text-center">@c.NickName</h5>
                                     </div>
-                                    <div class="outer">
-                                        <div class="inner">
-                                            <label>Kick</label>
+                                    <AuthorizeView  Policy="IsOwnerOrAdministrator" Resource="@_roomDto">
+                                        <div class="outer">
+                                            <div class="inner">
+                                                <label @onclick="@(async () => await KickUser(@c.ConnectionId, @c.Id))">Kick</label>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </AuthorizeView>
                                 </div>
                             </div>
                         </div>
@@ -60,19 +61,21 @@
 
                 <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
                     <p class="header">Idling</p>
-                    <Dropzone Items="IdlingParticipants" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Idling))" Class="plk-dd-dropzone dropzone h-100 w-100">
+                    <Dropzone Items="IdlingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Idling))" Class="plk-dd-dropzone dropzone h-100 w-100">
                         <ChildContent>
                             <div class="card" style="border-left: 3px solid lime">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-center ">
                                         <div class="nameBox">
-                                            <h5 class="text-center">@context.NickName</h5>
+                                            <h5 class="text-center">@c.NickName</h5>
                                         </div>
-                                        <div class="outer">
-                                            <div class="inner">
-                                                <label>Kick</label>
+                                        <AuthorizeView  Policy="IsOwnerOrAdministrator" Resource="@_roomDto">
+                                            <div class="outer">
+                                                <div class="inner">
+                                                    <label @onclick="@(async () => await KickUser(@c.ConnectionId, @c.Id))">Kick</label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </AuthorizeView>
                                     </div>
                                 </div>
                             </div>
@@ -81,19 +84,21 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <p class="header">Waiting for help</p>
-                    <Dropzone Items="WaitingParticipants" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Waiting))" Class="plk-dd-dropzone dropzone h-100 w-100 ">
+                    <Dropzone Items="WaitingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Waiting))" Class="plk-dd-dropzone dropzone h-100 w-100 ">
                         <ChildContent>
                             <div class="card" style="border-left: 3px solid orange">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-center ">
                                         <div class="nameBox">
-                                            <h5 class="text-center">@context.NickName</h5>
+                                            <h5 class="text-center">@c.NickName</h5>
                                         </div>
-                                        <div class="outer">
-                                            <div class="inner">
-                                                <label>Kick</label>
+                                        <AuthorizeView  Policy="IsOwnerOrAdministrator" Resource="@_roomDto">
+                                            <div class="outer">
+                                                <div class="inner">
+                                                    <label @onclick="@(async () => await KickUser(@c.ConnectionId, @c.Id))">Kick</label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </AuthorizeView>
                                     </div>
                                 </div>
                             </div>
