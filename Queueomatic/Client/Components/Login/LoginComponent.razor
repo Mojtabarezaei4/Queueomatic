@@ -5,7 +5,7 @@
 @inject ISessionStorageService SessionStorageService;
 
 <LogoComponent/>
-<AuthorizeView>
+<AuthorizeView Policy="SignedInUser">
     <Authorized>
         <RedirectHome/>
     </Authorized>

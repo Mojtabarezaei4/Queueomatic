@@ -34,15 +34,12 @@ public partial class Room : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        InitializeHub("");
 
         authenticationState = await authProvider.GetAuthenticationStateAsync();
 
-        await hubConnection!.StartAsync();
 
-        if (authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) || !await IsUserOwner() && !authenticationState.User.IsInRole("Administrator"))
-            await InitializeParticipant();
-        else
+        if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
+            (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
         {
             await hubConnection.StopAsync();
             await hubConnection.DisposeAsync();
@@ -53,6 +50,12 @@ public partial class Room : ComponentBase
             var room = await hubConnection.InvokeAsync<RoomModel?>("GetState", RoomId);
             if (room != null)
                 UpdateRoom(room);
+        }
+        else
+        {
+            InitializeHub("");
+            await hubConnection!.StartAsync();
+            await InitializeParticipant();
         }
     }
 
@@ -65,8 +68,7 @@ public partial class Room : ComponentBase
         _roomDto = roomResponse.Room!;
 
         var claimValue = GetClaim("UserId");
-        var res = claimValue != null && claimValue.Value.Equals(roomResponse.Room!.Owner.Email);
-        return res;
+        return claimValue != null && claimValue.Value.Equals(roomResponse.Room!.Owner.Email);
     }
 
     private void InitializeHub(string token)
