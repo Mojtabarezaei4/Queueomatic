@@ -8,33 +8,32 @@
 @inject ISessionStorageService SessionStorageService
 
 <div class="container pt-3">
-    <LogoComponent/>
+    <LogoComponent />
     <AuthorizeView>
         <Authorized>
-            <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
-                <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
-                    <span class="btn-login-txt" href="profile">Profile</span>
-                </div>
-                <button class="logout-button d-flex justify-content-center m-1" @onclick="LogOut">
-                    Log Out
-                    <div class="arrow-wrapper">
-                        <div class="arrow"></div>
+            <AuthorizeView Context="ctx" Policy="IsParticipant">
+                <Authorized>
+                    <UnauthorizedNavMenu />
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Context="ctx" Policy="SignedInUser">
+                <Authorized>
+                    <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
+                        <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
+                            <span class="btn-login-txt" href="profile">Profile</span>
+                        </div>
+                        <button class="logout-button d-flex justify-content-center m-1" @onclick="LogOut">
+                            Log Out
+                            <div class="arrow-wrapper">
+                                <div class="arrow"></div>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </div>
+                </Authorized>
+            </AuthorizeView>
         </Authorized>
         <NotAuthorized>
-            <div class="container d-flex align-items-center justify-content-center col-sm-5 col-12 mt-4">
-                <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToLogin">
-                    <span class="btn-login-txt" href="login">Login</span>
-                </div>
-                <button class="signup-button d-flex justify-content-center m-1" @onclick="NavigateToSignup">
-                    Sign Up
-                    <div class="arrow-wrapper">
-                        <div class="arrow"></div>
-                    </div>
-                </button>
-            </div>
+            <UnauthorizedNavMenu />
         </NotAuthorized>
     </AuthorizeView>
 </div>
@@ -50,16 +49,6 @@
         var name = state.User.Claims.FirstOrDefault();
         if (name != null)
             _userName = name.Value;
-    }
-
-    private void NavigateToLogin()
-    {
-        NavigationManager.NavigateTo("/login");
-    }
-
-    private void NavigateToSignup()
-    {
-        NavigationManager.NavigateTo("/signup");
     }
 
     private void NavigateToProfile()

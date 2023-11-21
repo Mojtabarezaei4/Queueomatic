@@ -32,6 +32,12 @@ public class GetUserByEmailEndpoint: Endpoint<GetUserByEmailRequest, GetUserByEm
         }
         
         var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
+        if (user == null)
+        {
+            await SendNotFoundAsync();
+            return;
+        }
+
         var roomDtos = _roomService.FromEntity(user.Rooms);
 
         await SendAsync(new(new UserDto

@@ -45,7 +45,7 @@ public partial class Index: ComponentBase
             
             var parameters = new ModalParameters()
                 .Add(nameof(ParticipantSignupForm.RoomName),room!.Room.Name)
-                .Add(nameof(ParticipantSignupForm.RoomId), room!.Room.HashIds);
+                .Add(nameof(ParticipantSignupForm.RoomId), room!.Room.HashId);
             SignupModal.Show<ParticipantSignupForm>(null, parameters);
             
             _isClicked = false;

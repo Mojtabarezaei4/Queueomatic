@@ -27,6 +27,6 @@ public class RoomService_Tests
 		var result = sut.FromEntity(room);
 
 		//Assert
-		Assert.Equal(6, result.HashIds.Length);
+		Assert.Equal(6, result.HashId.Length);
 	}
 }

@@ -1,4 +1,6 @@
-﻿<div class="page_error">
+﻿@inject NavigationManager NavigationManager
+
+<div class="page_error">
     <div class="error-content">
         <div class="text-center">
             <h1 class="text-center ">Error</h1>
@@ -9,8 +11,13 @@
                     Look like something went wrong
                 </h3>
                 <p>An error has occured</p>
-                <a href="/" class="link_home">Home</a>
+                <a @onclick="NavigateToHomePage" class="link_home">Home</a>
             </div>
         </div>
     </div>
 </div>
+
+@code {
+    private void NavigateToHomePage() =>
+        NavigationManager.NavigateTo("/", true);
+}

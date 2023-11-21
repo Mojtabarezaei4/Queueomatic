@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.Server.Services.CacheRoomService;
@@ -21,9 +22,9 @@ public class RoomHub : Hub
         await Clients.Groups(roomId).SendAsync("MoveParticipant", participantToBeUpdated, status);
     }
 
-    public async Task JoinRoom(string roomName)
+    public async Task JoinRoom(string roomId)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
     }
 
     public async Task<RoomModel> InitializeParticipant(ParticipantRoomDto participant, string roomId, string roomName)
@@ -39,10 +40,26 @@ public class RoomHub : Hub
         return _cacheService.GetRoom(roomId);
     }
 
-    public async Task LeaveRoom(ParticipantRoomDto participant, string roomId)
+    public async Task LeaveRoom(ParticipantRoomDto participant, string roomId, string? connectionId = null)
     {
+        if (string.IsNullOrWhiteSpace(connectionId))
+            connectionId = null;
+
         await Clients.Groups(roomId).SendAsync("ClearTheRoom", participant);
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
+        await Groups.RemoveFromGroupAsync(connectionId ?? Context.ConnectionId, roomId);
         _cacheService.CleanRoom(participant, roomId);
+    }
+
+    public async Task<RoomModel> GetState(string roomId)
+    {
+        return await Task.Run(() => _cacheService.GetRoom(roomId));
+    }
+
+    [Authorize("VerifyOwnership")]
+    public async Task KickParticipant(string roomId, string connectionIdOfParticipant, Guid participantId)
+    {
+        var participant = _cacheService.GetParticipant(participantId, roomId);
+        await LeaveRoom(participant, roomId, connectionIdOfParticipant);
+        await Clients.Client(connectionIdOfParticipant).SendAsync("KickFromRoom");
     }
 }

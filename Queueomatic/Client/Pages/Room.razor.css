@@ -179,6 +179,72 @@
     flex-direction: column-reverse;
 }
 
+
+.outer {
+    position: relative;
+    width: 25px;
+    cursor: pointer;
+}
+
+.inner {
+    width: inherit;
+    top: 0;
+    text-align: center;
+}
+
+label {
+    font-size: .6rem;
+    text-transform: uppercase;
+    color: #fff;
+    transition: all .3s ease-in;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.inner:before, .inner:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: inherit;
+    background: #D40004;
+    left: 0;
+    transition: all .3s ease-in;
+}
+
+.inner:before {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.inner:after {
+    bottom: 50%;
+    transform: rotate(-45deg);
+}
+
+.outer:hover label {
+    opacity: 1;
+}
+
+.outer:hover .inner:before,
+.outer:hover .inner:after {
+    transform: rotate(0);
+}
+
+.outer:hover .inner:before {
+    top: 0;
+}
+
+.outer:hover .inner:after {
+    bottom: 0;
+}
+
+.nameBox {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    transform: translateX(10px);
+}
+
 @media screen and (min-width: 770px) {
     .reverse-column {
         flex-direction: row !important;

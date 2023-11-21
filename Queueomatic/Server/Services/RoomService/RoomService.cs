@@ -43,7 +43,7 @@ public class RoomService : IRoomService
     {
 		return new RoomDto
 		{
-			HashIds = _hashIdService.Encode(room.Id),
+			HashId = _hashIdService.Encode(room.Id),
 			Name = room.Name,
 			Owner = new UserDto
 			{
@@ -71,7 +71,7 @@ public class RoomService : IRoomService
     {
 		return new Room
 		{
-			Id = _hashIdService.Decode(room.HashIds),
+			Id = _hashIdService.Decode(room.HashId),
 			Name = room.Name,
 			Owner = new User
 			{
