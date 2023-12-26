@@ -13,7 +13,7 @@ public class CreateRoomService_ReturnCorrectValue
     [InlineData("1sd45678901z34567as0","QWesa12@rqfas.asd.ces")]
     [InlineData("ASdz12345678901234567890","12test@test.com")]
     [InlineData("zxcSdz1234567890123456789asd","12test@test.com")]
-    public async Task CreateRoomAsync_ReturnTrue(string roomName, string email)
+    public async Task CreateRoomAsync_ReturnRoomObject(string roomName, string email)
     {
         // Arrange
         var uow = A.Fake<IUnitOfWork>();
@@ -25,7 +25,7 @@ public class CreateRoomService_ReturnCorrectValue
 		var result = await sut.CreateRoomAsync(roomName, email);
         
         // Assert
-        Assert.True(result);
+        Assert.Equal(result!.Name, roomName);
     }
     
     [Theory]
