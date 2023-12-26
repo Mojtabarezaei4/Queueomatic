@@ -41,8 +41,8 @@ public partial class Room : ComponentBase
         if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
             (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
         {
-            await hubConnection.StopAsync();
-            await hubConnection.DisposeAsync();
+            //await hubConnection?.StopAsync();
+            //await hubConnection.DisposeAsync();
             InitializeHub(await SessionStorageService.GetItemAsync<string>("authToken"));
             await hubConnection!.StartAsync();
 
@@ -65,7 +65,8 @@ public partial class Room : ComponentBase
         var roomResponse = await response.Content.ReadFromJsonAsync<RoomResponse>();
         if (roomResponse == null)
             Navigation.NavigateTo("/error");
-        _roomDto = roomResponse.Room!;
+        _roomDto = roomResponse!.Room;
+        RoomName = _roomDto.Name;
 
         var claimValue = GetClaim("UserId");
         return claimValue != null && claimValue.Value.Equals(roomResponse.Room!.Owner.Email);
