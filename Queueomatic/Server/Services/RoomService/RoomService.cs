@@ -19,11 +19,11 @@ public class RoomService : IRoomService
         _hashIdService = hashIdService;
     }
 
-    public async Task<bool> CreateRoomAsync(string name, string userEmail)
+    public async Task<Room?> CreateRoomAsync(string name, string userEmail)
     {
         var user = await _unitOfWork.UserRepository.GetAsync(userEmail);
 
-        if (user is null) return false;
+        if (user is null) return null;
 
         var roomModel = new Room
         {
@@ -36,7 +36,7 @@ public class RoomService : IRoomService
 
         await _unitOfWork.RoomRepository.AddAsync(roomModel);
         await _unitOfWork.SaveAsync();
-        return true;
+        return roomModel;
     }
 
     public RoomDto FromEntity(Room room)
