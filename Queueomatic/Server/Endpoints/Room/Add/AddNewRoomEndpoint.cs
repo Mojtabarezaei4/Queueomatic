@@ -3,7 +3,7 @@ using Queueomatic.Server.Services.RoomService;
 
 namespace Queueomatic.Server.Endpoints.Room.Add;
 
-public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
+public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest, AddNewRoomResponse>
 {
 	private readonly IRoomService _roomService;
 
@@ -21,13 +21,16 @@ public class AddNewRoomEndpoint : Endpoint<AddNewRoomRequest>
 
 	public override async Task HandleAsync(AddNewRoomRequest req, CancellationToken ct)
 	{
-		var roomCreated = await _roomService.CreateRoomAsync(req.Name, req.UserId);
+		var createdRoom = await _roomService.CreateRoomAsync(req.Name, req.UserId);
 
-		if (roomCreated == false)
+		if (createdRoom == null)
 		{
 			ThrowError("Something went wrong.");
 			return;
 		}
-		await SendCreatedAtAsync<AddNewRoomEndpoint>("AddNewRoom", "Room created");
+
+        var roomHashIds = _roomService.FromEntity(createdRoom).HashId;
+
+        await SendCreatedAtAsync<AddNewRoomEndpoint>("AddNewRoom", new AddNewRoomResponse("Room created", roomHashIds));
 	}
 }

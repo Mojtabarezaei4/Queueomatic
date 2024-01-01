@@ -6,6 +6,8 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ISessionStorageService SessionStorageService
+@inject HttpClient HttpClient;
+
 
 <div class="container pt-3">
     <LogoComponent />
@@ -21,6 +23,9 @@
                     <div class="container d-flex align-items-center justify-content-center  col-sm-5 col-12 mt-4">
                         <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
                             <span class="btn-login-txt" href="profile">Profile</span>
+                        </div>
+                        <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" disabled=@_isClicked @onclick="CreateRoom">
+                            @_buttonContent
                         </div>
                         <button class="logout-button d-flex justify-content-center m-1" @onclick="LogOut">
                             Log Out
@@ -41,6 +46,12 @@
 
 @code {
 
+    private bool _isClicked = false;
+    private string _buttonContent = "Create Room";
+
+    [CascadingParameter]
+    IModalService SignupModal { get; set; }
+
     private string _userName = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -59,5 +70,14 @@
     private void LogOut()
     {
         NavigationManager.NavigateTo("/logout");
+    }
+
+    private async Task CreateRoom()
+    {
+        _isClicked = true;
+        _buttonContent = "Processing...";
+        SignupModal.Show<CreateRoomForm>(null);
+        _isClicked = false;
+        _buttonContent = "Create Room";
     }
 }

@@ -23,7 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\CreateRoom\CreateRoomForm.razor" />
     <_ContentIncludedByDefault Remove="wwwroot\js\toast.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CreateRoom\CreateRoomForm.razor" />
   </ItemGroup>
 
 </Project>
