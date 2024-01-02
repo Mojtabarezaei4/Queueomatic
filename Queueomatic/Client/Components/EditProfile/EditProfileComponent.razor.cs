@@ -12,7 +12,7 @@ public partial class EditProfileComponent : ComponentBase
     public UserDto User { get; set; }
 
     [Parameter]
-    public Action CloseModalEvent { get; set; }
+    public Action<string> CloseModalAction { get; set; }
     private Toast Toast { get; set; }
 
     private async Task Update()
@@ -25,7 +25,7 @@ public partial class EditProfileComponent : ComponentBase
         else
         {
             await Toast.Show("success", "Username successfully changed!", 3000);
-            CloseModalEvent.Invoke();
+            CloseModalAction.Invoke(result.Content.ToString());
         }
     }
 }

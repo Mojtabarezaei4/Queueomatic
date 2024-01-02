@@ -45,12 +45,16 @@ public partial class ProfileComponent : ComponentBase
     {
         var parameters = new ModalParameters()
             .Add(nameof(EditProfileComponent.User), _user)
-            .Add(nameof(EditProfileComponent.CloseModalEvent), new Action(CloseModal));
+            .Add(nameof(EditProfileComponent.CloseModalAction), new Action<string>(CloseModal));
         _modalReference = EditProfileModal.Show<EditProfileComponent>(null, parameters);
     }
 
-    private void CloseModal() =>
+    private void CloseModal(string username)
+    {
         _modalReference?.Close();
+        _user.NickName = username;
+        StateHasChanged();
+    }
 }
 
 record ResultFromGet(UserDto user); 

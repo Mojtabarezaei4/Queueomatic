@@ -38,6 +38,6 @@ public class ChangeUsernameEndpoint : Endpoint<ChangeUsernameRequest>
             return;
         }
 
-        await SendOkAsync();
+        await SendOkAsync(user.NickName);
     }
 }
