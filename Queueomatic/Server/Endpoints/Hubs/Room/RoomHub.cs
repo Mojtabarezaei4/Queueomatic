@@ -45,7 +45,7 @@ public class RoomHub : Hub
         if (string.IsNullOrWhiteSpace(connectionId))
             connectionId = null;
 
-        await Clients.Groups(roomId).SendAsync("ClearTheRoom", participant);
+        await Clients.Groups(roomId).SendAsync("ClearRoom", participant);
         await Groups.RemoveFromGroupAsync(connectionId ?? Context.ConnectionId, roomId);
         _cacheService.CleanRoom(participant, roomId);
     }
@@ -60,6 +60,6 @@ public class RoomHub : Hub
     {
         var participant = _cacheService.GetParticipant(participantId, roomId);
         await LeaveRoom(participant, roomId, connectionIdOfParticipant);
-        await Clients.Client(connectionIdOfParticipant).SendAsync("KickFromRoom");
+        await Clients.Client(connectionIdOfParticipant).SendAsync("KickParticipant");
     }
 }
