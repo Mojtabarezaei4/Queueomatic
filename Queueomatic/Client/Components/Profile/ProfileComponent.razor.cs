@@ -19,8 +19,6 @@ public partial class ProfileComponent : ComponentBase
     [CascadingParameter] 
     IModalService EditProfileModal { get; set; }
 
-   
-
     protected override async Task OnInitializedAsync()
     {
         var userClaims = await SessionStorageService.GetItemAsync<ClaimsSchema>("authToken");

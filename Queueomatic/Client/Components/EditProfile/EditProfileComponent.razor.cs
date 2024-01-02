@@ -24,8 +24,8 @@ public partial class EditProfileComponent : ComponentBase
         }
         else
         {
-            await Toast.Show("success", "Username successfully changed!", 5000);
-            CloseModalEvent?.Invoke();
+            await Toast.Show("success", "Username successfully changed!", 3000);
+            CloseModalEvent.Invoke();
         }
     }
 }

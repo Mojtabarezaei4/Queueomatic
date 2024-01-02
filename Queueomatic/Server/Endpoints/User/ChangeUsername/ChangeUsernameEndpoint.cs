@@ -3,7 +3,7 @@ using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Server.Endpoints.User.ChangeUsername;
 
-public class ChangeUsernameEndpoint : Endpoint<ChangeUsernameRequest, ChangeUsernameResponse>
+public class ChangeUsernameEndpoint : Endpoint<ChangeUsernameRequest>
 {
 
     private readonly IUnitOfWork _unitOfWork;
@@ -38,6 +38,6 @@ public class ChangeUsernameEndpoint : Endpoint<ChangeUsernameRequest, ChangeUser
             return;
         }
 
-        await SendOkAsync(new ChangeUsernameResponse { UpdatedUsername = user.NickName });
+        await SendOkAsync();
     }
 }
