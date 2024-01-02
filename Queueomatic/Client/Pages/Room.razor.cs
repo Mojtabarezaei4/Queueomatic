@@ -41,8 +41,6 @@ public partial class Room : ComponentBase
         if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
             (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
         {
-            //await hubConnection?.StopAsync();
-            //await hubConnection.DisposeAsync();
             InitializeHub(await SessionStorageService.GetItemAsync<string>("authToken"));
             await hubConnection!.StartAsync();
 
@@ -87,17 +85,12 @@ public partial class Room : ComponentBase
             StateHasChanged();
         });
 
-        hubConnection.On<ParticipantRoomDto>("ClearTheRoom", (user) =>
+        hubConnection.On<ParticipantRoomDto>("ClearRoom", (user) =>
         {
             ClearTheRoom(user);
             StateHasChanged();
         });
-        hubConnection.On<RoomModel>("UpdateRoom", (room) =>
-        {
-            UpdateRoom(room);
-            StateHasChanged();
-        });
-        hubConnection.On("KickFromRoom", async () =>
+        hubConnection.On("KickParticipant", async () =>
         {
             await SessionStorageService.RemoveItemAsync("authToken");
             Navigation.NavigateTo("/");

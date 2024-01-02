@@ -72,10 +72,8 @@ namespace Queueomatic.Server.Services.CacheRoomService
         public void CleanRoom(ParticipantRoomDto participantRoomDto, string roomId)
         {
             var room = _cache.Get<RoomModel>(roomId);
-            //TODO: BUG: NullException -> When owner exiting room while there are participant in the room.
-            room.IdlingParticipants.RemoveAll(x => x.Id == participantRoomDto.Id);
-            room.WaitingParticipants.RemoveAll(x => x.Id == participantRoomDto.Id);
-            room.ActiveParticipants.RemoveAll(x => x.Id == participantRoomDto.Id);
+            var activeList = GetList(participantRoomDto.Status, room!);
+            activeList.RemoveAll(p => p.Id == participantRoomDto.Id);
 
             _cache.Set(roomId, room);
         }
