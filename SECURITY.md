@@ -1,6 +1,6 @@
 # Security Policy
 
-## _No version is upported at the moment_
+## _No version is supported at the moment_
 
 ## Reporting a Vulnerability
 
