@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
-using Queueomatic.DataAccess.Models;
 using Queueomatic.Server.Services.CacheRoomService;
 using Queueomatic.Shared.DTOs;
 using Queueomatic.Shared.Models;

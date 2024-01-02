@@ -92,11 +92,6 @@ public partial class Room : ComponentBase
             ClearTheRoom(user);
             StateHasChanged();
         });
-        hubConnection.On<RoomModel>("UpdateRoom", (room) =>
-        {
-            UpdateRoom(room);
-            StateHasChanged();
-        });
         hubConnection.On("KickParticipant", async () =>
         {
             await SessionStorageService.RemoveItemAsync("authToken");
