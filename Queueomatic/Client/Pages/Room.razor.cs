@@ -41,8 +41,6 @@ public partial class Room : ComponentBase
         if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
             (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
         {
-            //await hubConnection?.StopAsync();
-            //await hubConnection.DisposeAsync();
             InitializeHub(await SessionStorageService.GetItemAsync<string>("authToken"));
             await hubConnection!.StartAsync();
 
