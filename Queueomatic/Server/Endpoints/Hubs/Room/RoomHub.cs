@@ -40,14 +40,16 @@ public class RoomHub : Hub
         return _cacheService.GetRoom(roomId);
     }
 
-    public async Task LeaveRoom(ParticipantRoomDto participant, string roomId, string? connectionId = null)
+    public async Task LeaveRoom(ParticipantRoomDto? participant, string roomId, string? connectionId = null)
     {
         if (string.IsNullOrWhiteSpace(connectionId))
             connectionId = null;
 
         await Clients.Groups(roomId).SendAsync("ClearTheRoom", participant);
         await Groups.RemoveFromGroupAsync(connectionId ?? Context.ConnectionId, roomId);
-        _cacheService.CleanRoom(participant, roomId);
+
+        if(participant != null)
+            _cacheService.CleanRoom(participant, roomId);
     }
 
     public async Task<RoomModel> GetState(string roomId)
