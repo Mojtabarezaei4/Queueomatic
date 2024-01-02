@@ -1,4 +1,5 @@
 ﻿@using BlazorBootstrapToasts
+@inject HttpClient HttpClient;
 
 <div class="component">
     <div class="form-container">
@@ -15,6 +16,5 @@
             </div>
         </EditForm>
     </div>
-    @*TODO: Remove toast when the save button is implemented *@
     <Toast @ref="Toast"></Toast>
 </div>
