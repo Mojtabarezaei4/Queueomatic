@@ -5,7 +5,8 @@ namespace Queueomatic.Server.Endpoints.User.ChangeUsername;
 
 public class ChangeUsernameRequest
 {
-    public UserDto User { get; set; }
+    [FromBody]
+    public string Username { get; set; }
     [property: FromClaim]
     public string UserId { get; set; }
 }

@@ -14,18 +14,20 @@ public partial class EditProfileComponent : ComponentBase
     [Parameter]
     public Action<string> CloseModalAction { get; set; }
     private Toast Toast { get; set; }
-
+    private bool _canUpdate;
     private async Task Update()
     {
-        var result = await HttpClient.PostAsJsonAsync("/user/username", User);
+        _canUpdate = !_canUpdate;
+        var result = await HttpClient.PostAsJsonAsync("api/user/username", User.NickName);
         if (!result.IsSuccessStatusCode)
         {
             Toast.Show("warning", "Something went wrong. Try again later.", 5000);
+            _canUpdate = !_canUpdate;
         }
         else
         {
-            await Toast.Show("success", "Username successfully changed!", 3000);
-            CloseModalAction.Invoke(result.Content.ToString());
+            await Toast.Show("success", "Username successfully changed!", 2000);
+            CloseModalAction.Invoke((await result.Content.ReadAsStringAsync()).Trim('\"'));
         }
     }
 }

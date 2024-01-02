@@ -28,7 +28,7 @@ public class ChangeUsernameEndpoint : Endpoint<ChangeUsernameRequest>
             return;
         }
 
-        user.NickName = req.User.NickName;
+        user.NickName = req.Username;
         await _unitOfWork.UserRepository.UpdateAsync(user);
         var result = await _unitOfWork.SaveAsync();
 
