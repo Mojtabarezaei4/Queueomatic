@@ -175,6 +175,11 @@
     font-family: roomFont;
 }
 
+.roomId {
+    font-size: 1.4rem;
+    font-family: nexa-light;
+}
+
 .reverse-column {
     flex-direction: column-reverse;
 }
