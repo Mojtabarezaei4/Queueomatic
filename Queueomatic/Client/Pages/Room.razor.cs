@@ -35,7 +35,7 @@ public partial class Room : ComponentBase
     protected override async Task OnInitializedAsync()
     {
 
-        authenticationState = await authProvider.GetAuthenticationStateAsync();
+        authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
 
         if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
@@ -101,7 +101,7 @@ public partial class Room : ComponentBase
     {
         if (!await SessionStorageService.ContainKeyAsync("authToken"))
             await SessionStorageService.SetItemAsync("authToken", GetToken());
-        authenticationState = await authProvider.GetAuthenticationStateAsync();
+        authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
         var participantId = Guid.Parse(GetClaim("ParticipantId").Value);
         
