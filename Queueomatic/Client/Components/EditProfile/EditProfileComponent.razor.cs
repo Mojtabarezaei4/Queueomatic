@@ -1,19 +1,33 @@
-﻿using BlazorBootstrapToasts;
+﻿using System.Net.Http.Json;
+using BlazorBootstrapToasts;
 using Microsoft.AspNetCore.Components;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Components.EditProfile;
 
-public partial class EditProfileComponent: ComponentBase
+public partial class EditProfileComponent : ComponentBase
 {
 
     [Parameter] 
     public UserDto User { get; set; }
-    private Toast Toast { get; set; }
 
-    // TODO: Update function
-    private void Update()
+    [Parameter]
+    public Action<string> CloseModalAction { get; set; }
+    private Toast Toast { get; set; }
+    private bool _canUpdate;
+    private async Task Update()
     {
-        Toast.Show("warning", "This functionality is not working right now.", 5000);
+        _canUpdate = !_canUpdate;
+        var result = await HttpClient.PostAsJsonAsync("api/user/username", User.NickName);
+        if (!result.IsSuccessStatusCode)
+        {
+            Toast.Show("warning", "Something went wrong. Try again later.", 5000);
+            _canUpdate = !_canUpdate;
+        }
+        else
+        {
+            await Toast.Show("success", "Username successfully changed!", 2000);
+            CloseModalAction.Invoke((await result.Content.ReadAsStringAsync()).Trim('\"'));
+        }
     }
 }
