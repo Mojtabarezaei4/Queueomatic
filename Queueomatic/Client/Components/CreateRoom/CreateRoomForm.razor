@@ -1,8 +1,8 @@
 ﻿@using BlazorBootstrapToasts
-@using Blazored.SessionStorage
+@using Queueomatic.Client.Services.StoreVisitedRooms
 @inject HttpClient HttpClient;
-@inject ISessionStorageService SessionStorageService;
 @inject NavigationManager NavigationManager;
+@inject IUpdateVisitedRooms UpdateVisitedRooms;
 
 <div class="component">
     <div class="form-container">
