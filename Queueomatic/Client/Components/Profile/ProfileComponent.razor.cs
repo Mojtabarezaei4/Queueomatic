@@ -2,6 +2,7 @@
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Queueomatic.Client.Components.EditProfile;
 using Queueomatic.Shared.DTOs;
 
@@ -11,6 +12,7 @@ public partial class ProfileComponent : ComponentBase
 {
     private UserDto _user = new();
     private UserDto _updatedUserInfo = new();
+    private IModalReference? _modalReference;
 
     [CascadingParameter] 
     IModalService EditProfileModal { get; set; }
@@ -40,8 +42,16 @@ public partial class ProfileComponent : ComponentBase
     private void OpenModal()
     {
         var parameters = new ModalParameters()
-            .Add(nameof(EditProfileComponent.User), _user);
-        EditProfileModal.Show<EditProfileComponent>(null, parameters);
+            .Add(nameof(EditProfileComponent.User), _user)
+            .Add(nameof(EditProfileComponent.CloseModalAction), new Action<string>(CloseModal));
+        _modalReference = EditProfileModal.Show<EditProfileComponent>(null, parameters);
+    }
+
+    private void CloseModal(string username)
+    {
+        _modalReference?.Close();
+        _user.NickName = username;
+        StateHasChanged();
     }
 
     private async Task GotoRoom(string roomHashId)

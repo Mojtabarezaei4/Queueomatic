@@ -80,7 +80,7 @@ label {
     transition: 0.3s;
 }
 
-.button:hover {
+.button:hover:not([disabled]) {
     transition: 0.3s;
     background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
     cursor: pointer;
@@ -105,7 +105,7 @@ label {
     font-family: roomFont;
 }
 
-.button:hover span {
+.button:hover:not([disabled]) span {
     background: #2e2e2e;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -121,7 +121,7 @@ label {
     transition: 0.3s;
 }
 
-.save-button:hover {
+.save-button:hover:not([disabled]) {
     transition: 0.3s;
     background: linear-gradient(90deg, #46fc70 0%, #3f5efb 100%);
     cursor: pointer;
