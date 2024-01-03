@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using BlazorBootstrapToasts;
 using Microsoft.AspNetCore.Components;
+using Queueomatic.Client.Services.StoreVisitedRooms;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Components.Participant;
@@ -30,6 +31,9 @@ public partial class ParticipantSignupForm: ComponentBase
         {
             var result = await response.Content.ReadFromJsonAsync<PostResult>();
             await SessionStorageService.SetItemAsync("authToken", result);
+
+            await UpdateVisitedRooms.UpdateLocalStorage(RoomId);
+
             NavigationManager.NavigateTo($"rooms/{RoomId}/{_participantDto.NickName}?room-name={RoomName}");
         }
     }

@@ -2,6 +2,7 @@
 @page "/home"
 
 @using BlazorBootstrapToasts
+@using Queueomatic.Client.Services.StoreVisitedRooms
 @inject HttpClient HttpClient;
 
 <PageTitle>Queueomatic  |  A Nice Virtual Queue </PageTitle>
@@ -13,6 +14,9 @@
     <div class="room-input-group d-flex justify-content-center">
         <input placeholder="Room id" type="text" id="input-field" @bind="_roomId">
         <button class="submit-button" disabled=@_isClicked @onclick="CheckRoomIsValid"><span>@_buttonContent</span></button>
+    </div>
+    <div class="visited-rooms-component text-center">
+        <VisitedRoomsComponent/>
     </div>
 </div>
 
