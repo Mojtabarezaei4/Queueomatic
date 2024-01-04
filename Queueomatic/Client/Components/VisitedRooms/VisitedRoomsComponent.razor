@@ -14,7 +14,7 @@
             <div class="name">You have no recently visited room</div>
         }
         <Virtualize Items="_visitedRooms.ToArray()" Context="room">
-            <a class="badge" @onclick="() => GotoRoom(room.HashId)">
+            <a class="badge" @onclick="() => JoinRoom(room.HashId)">
                 <div>
                     <div class="name">@room.Name</div>
                     <div class="hashIds">Id: @room.HashId</div>

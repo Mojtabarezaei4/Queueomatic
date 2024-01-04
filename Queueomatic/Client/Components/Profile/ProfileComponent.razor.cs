@@ -54,7 +54,7 @@ public partial class ProfileComponent : ComponentBase
         StateHasChanged();
     }
 
-    private async Task GotoRoom(string roomHashId)
+    private async Task JoinRoom(string roomHashId)
     {
         var response = await HttpClient.GetAsync($"api/rooms/{roomHashId}");
         

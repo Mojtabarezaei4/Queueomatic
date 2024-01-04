@@ -40,7 +40,7 @@ public partial class VisitedRoomsComponent : ComponentBase
         }
     }
 
-    private async Task GotoRoom(string roomHashId)
+    private async Task JoinRoom(string roomHashId)
     {
         var response = await HttpClient.GetAsync($"api/rooms/{roomHashId}");
         var roomResponse = await response.Content.ReadFromJsonAsync<RoomResponse>();
