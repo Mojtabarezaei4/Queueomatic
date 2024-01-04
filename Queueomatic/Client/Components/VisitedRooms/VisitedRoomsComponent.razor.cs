@@ -25,18 +25,20 @@ public partial class VisitedRoomsComponent : ComponentBase
 
         authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
-        if (visitedRooms is not null)
+        if (visitedRooms is null)
         {
-            foreach (var visitedRoom in visitedRooms)
-            {
-                var response = await HttpClient.GetAsync($"api/rooms/{visitedRoom.Value}");
-                
-                if (response.StatusCode != HttpStatusCode.OK) continue;
+            return;
+        }
 
-                var room = await response.Content.ReadFromJsonAsync<RoomResponse>();
+        foreach (var visitedRoom in visitedRooms)
+        {
+            var response = await HttpClient.GetAsync($"api/rooms/{visitedRoom.Value}");
 
-                _visitedRooms.Add(room!.Room);
-            }
+            if (response.StatusCode != HttpStatusCode.OK) continue;
+
+            var room = await response.Content.ReadFromJsonAsync<RoomResponse>();
+
+            _visitedRooms.Add(room!.Room);
         }
     }
 
@@ -45,13 +47,7 @@ public partial class VisitedRoomsComponent : ComponentBase
         var response = await HttpClient.GetAsync($"api/rooms/{roomHashId}");
         var roomResponse = await response.Content.ReadFromJsonAsync<RoomResponse>();
         
-        if (roomResponse is null)
-        {
-            NavigationManager.NavigateTo("/error");
-            return;
-        }
-
-        if (!response.IsSuccessStatusCode)
+        if (roomResponse is null || !response.IsSuccessStatusCode)
         {
             NavigationManager.NavigateTo("/error");
             return;
