@@ -15,7 +15,7 @@ public partial class Room : ComponentBase
     [Parameter]
     public string RoomId { get; set; }
 
-    public bool IsOwner { get; set; } = false;
+    public bool IsOwner { get; set; }
 
     [Parameter]
     public string ParticipantName { get; set; }
