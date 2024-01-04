@@ -1,7 +1,9 @@
 ﻿@using Blazored.SessionStorage
+@using Queueomatic.Client.Services.ManageVisitedRooms
 @inject HttpClient HttpClient;
 @inject ISessionStorageService SessionStorageService;
 @inject NavigationManager NavigationManager;
+@inject IManageVisitedRooms ManageVisitedRooms;
 
 <div class="padding">
     <div class="container d-flex justify-content-center">
@@ -43,7 +45,7 @@
                                 <div class="name">You have no active room</div>
                             }
                             <Virtualize Items="_user.Rooms.ToArray()" Context="room">
-                                <a class="badge" href="/rooms/@room.HashId">
+                                <a class="badge" @onclick="() => JoinRoom(room.HashId)">
                                     <div>
                                         <div class="name">@room.Name</div>
                                         <div class="hashIds">Id: @room.HashId</div>

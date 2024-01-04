@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="blazor-dragdrop" Version="2.4.0" />
     <PackageReference Include="BlazorBootstrapToasts" Version="1.0.3" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
     <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
@@ -24,11 +25,16 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\CreateRoom\CreateRoomForm.razor" />
+    <_ContentIncludedByDefault Remove="Components\VisitedRooms\VisitedRoomsComponent.razor" />
     <_ContentIncludedByDefault Remove="wwwroot\js\toast.js" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Components\CreateRoom\CreateRoomForm.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\VisitedRooms\VisitedRoomsComponent.razor" />
   </ItemGroup>
 
 </Project>

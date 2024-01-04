@@ -14,6 +14,9 @@
         <input placeholder="Room id" type="text" id="input-field" @bind="_roomId">
         <button class="submit-button" disabled=@_isClicked @onclick="CheckRoomIsValid"><span>@_buttonContent</span></button>
     </div>
+    <div class="visited-rooms-component text-center">
+        <VisitedRoomsComponent/>
+    </div>
 </div>
 
 <div class="container d-flex justify-content-center mb-4">

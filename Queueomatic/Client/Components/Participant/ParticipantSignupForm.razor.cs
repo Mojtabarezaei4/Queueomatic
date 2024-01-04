@@ -30,6 +30,9 @@ public partial class ParticipantSignupForm: ComponentBase
         {
             var result = await response.Content.ReadFromJsonAsync<PostResult>();
             await SessionStorageService.SetItemAsync("authToken", result);
+
+            await ManageVisitedRooms.UpdateLocalStorage(RoomId);
+
             NavigationManager.NavigateTo($"rooms/{RoomId}/{_participantDto.NickName}?room-name={RoomName}");
         }
     }
