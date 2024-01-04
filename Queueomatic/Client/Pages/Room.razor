@@ -28,6 +28,10 @@
 </div>
 
 <h1 class="text-center roomText mt-5">Welcome to @RoomName!</h1>
+@if (IsOwner)
+{
+    <h5 class="text-center roomId mt-1">Room Id: @RoomId</h5>
+}
 
 <div class="container">
     <div class="row py-4">
