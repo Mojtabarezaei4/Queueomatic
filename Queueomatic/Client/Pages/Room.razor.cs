@@ -15,6 +15,8 @@ public partial class Room : ComponentBase
     [Parameter]
     public string RoomId { get; set; }
 
+    public bool IsOwner { get; set; } = false;
+
     [Parameter]
     public string ParticipantName { get; set; }
 
@@ -34,9 +36,7 @@ public partial class Room : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-
         authenticationState = await authProvider.GetAuthenticationStateAsync();
-
 
         if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
             (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
@@ -48,6 +48,8 @@ public partial class Room : ComponentBase
             var room = await hubConnection.InvokeAsync<RoomModel?>("GetState", RoomId);
             if (room != null)
                 UpdateRoom(room);
+
+            IsOwner = true;
         }
         else
         {
