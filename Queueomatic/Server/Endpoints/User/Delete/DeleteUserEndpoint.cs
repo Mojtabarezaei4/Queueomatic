@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using Queueomatic.DataAccess.UnitOfWork;
-using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Server.Endpoints.User.Delete;
 

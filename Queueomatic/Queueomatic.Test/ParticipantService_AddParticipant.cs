@@ -1,5 +1,4 @@
 ﻿using FakeItEasy;
-using Queueomatic.DataAccess.Repositories.Interfaces;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.ParticipantService;

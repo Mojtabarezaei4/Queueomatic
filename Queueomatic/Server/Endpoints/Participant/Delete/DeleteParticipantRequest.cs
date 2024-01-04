@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using FastEndpoints;
+﻿using FastEndpoints;
 
 namespace Queueomatic.Server.Endpoints.Participant.Delete;
 

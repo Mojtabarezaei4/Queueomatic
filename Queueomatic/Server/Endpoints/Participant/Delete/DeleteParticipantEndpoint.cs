@@ -42,7 +42,7 @@ public class DeleteParticipantEndpoint: Endpoint<DeleteParticipantRequest>
 
     private async Task<bool> IsUserOwnerOfTheRoom(DeleteParticipantRequest req)
     {
-        var user = await _unitOfWork.UserRepository.GetAsync(req.UserId);
+        var user = await _unitOfWork.UserRepository.GetAsync(req.UserId!);
         if (user == null) return false;
 
         var isUserTheOwner =

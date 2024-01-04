@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Queueomatic.Client.Pages;
-using Queueomatic.DataAccess.Models;
 using Queueomatic.Shared.DTOs;
 using Queueomatic.Shared.Models;
 

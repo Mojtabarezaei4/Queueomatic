@@ -1,5 +1,4 @@
 ﻿using FastEndpoints;
-using HashidsNet;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Server.Services.RoomService;
@@ -40,7 +39,7 @@ public class GetRoomByIdEndpoint : Endpoint<GetRoomByIdRequest, GetRoomByIdRespo
             var response = _roomService.FromEntity(room);
             await SendAsync(new(response));
         }
-        catch (NoResultException exception)
+        catch
         {
             await SendNotFoundAsync();
         }

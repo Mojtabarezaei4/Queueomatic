@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
-using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Handlers.RoomRestrictionAuthorization;
 

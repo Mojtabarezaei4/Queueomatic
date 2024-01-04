@@ -1,6 +1,5 @@
 ﻿using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Queueomatic.DataAccess.DataContexts;
 using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.Repositories.Interfaces;

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Queueomatic.Shared.DTOs;
+﻿namespace Queueomatic.Shared.DTOs;
 
 public class ResetPasswordDto
 {
