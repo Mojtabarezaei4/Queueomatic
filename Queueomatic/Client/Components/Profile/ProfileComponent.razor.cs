@@ -1,11 +1,9 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Queueomatic.Client.Components.EditProfile;
-using Queueomatic.Client.Components.Participant;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Components.Profile;
@@ -54,6 +52,21 @@ public partial class ProfileComponent : ComponentBase
         _modalReference?.Close();
         _user.NickName = username;
         StateHasChanged();
+    }
+
+    private async Task JoinRoom(string roomHashId)
+    {
+        var response = await HttpClient.GetAsync($"api/rooms/{roomHashId}");
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/error");
+            return;
+        }
+
+        await ManageVisitedRooms.UpdateLocalStorage(roomHashId);
+        
+        NavigationManager.NavigateTo($"/rooms/{roomHashId}");
     }
 }
 
