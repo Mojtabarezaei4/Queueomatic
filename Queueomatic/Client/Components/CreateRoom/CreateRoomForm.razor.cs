@@ -23,7 +23,7 @@ public partial class CreateRoomForm : ComponentBase
         {
             var result = await response.Content.ReadFromJsonAsync<PostResult>();
 
-            await UpdateVisitedRooms.UpdateLocalStorage(result!.RoomId);
+            await ManageVisitedRooms.UpdateLocalStorage(result!.RoomId);
             NavigationManager.NavigateTo($"rooms/{result!.RoomId}");
         }
     }

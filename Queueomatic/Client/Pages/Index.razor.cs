@@ -5,7 +5,6 @@ using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using Queueomatic.Client.Components.Participant;
-using Queueomatic.Client.Services.StoreVisitedRooms;
 using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Client.Pages;
@@ -53,7 +52,6 @@ public partial class Index : ComponentBase
             _buttonContent = "Join";
         }
     }
-
-    
 }
+
 record RoomResponse(RoomDto Room);

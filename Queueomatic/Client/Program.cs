@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Plk.Blazor.DragDrop;
 using Queueomatic.Client;
-using Queueomatic.Client.Services.StoreVisitedRooms;
+using Queueomatic.Client.Services.ManageVisitedRooms;
 using Queueomatic.Shared.DTOs;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -51,7 +51,7 @@ builder.Services.AddAuthorizationCore(options =>
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-builder.Services.AddScoped<IUpdateVisitedRooms, UpdateVisitedRooms>();
+builder.Services.AddScoped<IManageVisitedRooms, ManageVisitedRooms>();
 builder.Services.AddBlazorDragDrop();
 
 await builder.Build().RunAsync();

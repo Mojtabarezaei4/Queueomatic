@@ -1,13 +1,12 @@
 ﻿using Blazored.LocalStorage;
-using Queueomatic.Shared.DTOs;
 
-namespace Queueomatic.Client.Services.StoreVisitedRooms;
+namespace Queueomatic.Client.Services.ManageVisitedRooms;
 
-public class UpdateVisitedRooms : IUpdateVisitedRooms
+public class ManageVisitedRooms : IManageVisitedRooms
 {
     private readonly ILocalStorageService _localStorageService;
 
-    public UpdateVisitedRooms(ILocalStorageService localStorageService)
+    public ManageVisitedRooms(ILocalStorageService localStorageService)
     {
         _localStorageService = localStorageService;
     }

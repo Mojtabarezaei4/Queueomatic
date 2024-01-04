@@ -64,7 +64,7 @@ public partial class ProfileComponent : ComponentBase
             return;
         }
 
-        await UpdateVisitedRooms.UpdateLocalStorage(roomHashId);
+        await ManageVisitedRooms.UpdateLocalStorage(roomHashId);
         
         NavigationManager.NavigateTo($"/rooms/{roomHashId}");
     }

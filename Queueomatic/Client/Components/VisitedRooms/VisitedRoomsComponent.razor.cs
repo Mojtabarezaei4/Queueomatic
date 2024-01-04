@@ -61,7 +61,7 @@ public partial class VisitedRoomsComponent : ComponentBase
             (await IsUserOwner(roomHashId) || authenticationState.User.IsInRole("Administrator"))
             )
         {
-            await UpdateVisitedRooms.UpdateLocalStorage(roomHashId);
+            await ManageVisitedRooms.UpdateLocalStorage(roomHashId);
 
             NavigationManager.NavigateTo($"/rooms/{roomHashId}");
         }
