@@ -8,6 +8,11 @@
     src: url(static/Nexa-ExtraLight.ttf);
 }
 
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
 .plk-dd-inprogess > * {
     pointer-events: none;
 }
@@ -173,6 +178,11 @@
 .roomText {
     font-size: 2rem;
     font-family: roomFont;
+}
+
+.roomId {
+    font-size: 1.4rem;
+    font-family: nexa-heavy;
 }
 
 .reverse-column {
