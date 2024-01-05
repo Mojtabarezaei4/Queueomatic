@@ -38,7 +38,8 @@ public class MailService : IMailService
 
     public EmailDto CreateEmail(string email, User user)
     {
-        var url = $"{_configuration.GetSection("MailSettings")["AppUrl"]}?token={user.PasswordResetToken}";
+        //var url = $"{_configuration.GetValue<string>("AppUrl")}?token={user.PasswordResetToken}";
+        var url = $"";
 
         return new EmailDto()
         {

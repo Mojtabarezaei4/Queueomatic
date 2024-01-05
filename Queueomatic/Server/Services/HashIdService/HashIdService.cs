@@ -8,7 +8,7 @@ public class HashIdService : IHashIdService
 
 	public HashIdService(IConfiguration configuration)
 	{
-		var _salt = configuration.GetSection("HashIdKey").GetSection("Default").Value;
+		var _salt = configuration.GetValue<string>("HashIdKey");
 		_hashids = new Hashids(_salt, 6);
 	}
 

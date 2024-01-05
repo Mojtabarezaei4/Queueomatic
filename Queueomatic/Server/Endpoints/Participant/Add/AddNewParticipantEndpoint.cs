@@ -34,7 +34,7 @@ public class AddNewParticipantEndpoint: Endpoint<AddNewParticipantRequest>
         }
         
         var jwtToken = JWTBearer.CreateToken(
-            signingKey: _configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value!,
+            signingKey: _configuration.GetValue<string>("JWTSigningKeys"),
             expireAt: DateTime.UtcNow.AddDays(1),
             priviledges: u =>
             {
