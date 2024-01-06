@@ -21,7 +21,7 @@ using Queueomatic.Server.Handlers.RoomRestrictionAuthorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+var connectionString = builder.Configuration.GetValue<string>("db_connection_string") ??
                        throw new InvalidOperationException("Connection string not found");
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
@@ -31,7 +31,7 @@ builder.Services.AddSignalR();
 builder.Services.AddFastEndpoints();
 
 
-var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value ??
+var jwtSecret = builder.Configuration.GetValue<string>("JWTSigningKeys") ??
                 throw new InvalidOperationException("JWT secret not found");
 
 builder.Services.AddJWTBearerAuth(jwtSecret, bearerEvents: e =>
@@ -72,7 +72,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
+//builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddHostedService<ScopedBackgroundService>();
 builder.Services.AddScoped<IRoomDeletionService, RoomDeletionService>();
