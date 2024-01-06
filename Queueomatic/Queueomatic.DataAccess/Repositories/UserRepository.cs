@@ -16,14 +16,14 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetAsync(string email)
     {
-        var result = await _context.Users.Include(u => u.Rooms).ThenInclude(p => p.Participators).FirstOrDefaultAsync(u => u.Email.Equals(email));
+        var result = await _context.Users.Include(u => u.Rooms).ThenInclude(p => p.Participants).FirstOrDefaultAsync(u => u.Email.Equals(email));
         return result;
     }
 
     public async Task<User?> GetUserByToken(string token)
     {
         var result = await _context.Users.Include(u => u.Rooms)
-            .ThenInclude(p => p.Participators)
+            .ThenInclude(p => p.Participants)
             .FirstOrDefaultAsync(u => u.PasswordResetToken.Equals(token));
         return result;
     }

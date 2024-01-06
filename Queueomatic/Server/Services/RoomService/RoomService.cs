@@ -28,7 +28,7 @@ public class RoomService : IRoomService
         var roomModel = new Room
         {
             Name = string.IsNullOrEmpty(name) ? GetName() : name,
-            Participators = new List<Participant>(),
+            Participants = new List<Participant>(),
             Owner = user,
             CreatedAt = DateTime.UtcNow,
             ExpireAt = DateTime.UtcNow.AddDays(1)
@@ -50,7 +50,7 @@ public class RoomService : IRoomService
 				Email = room.Owner.Email,
 				NickName = room.Owner.NickName
 			},
-			Participators = room.Participators.Select(p => new ParticipantDto
+			Participators = room.Participants.Select(p => new ParticipantDto
 			{
 				Id = p.Id,
 				NickName = p.NickName,
@@ -78,7 +78,7 @@ public class RoomService : IRoomService
 				Email = room.Owner.Email,
 				NickName = room.Owner.NickName
 			},
-			Participators = (ICollection<Participant>)room.Participators.Select(p => new Participant
+			Participants = (ICollection<Participant>)room.Participators.Select(p => new Participant
 			{
 				Id = p.Id,
 				NickName = p.NickName,

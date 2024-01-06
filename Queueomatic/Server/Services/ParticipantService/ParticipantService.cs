@@ -70,7 +70,7 @@ public class ParticipantService : IParticipantService
                     Email = participant.Room.Owner.Email,
                     NickName = participant.Room.Owner.NickName
                 },
-                Participators = participant.Room.Participators.Select(p => new ParticipantDto
+                Participators = participant.Room.Participants.Select(p => new ParticipantDto
                 {
                     Id = p.Id,
                     NickName = p.NickName,

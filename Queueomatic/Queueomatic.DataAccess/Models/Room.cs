@@ -11,5 +11,5 @@ public class Room
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime ExpireAt { get; set; } = DateTime.UtcNow.AddHours(12);
     public virtual User Owner { get; set; } //Could be a list for multiple owners
-    public virtual ICollection<Participant> Participators { get; set; }
+    public virtual ICollection<Participant> Participants { get; set; }
 }
