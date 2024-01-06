@@ -38,7 +38,7 @@
         <div class="col-12 d-flex flex-column align-items-center justify-content-center mb-5">
             <p class="header">Currently helping</p>
             <div class="d-flex flex-column ">
-                <Dropzone Items="ActiveParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Ongoing))" Class="plk-dd-dropzone  dropzone h-100 w-100">
+                <Dropzone Items="_activeParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Ongoing))" Class="plk-dd-dropzone  dropzone h-100 w-100">
                     <ChildContent>
                         <div class="card box">
                             <div class="card-body">
@@ -65,7 +65,7 @@
 
                 <div class="col d-flex flex-column align-items-center justify-content-center mb-5">
                     <p class="header">Idling</p>
-                    <Dropzone Items="IdlingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Idling))" Class="plk-dd-dropzone dropzone h-100 w-100">
+                    <Dropzone Items="_idlingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Idling))" Class="plk-dd-dropzone dropzone h-100 w-100">
                         <ChildContent>
                             <div class="card" style="border-left: 3px solid lime">
                                 <div class="card-body">
@@ -88,7 +88,7 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <p class="header">Waiting for help</p>
-                    <Dropzone Items="WaitingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Waiting))" Class="plk-dd-dropzone dropzone h-100 w-100 ">
+                    <Dropzone Items="_waitingParticipants" Context="c" TItem="ParticipantRoomDto" Accepts="(current, hoveredItem) => hoveredItem == null" AllowsDrag="s => CanMoveAsync(s)" OnItemDrop="@(async participant => await UpdateUser(participant, StatusDto.Waiting))" Class="plk-dd-dropzone dropzone h-100 w-100 ">
                         <ChildContent>
                             <div class="card" style="border-left: 3px solid orange">
                                 <div class="card-body">

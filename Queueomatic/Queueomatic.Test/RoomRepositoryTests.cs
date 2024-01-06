@@ -7,44 +7,44 @@ using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Test;
 
-public class ParticipantRepository_ReturnCorrectValue
+public class RoomRepositoryTests
 {
     [Fact]
-    public async Task GetParticipant_ReturnParticipantOrNull()
+    public async Task GetRoom_ReturnRoomOrNull()
     {
         //Arrange
         var options = new DbContextOptionsBuilder<ApplicationContext>()
             .UseInMemoryDatabase(databaseName: "QueueomaticTestDatabase")
             .Options;
 
-        var participant = A.Fake<Participant>();
-        var participantRepository = A.Fake<IParticipantRepository>();
+        var room = A.Fake<Room>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
-        A.CallTo(() => participantRepository.GetAsync(participant.Id)).Returns(participant);
+        var participantRepository = A.Fake<IParticipantRepository>();
+        A.CallTo(() => roomRepository.GetAsync(room.Id)).Returns(room);
 
         //Act   
         await using var context = new ApplicationContext(options);
         var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
-        var result = await sut.ParticipantRepository.GetAsync(participant.Id);
+        var result = await sut.RoomRepository.GetAsync(room.Id);
 
         //Assert
-        Assert.Equivalent(participant, result);
+        Assert.Equivalent(room, result);
     }
 
     [Fact]
-    public async Task GetAllParticipants_ReturnTotalParticipant()
+    public async Task GetAllRooms_ReturnTotalRoom()
     {
         //Arrange
         var options = new DbContextOptionsBuilder<ApplicationContext>()
             .UseInMemoryDatabase(databaseName: "QueueomaticTestDatabase")
             .Options;
 
-        var participants = A.Fake<IEnumerable<Participant>>();
-        var participantRepository = A.Fake<IParticipantRepository>();
+        var rooms = A.Fake<IEnumerable<Room>>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
-        A.CallTo(() => participantRepository.GetAllAsync()).Returns(participants);
+        var participantRepository = A.Fake<IParticipantRepository>();
+        A.CallTo(() => roomRepository.GetAllAsync()).Returns(rooms);
 
         //Act   
         await using var context = new ApplicationContext(options);
@@ -52,6 +52,6 @@ public class ParticipantRepository_ReturnCorrectValue
         var result = await sut.RoomRepository.GetAllAsync();
 
         //Assert
-        Assert.True(participants.Count() == result.Count());
+        Assert.True(rooms.Count() == result.Count());
     }
 }

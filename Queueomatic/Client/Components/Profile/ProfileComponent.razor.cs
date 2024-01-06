@@ -14,8 +14,8 @@ public partial class ProfileComponent : ComponentBase
     private UserDto _updatedUserInfo = new();
     private IModalReference? _modalReference;
 
-    [CascadingParameter] 
-    IModalService EditProfileModal { get; set; }
+    [CascadingParameter]
+    IModalService? EditProfileModal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,7 +44,7 @@ public partial class ProfileComponent : ComponentBase
         var parameters = new ModalParameters()
             .Add(nameof(EditProfileComponent.User), _user)
             .Add(nameof(EditProfileComponent.CloseModalAction), new Action<string>(CloseModal));
-        _modalReference = EditProfileModal.Show<EditProfileComponent>(null, parameters);
+        _modalReference = EditProfileModal!.Show<EditProfileComponent>("", parameters);
     }
 
     private void CloseModal(string username)

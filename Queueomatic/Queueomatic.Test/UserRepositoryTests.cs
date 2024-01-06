@@ -7,51 +7,51 @@ using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Test;
 
-public class RoomRepository_ReturnCorrectValues
+public class UserRepositoryTests
 {
     [Fact]
-    public async Task GetRoom_ReturnRoomOrNull()
+    public async Task GetUser_ReturnUserOrNull()
     {
         //Arrange
         var options = new DbContextOptionsBuilder<ApplicationContext>()
             .UseInMemoryDatabase(databaseName: "QueueomaticTestDatabase")
             .Options;
 
-        var room = A.Fake<Room>();
+        var userModel = A.Fake<User>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
         var participantRepository = A.Fake<IParticipantRepository>();
-        A.CallTo(() => roomRepository.GetAsync(room.Id)).Returns(room);
+        A.CallTo(() => userRepository.GetAsync(userModel.Email)).Returns(userModel);
 
         //Act   
         await using var context = new ApplicationContext(options);
         var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
-        var result = await sut.RoomRepository.GetAsync(room.Id);
+        var result = await sut.UserRepository.GetAsync(userModel.Email);
 
         //Assert
-        Assert.Equivalent(room, result);
+        Assert.Equivalent(userModel, result);
     }
 
     [Fact]
-    public async Task GetAllRooms_ReturnTotalRoom()
+    public async Task GetAllUsers_ReturnTotalUsers()
     {
         //Arrange
         var options = new DbContextOptionsBuilder<ApplicationContext>()
             .UseInMemoryDatabase(databaseName: "QueueomaticTestDatabase")
             .Options;
 
-        var rooms = A.Fake<IEnumerable<Room>>();
+        var users = A.Fake<IEnumerable<User>>();
         var userRepository = A.Fake<IUserRepository>();
         var roomRepository = A.Fake<IRoomRepository>();
         var participantRepository = A.Fake<IParticipantRepository>();
-        A.CallTo(() => roomRepository.GetAllAsync()).Returns(rooms);
+        A.CallTo(() => userRepository.GetAllAsync()).Returns(users);
 
         //Act   
         await using var context = new ApplicationContext(options);
         var sut = new UnitOfWork(context, participantRepository, userRepository, roomRepository);
-        var result = await sut.RoomRepository.GetAllAsync();
+        var result = await sut.UserRepository.GetAllAsync();
 
         //Assert
-        Assert.True(rooms.Count() == result.Count());
+        Assert.True(users.Count() == result.Count());
     }
 }

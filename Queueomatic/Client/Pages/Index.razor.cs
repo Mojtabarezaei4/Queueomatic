@@ -14,9 +14,9 @@ public partial class Index : ComponentBase
     private bool _isClicked = false;
     private string _buttonContent = "Join";
     [CascadingParameter]
-    IModalService SignupModal { get; set; }
-    private string _roomId = String.Empty;
-    private Toast Toast { get; set; }
+    IModalService? SignupModal { get; set; }
+    private string _roomId = string.Empty;
+    private Toast? Toast { get; set; }
     private async Task CheckRoomIsValid()
     {
         _isClicked = true;
@@ -24,7 +24,7 @@ public partial class Index : ComponentBase
 
         if (_roomId.Length < 6)
         {
-            Toast.Show("warning", $"Minimum length of room id is 6 characters!", 5000);
+            _ = Toast!.Show("warning", $"Minimum length of room id is 6 characters!", 5000);
             _isClicked = false;
             _buttonContent = "Join";
             return;
@@ -34,7 +34,7 @@ public partial class Index : ComponentBase
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
-            Toast.Show("warning", "No room with provided id was found!", 5000);
+            _ = Toast!.Show("warning", "No room with provided id was found!", 5000);
             _isClicked = false;
             _buttonContent = "Join";
         }
@@ -46,7 +46,7 @@ public partial class Index : ComponentBase
             var parameters = new ModalParameters()
                 .Add(nameof(ParticipantSignupForm.RoomName), room!.Room.Name)
                 .Add(nameof(ParticipantSignupForm.RoomId), room!.Room.HashId);
-            SignupModal.Show<ParticipantSignupForm>(null, parameters);
+            SignupModal!.Show<ParticipantSignupForm>("", parameters);
 
             _isClicked = false;
             _buttonContent = "Join";
