@@ -4,7 +4,7 @@ using Queueomatic.Server.Services.AuthenticationService;
 
 namespace Queueomatic.Test;
 
-public class AuthenticationService_VerifySequence
+public class AuthenticationServiceTests
 {
 	[Fact]
 	public void CreateSequence_ShouldBeEqual()

@@ -4,7 +4,7 @@ using Queueomatic.Server.Services.HashIdService;
 
 namespace Queueomatic.Test;
 
-public class HashIdService_Tests
+public class HashIdServiceTests
 {
 	[Fact]
 	public void EncodeValue_ReturnCorrectSequence()
