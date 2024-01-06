@@ -18,7 +18,7 @@ public class RoomRepository : IRoomRepository
     {
         return await _context.Rooms
             .Include(r => r.Owner)
-            .Include(r => r.Participators)
+            .Include(r => r.Participants)
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
@@ -26,7 +26,7 @@ public class RoomRepository : IRoomRepository
     {
         return await _context.Rooms
             .Include(r => r.Owner)
-            .Include(r => r.Participators)
+            .Include(r => r.Participants)
             .ToListAsync();
     }
 
@@ -34,7 +34,7 @@ public class RoomRepository : IRoomRepository
     {
         return await _context.Rooms
             .Include(r => r.Owner)
-            .Include(r => r.Participators)
+            .Include(r => r.Participants)
             .Where(r => id < 0 && r.Name.Contains(name) || r.Id == id || r.Name.Contains(name))
             .ToListAsync();
     }
@@ -43,6 +43,7 @@ public class RoomRepository : IRoomRepository
     {
         return await _context.Rooms
             .Include(r => r.Owner)
+            .Include(r => r.Participants)
             .Where(r => r.ExpireAt <= DateTime.UtcNow)
             .ToListAsync();
     }
@@ -72,6 +73,4 @@ public class RoomRepository : IRoomRepository
         _context.Rooms.Remove(entity);
         return Task.CompletedTask;
     }
-
-    
 }

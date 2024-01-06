@@ -21,10 +21,19 @@ public sealed class RoomDeletionService : IRoomDeletionService
         foreach (var room in roomsToBeDeleted)
         {
             await _unitOfWork.RoomRepository.DeleteAsync(room);
-            await _unitOfWork.SaveAsync();
             
-            _logger.LogInformation("Deleted Room: {RoomName} owned by {OwnerEmail}",
-                room.Name, room.Owner.Email);
+            _logger.LogInformation("Marked Room: {RoomName} with ID: {RoomId} owned by {OwnerEmail} for deletion.",
+                room.Name, room.Id ,room.Owner.Email);
+
+            foreach (var participant in room.Participants)
+            {
+                await _unitOfWork.ParticipantRepository.DeleteAsync(participant.Id);
+                _logger.LogInformation("Marked Participant with ID: {ID} with Name: {Nickname} ",
+                    participant.Id, participant.NickName);
+            }
         }
+
+        await _unitOfWork.SaveAsync();
+        _logger.LogInformation("Deleted expired rooms with respective participants.");
     }
 }
