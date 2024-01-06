@@ -21,11 +21,15 @@ public class EditUserEndpoint: Endpoint<EditUserRequest, EditUserResponse>
     public override async Task HandleAsync(EditUserRequest req, CancellationToken ct)
     {
         var user = await _unitOfWork.UserRepository.GetAsync(req.Email);
-        if (user is not null)
+
+        if (user == null)
         {
-            user.Email = req.User.Email;
-            user.NickName = req.User.NickName;
+            await SendNotFoundAsync();
+            return;
         }
+
+        user.Email = req.User.Email;
+        user.NickName = req.User.NickName;
 
         await _unitOfWork.UserRepository.UpdateAsync(user);
         

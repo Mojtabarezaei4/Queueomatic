@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
-using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Handlers.RoomRestrictionAuthorization;
 
@@ -32,11 +31,11 @@ public class RoomRestrictionRequirementHandler : AuthorizationHandler<RoomRestri
             return;
         }
 
-        var roomId = resource.HubMethodArguments.FirstOrDefault().ToString(); //Check hub-method to see which argument is retrieved
+        var roomId = resource.HubMethodArguments[0]!.ToString(); //This gets the room id
 
-        var room = await _unitOfWork.RoomRepository.GetAsync(_hashIdService.Decode(roomId));
+        var room = await _unitOfWork.RoomRepository.GetAsync(_hashIdService.Decode(roomId!));
 
-        if (room.Owner.Email.Equals(userId.Value))
+        if (room!.Owner.Email.Equals(userId.Value))
         {
             context.Succeed(requirement);
             return;

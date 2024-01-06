@@ -9,25 +9,25 @@ public partial class EditProfileComponent : ComponentBase
 {
 
     [Parameter] 
-    public UserDto User { get; set; }
+    public UserDto? User { get; set; }
 
     [Parameter]
-    public Action<string> CloseModalAction { get; set; }
-    private Toast Toast { get; set; }
+    public Action<string>? CloseModalAction { get; set; }
+    private Toast? Toast { get; set; }
     private bool _canUpdate;
     private async Task Update()
     {
         _canUpdate = !_canUpdate;
-        var result = await HttpClient.PostAsJsonAsync("api/user/username", User.NickName);
+        var result = await HttpClient.PostAsJsonAsync("api/user/username", User!.NickName);
         if (!result.IsSuccessStatusCode)
         {
-            Toast.Show("warning", "Something went wrong. Try again later.", 5000);
+            _ = Toast!.Show("warning", "Something went wrong. Try again later.", 5000);
             _canUpdate = !_canUpdate;
         }
         else
         {
-            await Toast.Show("success", "Username successfully changed!", 2000);
-            CloseModalAction.Invoke((await result.Content.ReadAsStringAsync()).Trim('\"'));
+            await Toast!.Show("success", "Username successfully changed!", 2000);
+            CloseModalAction!.Invoke((await result.Content.ReadAsStringAsync()).Trim('\"'));
         }
     }
 }

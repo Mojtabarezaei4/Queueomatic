@@ -14,7 +14,7 @@ public partial class ParticipantSignupForm: ComponentBase
     public string? RoomName { get; set; }
     [Parameter] 
     public string? RoomId { get; set; }
-    private Toast Toast { get; set; }
+    private Toast? Toast { get; set; }
     private async Task JoinTheRoom()
     {
         var addParticipantRequest = new AddParticipantRequest(_participantDto);
@@ -23,7 +23,7 @@ public partial class ParticipantSignupForm: ComponentBase
 
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            Toast.Show("warning", "Something went wrong", 5000);
+            _ = Toast!.Show("warning", "Something went wrong", 5000);
         }
         
         if (response.IsSuccessStatusCode)
@@ -31,7 +31,7 @@ public partial class ParticipantSignupForm: ComponentBase
             var result = await response.Content.ReadFromJsonAsync<PostResult>();
             await SessionStorageService.SetItemAsync("authToken", result);
 
-            await ManageVisitedRooms.UpdateLocalStorage(RoomId);
+            await ManageVisitedRooms.UpdateLocalStorage(RoomId!);
 
             NavigationManager.NavigateTo($"rooms/{RoomId}/{_participantDto.NickName}?room-name={RoomName}");
         }
@@ -39,4 +39,4 @@ public partial class ParticipantSignupForm: ComponentBase
 }
 
 record AddParticipantRequest(ParticipantDto Participant);
-record PostResult(string token, string participantName);
+record PostResult(string Token, string ParticipantName);

@@ -7,7 +7,7 @@ using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Test;
 
-public class RoomRepository_ReturnCorrectValues
+public class RoomRepositoryTests
 {
     [Fact]
     public async Task GetRoom_ReturnRoomOrNull()

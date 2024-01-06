@@ -50,7 +50,7 @@
     private string _buttonContent = "Create Room";
 
     [CascadingParameter]
-    IModalService SignupModal { get; set; }
+    IModalService? SignupModal { get; set; }
 
     private string _userName = string.Empty;
 
@@ -72,11 +72,11 @@
         NavigationManager.NavigateTo("/logout");
     }
 
-    private async Task CreateRoom()
+    private void CreateRoom()
     {
         _isClicked = true;
         _buttonContent = "Processing...";
-        SignupModal.Show<CreateRoomForm>(null);
+        SignupModal!.Show<CreateRoomForm>("");
         _isClicked = false;
         _buttonContent = "Create Room";
     }

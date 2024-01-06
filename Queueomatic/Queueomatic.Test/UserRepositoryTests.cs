@@ -7,7 +7,7 @@ using Queueomatic.DataAccess.UnitOfWork;
 
 namespace Queueomatic.Test;
 
-public class UserRepository_ReturnCorrectValues
+public class UserRepositoryTests
 {
     [Fact]
     public async Task GetUser_ReturnUserOrNull()

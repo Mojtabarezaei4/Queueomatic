@@ -1,12 +1,12 @@
 ﻿using FastEndpoints;
-using Queueomatic.Shared.DTOs;
 
 namespace Queueomatic.Server.Endpoints.User.ChangeUsername;
 
 public class ChangeUsernameRequest
 {
     [FromBody]
-    public string Username { get; set; }
-    [property: FromClaim]
-    public string UserId { get; set; }
+    public string Username { get; set; } = string.Empty;
+
+    [property: FromClaim] 
+    public string UserId { get; set; } = string.Empty;
 }

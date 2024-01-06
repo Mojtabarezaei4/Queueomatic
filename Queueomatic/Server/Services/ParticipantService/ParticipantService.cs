@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Queueomatic.DataAccess.Models;
+﻿using Queueomatic.DataAccess.Models;
 using Queueomatic.DataAccess.UnitOfWork;
 using Queueomatic.Server.Services.HashIdService;
 using Queueomatic.Shared.DTOs;

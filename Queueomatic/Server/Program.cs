@@ -16,10 +16,7 @@ using Queueomatic.Server.Services.RoomDeletionService;
 using Queueomatic.Server.Services.RoomService;
 using Microsoft.Extensions.Caching.Memory;
 using Queueomatic.Server.Services.CacheRoomService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Queueomatic.Server.Handlers;
 using Queueomatic.Server.Handlers.RoomRestrictionAuthorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +31,9 @@ builder.Services.AddSignalR();
 builder.Services.AddFastEndpoints();
 
 
-var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value;
+var jwtSecret = builder.Configuration.GetSection("JWTSigningKeys").GetSection("DefaultKey").Value ??
+                throw new InvalidOperationException("JWT secret not found");
+
 builder.Services.AddJWTBearerAuth(jwtSecret, bearerEvents: e =>
 {
     e.OnMessageReceived = context =>
@@ -48,8 +47,6 @@ builder.Services.AddJWTBearerAuth(jwtSecret, bearerEvents: e =>
         return Task.CompletedTask;
     };
 });
-
-
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();

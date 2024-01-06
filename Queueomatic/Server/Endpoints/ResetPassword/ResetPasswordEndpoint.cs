@@ -27,6 +27,7 @@ public class ResetPasswordEndpoint : Endpoint<ResetPasswordRequest>
         if (user is null || user.ResetTokenExpires < DateTime.UtcNow)
         {
             await SendErrorsAsync();
+            return;
         }
 
         _authenticationService.CreatePasswordHash(req.Request.Password, out byte[] passwordHash, out byte[] passwordSalt);

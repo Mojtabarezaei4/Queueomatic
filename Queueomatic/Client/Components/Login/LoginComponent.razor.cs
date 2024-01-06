@@ -12,8 +12,8 @@ public partial class LoginComponent : ComponentBase
     private LoginDto _loginDto = new();
     private bool _isClicked = false;
     private string _buttonContent = "Login";
-    private string _responseMessage = String.Empty;
-    private Toast Toast { get; set; }
+    private string _responseMessage = string.Empty;
+    private Toast? Toast { get; set; }
 
     private async Task Login()
     {
@@ -34,7 +34,7 @@ public partial class LoginComponent : ComponentBase
             _loginDto.Email = string.Empty;
             _loginDto.Password = string.Empty;
             _isClicked = false;
-            Toast.Show("danger", _responseMessage, 5000);
+            _ = Toast!.Show("danger", _responseMessage, 5000);
             _buttonContent = "Login";
             return;
         }
