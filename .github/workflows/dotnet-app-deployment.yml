@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - '*'
+      - 'main'
 
 env:
   AZURE_WEBAPP_NAME: queueomatic                  
@@ -29,9 +29,9 @@ jobs:
       
       - name: dotnet build and publish
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+          dotnet restore ./Queueomatic
+          dotnet build ./Queueomatic --configuration Release
+          dotnet publish ./Queueomatic -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
           
       - name: 'Deploy'
         uses: azure/webapps-deploy@v2
