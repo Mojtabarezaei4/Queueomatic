@@ -21,7 +21,7 @@ using Queueomatic.Server.Handlers.RoomRestrictionAuthorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetValue<string>("db-connection-string") ??
+var connectionString = builder.Configuration.GetValue<string>("db_connection_string") ??
                        throw new InvalidOperationException("Connection string not found");
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
