@@ -1,5 +1,83 @@
-﻿
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using Blazored.SessionStorage
+@using System.Net
+@using Microsoft.AspNetCore.Http.Connections
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ISessionStorageService SessionStorageService
+@inject HttpClient HttpClient;
+
+
+<div class="container pt-3">
+    <LogoComponent />
+    <AuthorizeView>
+        <Authorized>
+            <AuthorizeView Context="ctx" Policy="IsParticipant">
+                <Authorized>
+                    <UnauthorizedNavMenu />
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Context="ctx" Policy="SignedInUser">
+                <Authorized>
+                    <div class="container d-flex align-items-center justify-content-center col-sm-5 col-12 mt-4 w-100">
+                        <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" @onclick="NavigateToProfile">
+                            <span class="btn-login-txt" href="profile">Profile</span>
+                        </div>
+                        <div class="button-login button-login-1 d-flex align-items-center justify-content-center m-1" disabled=@_isClicked @onclick="CreateRoom">
+                            @_buttonContent
+                        </div>
+                        <button class="logout-button d-flex justify-content-center m-1" @onclick="LogOut">
+                            Log Out
+                            <div class="arrow-wrapper">
+                                <div class="arrow"></div>
+                            </div>
+                        </button>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedNavMenu />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
 
 @code {
-    
+
+    private bool _isClicked = false;
+    private string _buttonContent = "Create Room";
+
+    [CascadingParameter]
+    IModalService? SignupModal { get; set; }
+
+    private string _userName = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var name = state.User.Claims.FirstOrDefault();
+        if (name != null)
+            _userName = name.Value;
+    }
+
+    private void NavigateToProfile()
+    {
+        NavigationManager.NavigateTo("/profile");
+    }
+
+    private void LogOut()
+    {
+        NavigationManager.NavigateTo("/logout");
+    }
+
+    private void CreateRoom()
+    {
+        _isClicked = true;
+        _buttonContent = "Processing...";
+        SignupModal!.Show<CreateRoomForm>("");
+        _isClicked = false;
+        _buttonContent = "Create Room";
+    }
 }

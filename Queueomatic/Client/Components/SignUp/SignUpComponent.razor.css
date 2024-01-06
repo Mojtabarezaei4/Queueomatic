@@ -1,0 +1,171 @@
+﻿@font-face {
+    font-family: roomFont;
+    src: url(static/moonrising.ttf);
+}
+
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
+.component {
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgba(156, 163, 175, 1);
+    font-family: roomFont, sans-serif;
+    letter-spacing: 2px;
+    animation: fade 1.5s ease-in-out;
+}
+
+a:hover {
+    text-decoration: none;
+    text-underline: none;
+}
+
+.form-container {
+    width: 420px;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px);
+    color: rgba(243, 244, 246, 1);
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: 700;
+}
+
+.form {
+    margin-top: 1.5rem;
+}
+
+.input-field,
+#username,
+#userEmail,
+#password,
+#confirmPassword {
+    width: 100%;
+    height: 2.5rem;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.2rem;
+    font-family: nexa-heavy, sans-serif;
+    text-align: center;
+    color: rgba(243, 244, 246, 1);
+    padding: 0.75rem 1rem;
+}
+
+.input-field,
+#username,
+#userEmail,
+#password,
+#confirmPassword:focus {
+    outline: none;
+}
+
+.input-field,
+label {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.signup a {
+    color: rgba(243, 244, 246, 1);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.signup a:hover {
+    transition: 0.3s;
+    background: #2e2e2e;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    font-size: 17px;
+    padding: 0.5em 2em;
+    border: transparent;
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
+    background: #2e2e2e;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-top: 4em;
+}
+
+.submit-button:hover {
+    transition: 0.3s;
+    background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
+    cursor: pointer;
+}
+
+.submit-button:active {
+    transform: translate(0em, 0.2em);
+}
+
+.submit-button:disabled {
+    cursor: wait;
+    opacity: .4;
+}
+
+.submit-button span {
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.3s;
+    font-family: roomFont, sans-serif;
+}
+
+.submit-button:hover span {
+    background: #2e2e2e;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.3s;
+}
+
+.response-message {
+    margin-top: 1em;
+    padding-left: 5px;
+}
+
+.line-container {
+    padding-top: 1rem;
+}
+
+.line {
+    height: 1px;
+    flex: 1 1 0%;
+    background-color: rgba(55, 65, 81, 1);
+}
+
+.signup {
+    padding-top: 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: rgb(222, 222, 222);
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

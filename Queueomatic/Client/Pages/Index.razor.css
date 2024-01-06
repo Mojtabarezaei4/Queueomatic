@@ -1,0 +1,201 @@
+﻿@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
+@font-face {
+    font-family: nexa-light;
+    src: url(static/Nexa-ExtraLight.ttf);
+}
+
+.room-input-group {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: center;
+    height: 3.5rem;
+    font-family: roomFont
+}
+
+.submit-button {
+    font-size: 17px;
+    padding: 0.5em 2em;
+    border: transparent;
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
+    background: #2E2E2E;
+    border-radius: 0 10px 10px 0;
+    transition: 0.3s;
+}
+
+.submit-button:hover {
+    transition: 0.3s;
+    background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+    cursor: pointer;
+}
+
+.submit-button:active {
+    transform: translate(0em, 0.2em);
+}
+
+.submit-button span {
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.3s;
+    font-family: roomFont
+}
+
+.submit-button:hover span {
+    background: #2E2E2E;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.3s;
+}
+.submit-button:disabled {
+    cursor: wait;
+    opacity: .4;
+}
+
+#input-field {
+    background-color: #2E2E2E;
+    border-radius: 10px 0 0 10px;
+    border: none;
+    padding-left: 8px;
+    color: white;
+    font-size: 1.5rem;
+    font-family: nexa-heavy;
+    text-align: center
+}
+
+#input-field:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: rgb(184, 184, 184);
+    font-family: roomFont;
+    text-align: center
+}
+
+.main-header {
+    font-family: roomFont;
+    font-size: 2.5rem
+}
+
+.main {
+    margin-top: 10rem
+}
+
+.visited-rooms-component{
+    margin-top: 1.9em;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 480px) {
+    #input-field {
+        max-width: 10rem;
+    }
+}
+
+.info-card {
+    width: 20em;
+    height: 25em;
+    background: #2e2e2e;
+    transition: 1s ease-in-out;
+    clip-path: polygon(30px 0%, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0% 30px);
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    font-family: nexa-light;
+}
+
+.info-card span {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    display: block;
+    font-size: 1em;
+}
+
+.info-card .info {
+    font-weight: 400;
+    color: white;
+    display: block;
+    text-align: center;
+    font-size: 0.9em;
+    margin: 1em;
+}
+
+.info-card .img {
+    width: 4.8em;
+    height: 4.8em;
+    border-radius: 15px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.social-buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+   
+    padding: 15px 10px;
+    border-radius: 5em;
+}
+
+.social-button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: #fff;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.social-button:hover {
+    background-color: #f2f2f2;
+}
+
+.social-buttons svg {
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    height: 20px;
+}
+
+.github {
+    background-color: #333;
+}
+
+.github svg {
+    width: 25px;
+    height: 25px;
+    fill: #f2f2f2;
+}
+
+.github:hover svg {
+    fill: #333;
+}
+
+.container > .info-card {
+    margin-top: 15rem;
+}

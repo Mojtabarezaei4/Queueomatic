@@ -1,0 +1,262 @@
+﻿@font-face {
+    font-family: roomFont;
+    src: url(static/moonrising.ttf);
+}﻿
+
+@font-face {
+    font-family: nexa-light;
+    src: url(static/Nexa-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
+}
+
+.plk-dd-inprogess > * {
+    pointer-events: none;
+}
+
+.exit-button {
+    --primary-color: #336a6b;
+    --secondary-color: #fff;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    height: 50px;
+    width: 150px;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-family: nexa-heavy, sans-serif;
+    font-weight: bold;
+}
+
+.exit-button .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.exit-button .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+
+.exit-button .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+
+.exit-button:hover {
+    background-color: #333333;
+}
+
+.exit-button:hover .arrow {
+    background: var(--secondary-color);
+}
+
+.exit-button:hover .arrow:before {
+    right: 0;
+}
+
+/*dropzone style style*/
+.plk-dd-dropzone {
+    min-height: 50px;
+}
+
+.plk-dd-spacing {
+    height: 10px;
+}
+
+.plk-dd-spacing-dragged-over {
+    padding: 25px;
+}
+
+.plk-dd-dragged-over {
+    background-color: lightgray;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+.plk-dd-dragged-over > div {
+    background-color: lightgray;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+.plk-dd-dragged-over-denied {
+    background-color: red;
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+.header {
+    font-family: roomFont;
+    font-size: 1.5rem
+}
+
+.card {
+    font: 1em/1.618 nexa-light, sans-serif;
+    font-weight: bold;
+    max-width: 400px;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    padding: 0.1rem;
+    margin: 0.5rem 0;
+}
+
+
+.box {
+    --border-size: 5px;
+    --border-angle: 0turn;
+    color: white;
+    background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-animation: bg-spin 3s linear infinite;
+    animation: bg-spin 3s linear infinite;
+}
+
+@-webkit-keyframes bg-spin {
+    to {
+        --border-angle: 1turn;
+    }
+}
+
+@keyframes bg-spin {
+    to {
+        --border-angle: 1turn;
+    }
+}
+
+.box:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+@property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+}
+
+
+.roomText {
+    font-size: 2rem;
+    font-family: roomFont;
+}
+
+.roomId {
+    font-size: 1.4rem;
+    font-family: nexa-heavy;
+}
+
+.reverse-column {
+    flex-direction: column-reverse;
+}
+
+
+.outer {
+    position: relative;
+    width: 25px;
+    cursor: pointer;
+}
+
+.inner {
+    width: inherit;
+    top: 0;
+    text-align: center;
+}
+
+label {
+    font-size: .6rem;
+    text-transform: uppercase;
+    color: #fff;
+    transition: all .3s ease-in;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.inner:before, .inner:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: inherit;
+    background: #D40004;
+    left: 0;
+    transition: all .3s ease-in;
+}
+
+.inner:before {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.inner:after {
+    bottom: 50%;
+    transform: rotate(-45deg);
+}
+
+.outer:hover label {
+    opacity: 1;
+}
+
+.outer:hover .inner:before,
+.outer:hover .inner:after {
+    transform: rotate(0);
+}
+
+.outer:hover .inner:before {
+    top: 0;
+}
+
+.outer:hover .inner:after {
+    bottom: 0;
+}
+
+.nameBox {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    transform: translateX(10px);
+}
+
+@media screen and (min-width: 770px) {
+    .reverse-column {
+        flex-direction: row !important;
+    }
+}

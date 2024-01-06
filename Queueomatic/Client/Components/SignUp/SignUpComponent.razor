@@ -1,0 +1,53 @@
+﻿@using Blazored.SessionStorage
+@using BlazorBootstrapToasts
+@inject HttpClient HttpClient;
+@inject NavigationManager NavigationManager;
+@inject ISessionStorageService SessionStorageService;
+
+<LogoComponent/>
+<AuthorizeView>
+    <Authorized>
+        <RedirectHome/>
+    </Authorized>
+</AuthorizeView>
+<div class="component">
+    <div class="form-container">
+        <p class="title">Signup</p>
+        <EditForm class="form" Model="_signUpDto" OnValidSubmit="SignUp">
+            <DataAnnotationsValidator/>
+            <div class="input-group">
+                <label for="username">Nickname</label>
+                <input type="text" name="username" placeholder="" class="input-field" id="username" @bind-value="_signUpDto.NickName">
+            </div>
+            <div class="input-group">
+                <label for="userEmail">Email</label>
+                <input type="email" name="email" placeholder="" class="input-field" id="userEmail" @bind-value="_signUpDto.Email">
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Email)"/>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="" class="input-field" id="password" @bind-value="_signUpDto.Password">
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.Password)"/>
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" placeholder="" class="input-field" id="confirmPassword" @bind-value="_signUpDto.ConfirmPassword">
+                <ValidationMessage style="color: #2e2e2e !important; font-size: 13px; padding-top: 4px;" For="(() => _signUpDto.ConfirmPassword)"/>
+                <div class="invalid-feedback">
+                </div>
+            </div>
+            <button class="submit-button" disabled=@_isClicked>
+                <span>@_buttonContent</span>
+            </button>
+        </EditForm>
+        <div class="line-container">
+            <div class="line"></div>
+        </div>
+        <p class="signup">
+            Already have an account?
+            <br/>
+            <a rel="noopener noreferrer" href="login" class="signup-a">Login</a>
+        </p>
+    </div>
+    <Toast @ref="Toast"></Toast>
+</div>

@@ -1,68 +1,172 @@
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+@font-face {
+    font-family: nexa-heavy;
+    src: url(static/Nexa-Heavy.ttf);
 }
 
-.top-row {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+.button-login {
+    height: 50px;
+    width: 150px;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    border: 2px solid #252525;
+    overflow: hidden;
+    border-radius: 30px;
+    color: #333;
+    transition: all 0.5s ease-in-out;
+    font-weight: bold;
+    font-family: nexa-heavy, sans-serif;
 }
 
-.navbar-brand {
-    font-size: 1.1rem;
+.btn-login-txt {
+    z-index: 1;
+    font-weight: 800;
+    letter-spacing: 4px;
 }
 
-.oi {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
+.button-login-1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: #333;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
 }
 
-.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
+.button-login:hover {
+    box-shadow: 1px 1px 200px #252525;
+    color: #fff;
+    border: none;
 }
 
-    .nav-item:first-of-type {
-        padding-top: 1rem;
+.button-login-1:hover::after {
+    visibility: visible;
+    transform: scale(100) translateX(2px);
+}
+
+.logout-button {
+    --primary-color: #336a6b;
+    --secondary-color: #fff;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    height: 50px;
+    width: 150px;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-family: nexa-heavy, sans-serif;
+    font-weight: bold;
+}
+
+.logout-button .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-button .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+
+.logout-button .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+
+.logout-button:hover {
+    background-color: #333333;
+}
+
+.logout-button:hover .arrow {
+    background: var(--secondary-color);
+}
+
+.logout-button:hover .arrow:before {
+    right: 0;
+}
+
+.signup-button {
+    --primary-color: #336a6b;
+    --secondary-color: #fff;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    height: 50px;
+    width: 150px;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+    font-family: nexa-heavy, sans-serif;
+}
+
+.signup-button .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}    
+
+.signup-button .arrow {
+        margin-top: 1px;
+        width: var(--arrow-width);
+        background: var(--primary-color);
+        height: var(--arrow-stroke);
+        position: relative;
+        transition: 0.2s;
+}
+
+.signup-button .arrow::before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        border: solid var(--secondary-color);
+        border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+        display: inline-block;
+        top: -3px;
+        right: 3px;
+        transition: 0.2s;
+        padding: 3px;
+        transform: rotate(-45deg);
+}
+
+    .signup-button:hover {
+        background-color: #333333;
     }
 
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
+.signup-button:hover .arrow {
+    background: var(--secondary-color);
 }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
-
-@media (min-width: 641px) {
-    .navbar-toggler {
-        display: none;
-    }
-
-    .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
-    
-    .nav-scrollable {
-        /* Allow sidebar to scroll for tall menus */
-        height: calc(100vh - 3.5rem);
-        overflow-y: auto;
-    }
+.signup-button:hover .arrow:before {
+    right: 0;
 }
