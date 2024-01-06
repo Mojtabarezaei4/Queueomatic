@@ -12,11 +12,10 @@ namespace Queueomatic.Server.Services.CacheRoomService
             _cache = cache ?? throw new ArgumentException($"The value of cache cannot be null");
         }
 
-        public RoomModel GetRoom(string roomId)
+        public RoomModel? GetRoom(string roomId)
         {
-            if (_cache.TryGetValue(roomId, out RoomModel room))
-                return room!;
-            return null;
+
+            return _cache.TryGetValue(roomId, out _) ? _cache.Get<RoomModel>(roomId)! : null;
         }
 
 
