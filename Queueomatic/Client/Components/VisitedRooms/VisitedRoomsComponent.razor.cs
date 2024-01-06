@@ -13,9 +13,9 @@ namespace Queueomatic.Client.Components.VisitedRooms;
 public partial class VisitedRoomsComponent : ComponentBase
 {
     [CascadingParameter]
-    IModalService SignupModal { get; set; }
+    IModalService? SignupModal { get; set; }
     private List<RoomDto> _visitedRooms = new();
-    private AuthenticationState authenticationState;
+    private AuthenticationState? _authenticationState;
 
     const string LocalStorageName = "visitedRooms";
 
@@ -23,7 +23,7 @@ public partial class VisitedRoomsComponent : ComponentBase
     {
         var visitedRooms = await LocalStorageService.GetItemAsync<SortedDictionary<DateTime, string>>(LocalStorageName);
 
-        authenticationState = await AuthProvider.GetAuthenticationStateAsync();
+        _authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
         if (visitedRooms is null)
         {
@@ -53,8 +53,8 @@ public partial class VisitedRoomsComponent : ComponentBase
             return;
         }
 
-        if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
-            (await IsUserOwner(roomHashId) || authenticationState.User.IsInRole("Administrator"))
+        if (!_authenticationState!.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
+            (await IsUserOwner(roomHashId) || _authenticationState.User.IsInRole("Administrator"))
             )
         {
             await ManageVisitedRooms.UpdateLocalStorage(roomHashId);
@@ -65,7 +65,7 @@ public partial class VisitedRoomsComponent : ComponentBase
         var parameters = new ModalParameters()
             .Add(nameof(ParticipantSignupForm.RoomName), roomResponse.Room.Name)
             .Add(nameof(ParticipantSignupForm.RoomId), roomResponse.Room.HashId);
-        SignupModal.Show<ParticipantSignupForm>(null, parameters);
+        SignupModal!.Show<ParticipantSignupForm>("", parameters);
     }
 
     private async Task<bool> IsUserOwner(string roomHashId)
@@ -80,6 +80,6 @@ public partial class VisitedRoomsComponent : ComponentBase
         return claimValue != null && claimValue.Value.Equals(roomResponse.Room.Owner.Email);
     }
 
-    private Claim? GetClaim(string identifier) => authenticationState.User.Claims.FirstOrDefault(c => c.Type.Equals(identifier));
+    private Claim? GetClaim(string identifier) => _authenticationState!.User.Claims.FirstOrDefault(c => c.Type.Equals(identifier));
 }
 record RoomResponse(RoomDto Room);

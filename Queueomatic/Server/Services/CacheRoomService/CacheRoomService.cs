@@ -53,10 +53,10 @@ namespace Queueomatic.Server.Services.CacheRoomService
 
             var room = _cache.Get<RoomModel>(roomId);
 
-            var oldList = GetList(participant.Status, room);
+            var oldList = GetList(participant.Status, room!);
             oldList.RemoveAll(p => p.Id == participant.Id);
 
-            var activeList = GetList(status, room);
+            var activeList = GetList(status, room!);
             participant.Status = status;
             activeList.Add(participant);
 
@@ -87,10 +87,10 @@ namespace Queueomatic.Server.Services.CacheRoomService
         public ParticipantRoomDto GetParticipant(Guid participantId, string roomId)
         {
             var room = GetRoom(roomId);
-            return room.ActiveParticipants
+            return room!.ActiveParticipants
                  .Concat(room.WaitingParticipants)
                  .Concat(room.IdlingParticipants)
-                 .FirstOrDefault(p => p.Id.Equals(participantId));
+                 .FirstOrDefault(p => p.Id.Equals(participantId))!;
         }
     }
 }

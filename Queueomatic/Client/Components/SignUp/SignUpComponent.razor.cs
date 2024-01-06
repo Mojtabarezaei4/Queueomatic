@@ -10,17 +10,17 @@ public partial class SignUpComponent : ComponentBase
 {
     private SignupDto _signUpDto = new();
     private string _buttonContent = "Signup";
-    private bool isClicked = false;
+    private bool _isClicked;
     private string _responseMessage = String.Empty;
-    private Toast Toast { get; set; }
+    private Toast? Toast { get; set; }
     
     private async Task SignUp()
     {
         _buttonContent = "Processing...";
-        isClicked = true;
+        _isClicked = true;
         var signUpRequest = new SignUpRequest(new()
         {
-            NickName = _signUpDto.NickName ?? String.Empty,
+            NickName = _signUpDto.NickName ?? string.Empty,
             Email = _signUpDto.Email.ToLower(),
             Password = _signUpDto.Password,
             ConfirmPassword = _signUpDto.ConfirmPassword
@@ -34,9 +34,9 @@ public partial class SignUpComponent : ComponentBase
                 .ReadAsStringAsync()
                 .Result
                 .Replace("\"", ""); 
-            isClicked = false;
+            _isClicked = false;
             _buttonContent = "Signup";
-            Toast.Show("danger", _responseMessage, 5000);
+            _ = Toast!.Show("danger", _responseMessage, 5000);
             return;
         }
         

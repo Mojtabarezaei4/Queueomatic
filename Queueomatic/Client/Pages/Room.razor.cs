@@ -13,39 +13,39 @@ namespace Queueomatic.Client.Pages;
 public partial class Room : ComponentBase
 {
     [Parameter]
-    public string RoomId { get; set; }
+    public string RoomId { get; set; } = string.Empty;
 
     public bool IsOwner { get; set; }
 
     [Parameter]
-    public string ParticipantName { get; set; }
+    public string ParticipantName { get; set; } = string.Empty;
 
-    private HubConnection? hubConnection;
+    private HubConnection? _hubConnection;
 
-    private ParticipantRoomDto _participantRoomDto;
-    private RoomDto _roomDto;
-    
+    private ParticipantRoomDto? _participantRoomDto;
+    private RoomDto? _roomDto;
+
     [Parameter]
     [SupplyParameterFromQuery(Name = "room-name")]
-    public string RoomName { get; set; }
+    public string RoomName { get; set; } = string.Empty;
 
-    private List<ParticipantRoomDto> IdlingParticipants = new();
-    private List<ParticipantRoomDto> WaitingParticipants = new();
-    private List<ParticipantRoomDto> ActiveParticipants = new();
-    private AuthenticationState authenticationState;
+    private List<ParticipantRoomDto> _idlingParticipants = new();
+    private List<ParticipantRoomDto> _waitingParticipants = new();
+    private List<ParticipantRoomDto> _activeParticipants = new();
+    private AuthenticationState? _authenticationState;
 
     protected override async Task OnInitializedAsync()
     {
-        authenticationState = await AuthProvider.GetAuthenticationStateAsync();
+        _authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
-        if (!authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
-            (await IsUserOwner() || authenticationState.User.IsInRole("Administrator")))
+        if (!_authenticationState.User.HasClaim(c => c.Type.Equals("ParticipantId")) &&
+            (await IsUserOwner() || _authenticationState.User.IsInRole("Administrator")))
         {
             InitializeHub(await SessionStorageService.GetItemAsync<string>("authToken"));
-            await hubConnection!.StartAsync();
+            await _hubConnection!.StartAsync();
 
-            await hubConnection.InvokeAsync("JoinRoom", RoomId);
-            var room = await hubConnection.InvokeAsync<RoomModel?>("GetState", RoomId);
+            await _hubConnection.InvokeAsync("JoinRoom", RoomId);
+            var room = await _hubConnection.InvokeAsync<RoomModel?>("GetState", RoomId);
             if (room != null)
                 UpdateRoom(room);
 
@@ -54,7 +54,7 @@ public partial class Room : ComponentBase
         else
         {
             InitializeHub("");
-            await hubConnection!.StartAsync();
+            await _hubConnection!.StartAsync();
             await InitializeParticipant();
         }
     }
@@ -77,22 +77,22 @@ public partial class Room : ComponentBase
         var queryParam = "";
         if (!string.IsNullOrWhiteSpace(token))
             queryParam = $"?authToken={token}";
-        hubConnection = new HubConnectionBuilder()
+        _hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri($"/roomHubs/{RoomId}{queryParam}"))
             .Build();
 
-        hubConnection.On<ParticipantRoomDto, StatusDto>("MoveParticipant", (user, status) =>
+        _hubConnection.On<ParticipantRoomDto, StatusDto>("MoveParticipant", (user, status) =>
         {
             MoveParticipant(user, status);
             StateHasChanged();
         });
 
-        hubConnection.On<ParticipantRoomDto>("ClearRoom", (user) =>
+        _hubConnection.On<ParticipantRoomDto>("ClearRoom", (user) =>
         {
             ClearTheRoom(user);
             StateHasChanged();
         });
-        hubConnection.On("KickParticipant", async () =>
+        _hubConnection.On("KickParticipant", async () =>
         {
             await SessionStorageService.RemoveItemAsync("authToken");
             Navigation.NavigateTo("/");
@@ -103,18 +103,18 @@ public partial class Room : ComponentBase
     {
         if (!await SessionStorageService.ContainKeyAsync("authToken"))
             await SessionStorageService.SetItemAsync("authToken", GetToken());
-        authenticationState = await AuthProvider.GetAuthenticationStateAsync();
+        _authenticationState = await AuthProvider.GetAuthenticationStateAsync();
 
-        var participantId = Guid.Parse(GetClaim("ParticipantId").Value);
+        var participantId = Guid.Parse(GetClaim("ParticipantId")!.Value);
         
 
-        _participantRoomDto = new ParticipantRoomDto { Id = participantId, NickName = ParticipantName, ConnectionId = hubConnection.ConnectionId };
+        _participantRoomDto = new ParticipantRoomDto { Id = participantId, NickName = ParticipantName, ConnectionId = _hubConnection!.ConnectionId! };
 
-        await hubConnection.InvokeAsync("JoinRoom", RoomId);
+        await _hubConnection.InvokeAsync("JoinRoom", RoomId);
         await InitializeRoom(_participantRoomDto);
     }
 
-    private Claim? GetClaim(string identifier) => authenticationState.User.Claims.FirstOrDefault(c => c.Type.Equals(identifier));
+    private Claim? GetClaim(string identifier) => _authenticationState!.User.Claims.FirstOrDefault(c => c.Type.Equals(identifier));
 
     private async Task<string> GetToken()
     {
@@ -128,7 +128,7 @@ public partial class Room : ComponentBase
         }
 
         var result = await response.Content.ReadFromJsonAsync<PostResult>();
-        return result.token;
+        return result!.Token;
     }
 
     private bool CanMoveAsync(ParticipantRoomDto participant)
@@ -137,32 +137,32 @@ public partial class Room : ComponentBase
         var participantClaim = GetClaim("ParticipantId");
 
         var canParticipantMove = participantClaim != null && participant.Id.Equals(Guid.Parse(participantClaim!.Value));
-        var isUserOwner = userClaim != null && _roomDto.Owner.Email.Equals(userClaim.Value);
+        var isUserOwner = userClaim != null && _roomDto!.Owner.Email.Equals(userClaim.Value);
         return canParticipantMove
                || isUserOwner
-               || authenticationState.User.IsInRole("Administrator");
+               || _authenticationState!.User.IsInRole("Administrator");
     }
 
     private async Task UpdateUser(ParticipantRoomDto participant, StatusDto status)
     {
-        if (hubConnection is not null)
+        if (_hubConnection is not null)
         {
-            await hubConnection.SendAsync("UpdateParticipant", participant, status, RoomId);
+            await _hubConnection.SendAsync("UpdateParticipant", participant, status, RoomId);
         }
     }
 
     private async Task InitializeRoom(ParticipantRoomDto participant)
     {
-        if (hubConnection is not null)
+        if (_hubConnection is not null)
         {
-            var room = await hubConnection.InvokeAsync<RoomModel>("InitializeParticipant", participant, RoomId, RoomName);
+            var room = await _hubConnection.InvokeAsync<RoomModel>("InitializeParticipant", participant, RoomId, RoomName);
             var roomParticipant = room.IdlingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
                 room.WaitingParticipants.Where(p => p.Id.Equals(participant.Id)).Concat(
                     room.ActiveParticipants.Where(p => p.Id.Equals(participant.Id))))
                 .FirstOrDefault();
             if (roomParticipant != null)
             {
-                _participantRoomDto.Status = roomParticipant.Status;
+                _participantRoomDto!.Status = roomParticipant.Status;
             }
 
             UpdateRoom(room);
@@ -171,9 +171,9 @@ public partial class Room : ComponentBase
 
     private void UpdateRoom(RoomModel room)
     {
-        IdlingParticipants = room.IdlingParticipants;
-        WaitingParticipants = room.WaitingParticipants;
-        ActiveParticipants = room.ActiveParticipants;
+        _idlingParticipants = room.IdlingParticipants;
+        _waitingParticipants = room.WaitingParticipants;
+        _activeParticipants = room.ActiveParticipants;
 
         StateHasChanged();
     }
@@ -187,7 +187,7 @@ public partial class Room : ComponentBase
     private void RemoveOldUser(ParticipantRoomDto participant, List<ParticipantRoomDto> activeList)
     {
         var participantToBeDeleted = activeList.FirstOrDefault(x => x.Id == participant.Id);
-        activeList.Remove(participantToBeDeleted);
+        activeList.Remove(participantToBeDeleted!);
     }
 
     private void AddNewUser(ParticipantRoomDto participant, StatusDto status, List<ParticipantRoomDto> activeList)
@@ -200,40 +200,40 @@ public partial class Room : ComponentBase
     {
         return participantStatus switch
         {
-            StatusDto.Idling => IdlingParticipants,
-            StatusDto.Waiting => WaitingParticipants,
-            StatusDto.Ongoing => ActiveParticipants,
+            StatusDto.Idling => _idlingParticipants,
+            StatusDto.Waiting => _waitingParticipants,
+            StatusDto.Ongoing => _activeParticipants,
             _ => throw new ArgumentOutOfRangeException(nameof(participantStatus), participantStatus, null)
         };
     }
 
 
     public bool IsConnected =>
-        hubConnection?.State == HubConnectionState.Connected;
+        _hubConnection?.State == HubConnectionState.Connected;
 
 
     private async Task Exit()
     {
-        if (hubConnection is not null)
+        if (_hubConnection is not null)
         {
-            await hubConnection.SendAsync("LeaveRoom", _participantRoomDto, RoomId, "");
+            await _hubConnection.SendAsync("LeaveRoom", _participantRoomDto, RoomId, "");
         }
         Navigation.NavigateTo("/");
     }
 
     private void ClearTheRoom(ParticipantRoomDto participantRoomDto)
     {
-        if (ActiveParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        if (_activeParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Ongoing));
         }
 
-        if (IdlingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        if (_idlingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Idling));
         }
 
-        if (WaitingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
+        if (_waitingParticipants.Any(p => p.Id.Equals(participantRoomDto.Id)))
         {
             RemoveOldUser(participantRoomDto, GetList(StatusDto.Waiting));
         }
@@ -241,7 +241,7 @@ public partial class Room : ComponentBase
 
     private async Task KickUser(string connectionIdOfParticipant, Guid participantId)
     {
-        if (hubConnection is not null)
-            await hubConnection.InvokeAsync("KickParticipant", RoomId, connectionIdOfParticipant, participantId);
+        if (_hubConnection is not null)
+            await _hubConnection.InvokeAsync("KickParticipant", RoomId, connectionIdOfParticipant, participantId);
     }
 }

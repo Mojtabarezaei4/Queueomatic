@@ -35,7 +35,7 @@ public class RoomHub : Hub<IRoomClient>
         _cacheService.UpdateRoom(participant, participant.Status, roomId);
 
         await Clients.Groups(roomId).MoveParticipant(participant, participant.Status);
-        return _cacheService.GetRoom(roomId);
+        return _cacheService.GetRoom(roomId)!;
     }
 
     public async Task LeaveRoom(ParticipantRoomDto? participant, string roomId, string? connectionId = null)
@@ -50,7 +50,7 @@ public class RoomHub : Hub<IRoomClient>
             _cacheService.CleanRoom(participant, roomId);
     }
 
-    public async Task<RoomModel> GetState(string roomId)
+    public async Task<RoomModel?> GetState(string roomId)
     {
         return await Task.Run(() => _cacheService.GetRoom(roomId));
     }
