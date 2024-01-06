@@ -43,7 +43,7 @@ public class RoomHub : Hub<IRoomClient>
         if (string.IsNullOrWhiteSpace(connectionId))
             connectionId = null;
 
-        await Clients.Groups(roomId).ClearRoom(participant);
+        await Clients.Groups(roomId).ClearRoom(participant!);
         await Groups.RemoveFromGroupAsync(connectionId ?? Context.ConnectionId, roomId);
 
         if(participant != null)

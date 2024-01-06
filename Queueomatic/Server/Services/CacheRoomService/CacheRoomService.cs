@@ -18,7 +18,6 @@ namespace Queueomatic.Server.Services.CacheRoomService
             return _cache.TryGetValue(roomId, out _) ? _cache.Get<RoomModel>(roomId)! : null;
         }
 
-
         public void InitRoom(string roomId, string roomName, ParticipantRoomDto participant)
         {
             if (_cache.TryGetValue(roomId, out _))
