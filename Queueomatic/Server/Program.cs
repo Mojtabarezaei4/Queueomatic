@@ -1,3 +1,4 @@
+using System.Net;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +77,11 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddHostedService<ScopedBackgroundService>();
 builder.Services.AddScoped<IRoomDeletionService, RoomDeletionService>();
+builder.Services.AddHttpsRedirection(o =>
+{
+    o.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+    o.HttpsPort = 443;
+});
 
 var app = builder.Build();
 
